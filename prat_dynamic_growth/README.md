@@ -39,6 +39,16 @@ Cache reuse requires matching configuration, code and data hashes. See
 [`M3_METHODS.md`](M3_METHODS.md) for the frozen-snapshot equations and attribution
 definitions, and [`RESULTS.md`](RESULTS.md) for the corrected conclusions.
 
+The fixed-material M4 diagnostic is reproduced separately with:
+
+```powershell
+python -m prat_growth.m4_analysis
+```
+
+Its interpretation is in [`M4_MATERIAL_HISTORY.md`](M4_MATERIAL_HISTORY.md),
+and its CSV/NPZ/PNG/SVG evidence is under `outputs/m4/`. It does not overwrite
+the archived M3 evidence.
+
 To run the older broad campaign with the **current corrected solver**, use a
 new output folder so that historical M1 evidence remains intact:
 

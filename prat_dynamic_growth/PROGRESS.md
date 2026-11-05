@@ -64,3 +64,27 @@ implemented pending the governing-equation and acceptance-test gate.
 Current status: requested numerical attribution complete; percent-level
 closure effects resolved, strict trajectory-level residual qualification
 remains limited as documented.
+
+## 2026-11-05 — M4 fixed-material histories
+
+- Defined material as fixed laboratory coordinate `z0`; distinguished it from
+  fixed ALE index and fixed distance behind the moving front.
+- Tracked B1/B2 newborn cohorts at 5 min, 1 h, 3 h and 5 h over 300 s using
+  0.1708 s output, a halved-output comparison, 480/640 grids, and a representative
+  5 s/1 s integration-step comparison.
+- Added bounded linear and piecewise-constant reconstruction checks, signed
+  precipitation/dissolution budgets, initial-material controls, a synthetic
+  exact moving-profile test, exact-overlap spatial averages, wake detection,
+  and travelling-profile differential/integral diagnostics.
+- Found common newborn histories: B2 reaches about 0.2361 in 32.8 s and B1
+  about 0.2378 in 40.0 s. Reaction profiles are nearly stationary by 5 min;
+  a complete wake platform is identifiable from about 1 h onward.
+- Passed the final-porosity two-grid target (maximum difference 0.000254),
+  output-halving targets and final material-balance target. The all-age balance
+  target is not fully met: maximum error is 2.10% at 480 cells and 1.57% at
+  640 cells, with 7–12% pointwise travelling-wave residuals.
+- Classified the evidence as category A with numerical qualification. This is
+  a stable state of the computational closure, not physical validation.
+
+Current status: M4 analysis complete; local cell-crossing conservation remains
+the explicit numerical limitation before a stronger pointwise claim.

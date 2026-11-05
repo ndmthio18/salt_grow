@@ -79,6 +79,7 @@ def test_uniform_structure_controls_collapse():
 
 def test_archived_m3_convergence_and_attribution():
     import csv
+    from hashlib import sha256
     from pathlib import Path
     out = Path(__file__).resolve().parents[1]/"outputs/m3"
     if not (out/"manifest.json").exists():
@@ -103,8 +104,13 @@ def test_archived_m3_convergence_and_attribution():
         transient = next(r for r in matched if r["case"] == "T2" and float(r["time_s"]) == t)
         delta = float(transient["velocity"])-general_growth_velocity(PhysicalParameters(), .001)
         assert abs(sum(float(r["delta_velocity"]) for r in parts)-delta) < 1e-20
+    manifest = json.loads((out/"manifest.json").read_text())
     for path in (out/"runs").glob("*.json"):
         meta = json.loads(path.read_text())
         expected = identity(PhysicalParameters(**meta["physical"]), NumericalParameters(**meta["numerical"]),
                             meta["closure"], meta["initial_profile"])
-        assert cache_matches(path, path.with_suffix(".npz"), expected)
+        # M4 adds source files, so M3 is an intact archive rather than a current
+        # reusable cache. Do not rewrite its metadata to force a hash match.
+        assert meta["identity"]["config_sha256"] == expected["config_sha256"]
+        assert meta["identity"]["code_sha256"] == manifest["code_sha256"]
+        assert meta["data_sha256"] == sha256(path.with_suffix(".npz").read_bytes()).hexdigest()

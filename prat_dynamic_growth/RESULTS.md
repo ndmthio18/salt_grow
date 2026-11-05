@@ -1,5 +1,22 @@
 # Results
 
+## M4 material-history qualification
+
+M4 shows that the nearly fixed minimum is not merely an extremum statistic.
+Fixed laboratory-coordinate newborn markers independently evolve from 0.43
+to about 0.2361 in B2 (about 0.2378 in B1), and cohorts born at 5 min, 1 h,
+3 h and 5 h collapse when plotted against material age. Main densification
+takes about 32.8 s in B2 and 40.0 s in B1. A wake platform is identifiable
+from about 1 h onward, and its instantaneous internal/front deposition balance
+is consistent to about `1e-6` absolute porosity.
+
+This supports category A, an approximately stable moving reaction–densification
+profile within the model. The maximum reconstructed fixed-material balance
+defect reaches 2.10% on 480 cells (1.57% on 640), and pointwise travelling-wave
+residuals remain 7–12%; strict local convergence is not claimed. Full methods,
+evidence boundaries and required answers are in
+[`M4_MATERIAL_HISTORY.md`](M4_MATERIAL_HISTORY.md).
+
 ## M3 current finding: the original 3.33% is revised to 2.23%
 
 The attribution study in `instruction/3.md` is complete. With unchanged

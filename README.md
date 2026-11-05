@@ -17,6 +17,8 @@ model that permits internal precipitation and porosity evolution.
   [`prat_dynamic_growth/M3_METHODS.md`](prat_dynamic_growth/M3_METHODS.md)
 - Current numerical evidence:
   [`prat_dynamic_growth/outputs/m3/`](prat_dynamic_growth/outputs/m3/)
+- M4 fixed-material and travelling-profile analysis:
+  [`prat_dynamic_growth/M4_MATERIAL_HISTORY.md`](prat_dynamic_growth/M4_MATERIAL_HISTORY.md)
 
 The repository records numerical verification separately from physical
 validation. The reported reaction layer is smaller than the estimated crystal
