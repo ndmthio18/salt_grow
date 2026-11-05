@@ -14,17 +14,19 @@ regime.
 
 1. The analytical law passes independent numerical verification under matching
    assumptions.
-2. The conservative dynamic baseline differs from Model A by only about 3% in
+2. The corrected, refined M3 dynamic baseline differs from Model A by 2.23% in
    velocity. This is smaller than plausible uncertainty in porosity, specific
    surface area, `beta`, reaction kinetics, and brine properties.
-3. The constitutive update itself is negligible at baseline: B2 versus B1
-   changes terminal velocity by -0.08% and height by -0.04%.
-4. The modeled active layer is 1.24 micrometres for 95% precipitation, smaller
+3. B2 versus B1 changes terminal velocity by -0.218%. Frozen controls show
+   distinct diffusivity (+1.160 percentage points) and area (-1.588 points)
+   effects that partly cancel; their small net effect is not evidence that
+   both are individually negligible.
+4. The modeled active layer is 1.01 micrometres for 95% precipitation, smaller
    than the estimated 3.5 micrometre crystal scale. A continuum closure cannot
    be treated as physically validated in that regime.
-5. Low-`k_r` cases reach `epsilon = 0.02` rapidly while evaporation remains
-   imposed. This identifies a regime where permeability and capillary supply
-   must enter before continued simulation is meaningful.
+5. Archived pre-correction low-`k_r` cases reached `epsilon = 0.02` while
+   evaporation remained imposed. They have not been requalified by M3 and
+   provide no experimental proof of blocking or hydraulic disconnection.
 
 ## What would justify the next model
 
@@ -48,5 +50,5 @@ Run a small crystal-resolved or micro-CT-informed unit-cell study of the upper
 5-10 micrometres, coupled to a one-dimensional liquid-supply resistance. Use it
 to test the interfacial mass balance and determine whether `beta`, `a_v`, and
 permeability evolve independently. Only promote to a full two-phase network if
-that study predicts a departure larger than the current approximately 3%
+that study predicts a departure distinguishable from the current approximately 2.23%
 continuum effect or reproduces an independently observed hydraulic transition.

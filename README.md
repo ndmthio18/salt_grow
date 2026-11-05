@@ -13,6 +13,10 @@ model that permits internal precipitation and porosity evolution.
   [`prat_dynamic_growth/GO_NO_GO.md`](prat_dynamic_growth/GO_NO_GO.md)
 - M2 critical review and follow-up design:
   [`prat_dynamic_growth/M2_CRITICAL_REVIEW.md`](prat_dynamic_growth/M2_CRITICAL_REVIEW.md)
+- M3 controlled attribution and corrected ALE equations:
+  [`prat_dynamic_growth/M3_METHODS.md`](prat_dynamic_growth/M3_METHODS.md)
+- Current numerical evidence:
+  [`prat_dynamic_growth/outputs/m3/`](prat_dynamic_growth/outputs/m3/)
 
 The repository records numerical verification separately from physical
 validation. The reported reaction layer is smaller than the estimated crystal

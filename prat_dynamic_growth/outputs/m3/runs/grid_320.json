@@ -1,0 +1,41 @@
+{
+  "case_id": "grid_320",
+  "closure": "B2",
+  "physical": {
+    "C_eq": 0.264,
+    "rho_solution": 1200.0,
+    "rho_crystal": 2170.0,
+    "epsilon_ref": 0.43,
+    "epsilon_birth": 0.43,
+    "D_molecular": 1.3e-09,
+    "k_reaction": 0.0023,
+    "beta": 2.0,
+    "d_sub": 2.5e-05,
+    "h0": 0.001,
+    "U_evap": 1.1574074074074074e-07
+  },
+  "numerical": {
+    "n_cells": 320,
+    "grid_power": 3.0,
+    "t_end": 21600.0,
+    "output_interval": 300.0,
+    "max_step": 60.0,
+    "rtol": 1e-08,
+    "atol_field": 1e-12,
+    "atol_height": 1e-14,
+    "atol_inventory": 1e-12,
+    "porosity_stop_min": 0.02,
+    "porosity_stop_max": 0.95,
+    "concentration_stop_min": 0.0,
+    "concentration_stop_max": 0.95
+  },
+  "solver_status": 0,
+  "solver_message": "The solver successfully reached the end of the integration interval.",
+  "initial_profile": "equilibrium",
+  "solver_warnings": [],
+  "identity": {
+    "config_sha256": "db97e18a25df405cc5248eff2ed8f3de6df7bf21e80ca2d18eb92d7fddc107a6",
+    "code_sha256": "eb545f2defd7bdb5540d206b33efabdee114d496d7d261004d06ec481396c096"
+  },
+  "data_sha256": "374e47acf1dc83e7847f1e69c7ff1f803754eab03928be7d2c20986d46cbaede"
+}

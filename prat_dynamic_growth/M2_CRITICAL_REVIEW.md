@@ -1,5 +1,12 @@
 # M2 critical review: interface closure, attribution, and supply limitation
 
+Historical review of baseline commit `eb8b352`. Line references below describe
+that version, not the subsequently edited source. M3 identified a local ALE
+liquid/salt mesh-flux inconsistency not detected by the global audits discussed
+here. The baseline numerical values and the claim that the constitutive
+effects are individually weak are superseded by [RESULTS.md](RESULTS.md).
+The Q-control formulation is made explicit in [M3_METHODS.md](M3_METHODS.md).
+
 Date: 2026-11-05
 Scope: audit and model-design stage only. No solver equations or production
 code are changed in M2 at this stage.

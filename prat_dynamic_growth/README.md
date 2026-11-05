@@ -29,20 +29,24 @@ $env:OMP_NUM_THREADS = '1'
 $env:OPENBLAS_NUM_THREADS = '1'
 $env:MKL_NUM_THREADS = '1'
 
+python -m prat_growth.attribution
 python -m pytest -q
-python -m prat_growth.campaign stage-a --config configs/baseline.json --output outputs
-python -m prat_growth.campaign baseline --config configs/baseline.json --output outputs
-python -m prat_growth.campaign refinement --config configs/baseline.json --output outputs
-python -m prat_growth.campaign sensitivity --config configs/baseline.json --output outputs
 ```
 
-To execute the complete campaign in one command:
+This runs the current M3 Q0--Q6/T0--T3 study, including spatial/time refinement,
+startup controls, local/interface audits, and PNG/SVG figures in `outputs/m3/`.
+Cache reuse requires matching configuration, code and data hashes. See
+[`M3_METHODS.md`](M3_METHODS.md) for the frozen-snapshot equations and attribution
+definitions, and [`RESULTS.md`](RESULTS.md) for the corrected conclusions.
+
+To run the older broad campaign with the **current corrected solver**, use a
+new output folder so that historical M1 evidence remains intact:
 
 ```powershell
-python -m prat_growth.campaign all --config configs/baseline.json --output outputs
+python -m prat_growth.campaign all --config configs/baseline.json --output outputs/rerun_current
 ```
 
-The baseline campaign uses an equilibrium concentration initial condition,
+The historical baseline campaign used an equilibrium concentration initial condition,
 160 ALE cells, `grid_power = 2.5`, a 6 h duration, and SciPy's implicit BDF
 integrator. The time step is adaptive; `max_step = 60 s` is only an upper
 bound.
@@ -64,6 +68,13 @@ bound.
   `a_v = 36(1-epsilon)/d_sub` and `D_eff = sqrt(epsilon) D_s`.
 
 ## Outputs
+
+Current M3 results are in `outputs/m3/`: `contributions.csv`, `frozen.csv`,
+`matched.csv`, `transients.csv`, `startup.csv`, `convergence.csv`,
+`local_audits.csv`, `trajectory_residuals.csv`, full run arrays and
+`manifest.json`. The manifest records solver warnings and the code hash.
+
+The following are archived M1 outputs produced before the M3 correction:
 
 - `outputs/stage_a_convergence.csv`: independent analytical-equation
   verification.

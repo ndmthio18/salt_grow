@@ -1,0 +1,134 @@
+{
+  "code_sha256": "eb545f2defd7bdb5540d206b33efabdee114d496d7d261004d06ec481396c096",
+  "physical": {
+    "C_eq": 0.264,
+    "rho_solution": 1200.0,
+    "rho_crystal": 2170.0,
+    "epsilon_ref": 0.43,
+    "epsilon_birth": 0.43,
+    "D_molecular": 1.3e-09,
+    "k_reaction": 0.0023,
+    "beta": 2.0,
+    "d_sub": 2.5e-05,
+    "h0": 0.001,
+    "U_evap": 1.1574074074074074e-07
+  },
+  "numerical": {
+    "n_cells": 640,
+    "grid_power": 3.0,
+    "t_end": 21600.0,
+    "output_interval": 300.0,
+    "max_step": 60.0,
+    "rtol": 1e-08,
+    "atol_field": 1e-12,
+    "atol_height": 1e-14,
+    "atol_inventory": 1e-12,
+    "porosity_stop_min": 0.02,
+    "porosity_stop_max": 0.95,
+    "concentration_stop_min": 0.0,
+    "concentration_stop_max": 0.95
+  },
+  "times": [
+    300.0,
+    3600.0,
+    10800.0,
+    21600.0
+  ],
+  "T2_data_alias": "grid_640",
+  "numpy": "2.0.0",
+  "warnings": [
+    {
+      "case": "grid_160",
+      "warnings": []
+    },
+    {
+      "case": "grid_240",
+      "warnings": []
+    },
+    {
+      "case": "grid_320",
+      "warnings": []
+    },
+    {
+      "case": "grid_480",
+      "warnings": []
+    },
+    {
+      "case": "grid_640",
+      "warnings": []
+    },
+    {
+      "case": "step_30",
+      "warnings": []
+    },
+    {
+      "case": "step_120",
+      "warnings": []
+    },
+    {
+      "case": "legacy_grid_corrected",
+      "warnings": []
+    },
+    {
+      "case": "T2",
+      "warnings": []
+    },
+    {
+      "case": "T0",
+      "warnings": [
+        "invalid value encountered in subtract"
+      ]
+    },
+    {
+      "case": "T1",
+      "warnings": []
+    },
+    {
+      "case": "T3",
+      "warnings": []
+    },
+    {
+      "case": "startup_T0",
+      "warnings": []
+    },
+    {
+      "case": "startup_T1",
+      "warnings": []
+    },
+    {
+      "case": "startup_T2",
+      "warnings": []
+    },
+    {
+      "case": "startup_T3",
+      "warnings": []
+    },
+    {
+      "case": "time_check_300",
+      "warnings": []
+    },
+    {
+      "case": "time_check_3600",
+      "warnings": []
+    },
+    {
+      "case": "time_check_10800",
+      "warnings": []
+    },
+    {
+      "case": "time_check_21600",
+      "warnings": []
+    }
+  ],
+  "max_residuals": {
+    "liquid_linf": 3.905597575461746e-16,
+    "liquid_weighted_l1": 1.0212739601098416e-16,
+    "salt_linf": 2.1535812683940586e-16,
+    "salt_weighted_l1": 3.657409064058299e-17,
+    "solid_linf": 1.5427646343053013e-16,
+    "solid_weighted_l1": 1.8324464778277274e-17,
+    "interface_salt_relative": 7.710531432086887e-12,
+    "interface_liquid_relative": 1.951563910473908e-16,
+    "front_volume_relative": 0.0
+  }
+}

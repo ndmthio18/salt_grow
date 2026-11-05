@@ -1,0 +1,3 @@
+# Matplotlib emits harmless trailing spaces inside SVG path data.
+prat_dynamic_growth/outputs/m3/*.svg -whitespace linguist-generated=true
+prat_dynamic_growth/outputs/m3/*.csv linguist-generated=true

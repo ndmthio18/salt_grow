@@ -16,6 +16,8 @@ from .analytic import solve_stage_a_finite_volume
 from .dynamic import DynamicALEModel, DynamicResult, snapshot_diagnostics
 from .parameters import NumericalParameters, PhysicalParameters
 from .plotting import make_required_figures
+from .provenance import identity, cache_matches
+from hashlib import sha256
 
 
 def load_config(path: Path) -> tuple[dict, PhysicalParameters, NumericalParameters]:
@@ -87,6 +89,10 @@ def save_result(output: Path, case_id: str, result: DynamicResult) -> None:
         "numerical": asdict(result.numerical),
         "solver_status": result.status,
         "solver_message": result.message,
+        "initial_profile": result.initial_profile,
+        "solver_warnings": result.solver_warnings,
+        "identity": identity(result.physical, result.numerical, result.closure, result.initial_profile),
+        "data_sha256": sha256((run_dir / f"{case_id}.npz").read_bytes()).hexdigest(),
     }
     (run_dir / f"{case_id}.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
 
@@ -113,6 +119,8 @@ def load_result(output: Path, case_id: str) -> DynamicResult:
         evaporated=arrays["evaporated"],
         status=metadata["solver_status"],
         message=metadata["solver_message"],
+        initial_profile=metadata.get("initial_profile", "equilibrium"),
+        solver_warnings=metadata.get("solver_warnings", []),
     )
 
 
@@ -157,7 +165,7 @@ def run_case(output: Path, case_id: str, p: PhysicalParameters,
              allow_stopped: bool = False) -> tuple[DynamicResult, list[dict]]:
     metadata_path = output / "runs" / f"{case_id}.json"
     data_path = output / "runs" / f"{case_id}.npz"
-    if reuse_existing and metadata_path.exists() and data_path.exists():
+    if reuse_existing and cache_matches(metadata_path, data_path, identity(p, n, closure)):
         result = load_result(output, case_id)
     else:
         result = DynamicALEModel(p, n, closure).run()

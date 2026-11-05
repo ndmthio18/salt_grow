@@ -34,3 +34,27 @@
 The stopped 240-cell attempt is a performance limitation, not evidence of
 numerical failure or physical behavior. It must not be presented as a completed
 convergence point.
+
+## M3 supersession and completed convergence
+
+The above records describe M1 only. M3 vectorizes the existing dense-BDF RHS,
+fixes the common ALE pore-volume/liquid-salt mesh flux, and uses a stable top
+quadratic. Completed M3 grids are 160, 240, 320, 480 and 640 cells (power 3).
+The old unsuccessful 240-cell attempt is not reused as a new convergence point.
+All physical parameters remain unchanged. A separate rerun on the original
+160-cell power-2.5 grid separates code correction from subsequent refinement.
+
+Some M3 runs completed with an internal SciPy BDF subtraction warning. Final
+runs were repeated with warning capture and saved to `outputs/m3/runs/`;
+the final T0 record retains `invalid value encountered in subtract`. It
+completed with finite outputs and passes the reported balance/control checks,
+but the warning is unresolved and is not hidden by selecting another rerun.
+All other final production/startup/window warning lists are empty. The hash
+identity covers all package Python source, so even plotting changes invalidate
+the cache and trigger a fresh run. Cached NPZ bytes are independently hashed.
+
+The semidiscrete face audits, global mass checks and refinement gates pass.
+The additional trajectory finite-difference audit has a salt residual up to
+1.86e-8 and conditioning-limited interface residuals; its strict gates are
+not uniformly met. `RESULTS.md` and `outputs/m3/trajectory_residuals.csv`
+retain this evidence rather than declaring universal numerical qualification.

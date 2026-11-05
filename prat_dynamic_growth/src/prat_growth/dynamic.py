@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+import warnings
 from math import sqrt
 from typing import Literal
 
@@ -33,6 +34,8 @@ class DynamicResult:
     evaporated: np.ndarray
     status: int
     message: str
+    initial_profile: str = "equilibrium"
+    solver_warnings: list[str] = field(default_factory=list)
 
 
 class DynamicALEModel:
@@ -75,21 +78,24 @@ class DynamicALEModel:
         distance = height * (self.faces[-1] - self.centers[-1])
         conductance = p.rho_solution * epsilon_last * d_eff_last / distance
         kinetic_mass = p.beta * p.rho_solution * (1.0 - p.epsilon_birth) * p.k_reaction
-        # j*C - beta*rho*(1-e_birth)*kr*(1-C)*(C-Ceq) - K*(C-C_N) = 0
+        # Solve for excess C-Ceq, using the stable quadratic formula.
         qa = kinetic_mass
-        qb = p.evaporation_mass_flux - kinetic_mass * (1.0 + p.C_eq) - conductance
-        qc = kinetic_mass * p.C_eq + conductance * concentration_last
+        qb = p.evaporation_mass_flux - kinetic_mass * (1.0 - p.C_eq) - conductance
+        qc = p.evaporation_mass_flux * p.C_eq + conductance * (concentration_last - p.C_eq)
         discriminant = qb * qb - 4.0 * qa * qc
         if discriminant < 0.0:
             raise RuntimeError(f"negative top-boundary discriminant: {discriminant}")
         root = sqrt(discriminant)
-        candidates = np.array([(-qb - root) / (2.0 * qa), (-qb + root) / (2.0 * qa)])
-        physical = candidates[(candidates >= 0.0) & (candidates <= 1.0)]
+        q = -0.5 * (qb + np.copysign(root, qb))
+        excess = np.array([qc / q, q / qa])
+        candidates = p.C_eq + excess
+        physical = np.flatnonzero((candidates >= 0.0) & (candidates <= 1.0))
         if physical.size:
-            c_top = float(physical[np.argmin(np.abs(physical - p.C_eq))])
+            selected = physical[np.argmin(np.abs(excess[physical]))]
+            c_top = float(candidates[selected])
         else:
-            c_top = float(candidates[np.argmin(np.abs(candidates - p.C_eq))])
-        velocity = p.beta * p.rho_solution / p.rho_crystal * p.k_reaction * (c_top - p.C_eq)
+            raise RuntimeError(f"no physical top root: roots={candidates}, C_last={concentration_last}, epsilon={epsilon_last}, h={height}")
+        velocity = p.beta * p.rho_solution / p.rho_crystal * p.k_reaction * excess[selected]
         return c_top, velocity
 
     def flux_state(self, epsilon: np.ndarray, concentration: np.ndarray, height: float):
@@ -107,14 +113,14 @@ class DynamicALEModel:
         )
         liquid_flux[-1] = structural_density_birth * velocity + p.evaporation_mass_flux
         density_factor = 1.0 - p.rho_solution / p.rho_crystal
-        for i in range(n - 1, -1, -1):
-            liquid_flux[i] = liquid_flux[i + 1] + density_factor * reaction[i] * volumes[i]
+        liquid_flux[:-1] = liquid_flux[-1] + np.cumsum((density_factor * reaction * volumes)[::-1])[::-1]
 
         mesh_velocity = self.faces * velocity
         epsilon_face = np.empty(n + 1)
         epsilon_face[0] = epsilon[0]
         epsilon_face[-1] = p.epsilon_birth
-        epsilon_face[1:-1] = 0.5 * (epsilon[:-1] + epsilon[1:])
+        # Use the SAME material mesh flux in liquid and salt balances.
+        epsilon_face[1:-1] = np.where(mesh_velocity[1:-1] >= 0.0, epsilon[1:], epsilon[:-1])
 
         salt_flux = np.empty(n + 1)
         # Bottom reservoir: C=Ceq; include advective and diffusive salt flux.
@@ -126,25 +132,12 @@ class DynamicALEModel:
         relative_liquid_bottom = liquid_flux[0]
         salt_flux[0] = p.C_eq * relative_liquid_bottom + bottom_diffusive
 
-        for face in range(1, n):
-            left = face - 1
-            right = face
-            distance = height * (self.centers[right] - self.centers[left])
-            k_left = epsilon[left] * d_eff[left]
-            k_right = epsilon[right] * d_eff[right]
-            half_left = height * (self.faces[face] - self.centers[left])
-            half_right = height * (self.centers[right] - self.faces[face])
-            k_face = distance / (half_left / k_left + half_right / k_right)
-            diffusive = (
-                -p.rho_solution * k_face
-                * (concentration[right] - concentration[left]) / distance
-            )
-            relative_liquid = (
-                liquid_flux[face]
-                - p.rho_solution * epsilon_face[face] * mesh_velocity[face]
-            )
-            advected_c = concentration[left] if relative_liquid >= 0.0 else concentration[right]
-            salt_flux[face] = relative_liquid * advected_c + diffusive
+        resistance = height * ((self.faces[1:-1] - self.centers[:-1]) / (epsilon[:-1] * d_eff[:-1])
+                               + (self.centers[1:] - self.faces[1:-1]) / (epsilon[1:] * d_eff[1:]))
+        diffusive = -p.rho_solution * np.diff(concentration) / resistance
+        relative_liquid = liquid_flux[1:-1] - p.rho_solution * epsilon_face[1:-1] * mesh_velocity[1:-1]
+        advected_c = np.where(relative_liquid >= 0.0, concentration[:-1], concentration[1:])
+        salt_flux[1:-1] = relative_liquid * advected_c + diffusive
 
         # Moving-interface salt balance: dissolved salt becomes new-layer solid.
         salt_flux[-1] = p.rho_crystal * (1.0 - p.epsilon_birth) * velocity
@@ -152,7 +145,7 @@ class DynamicALEModel:
         epsilon_mesh_flux = np.empty(n + 1)
         epsilon_mesh_flux[0] = 0.0
         # Relative material velocity is -mesh_velocity, so the upwind state is right.
-        epsilon_mesh_flux[1:-1] = -mesh_velocity[1:-1] * epsilon[1:]
+        epsilon_mesh_flux[1:-1] = -mesh_velocity[1:-1] * epsilon_face[1:-1]
         epsilon_mesh_flux[-1] = -velocity * p.epsilon_birth
         return {
             "volumes": volumes,
@@ -203,12 +196,18 @@ class DynamicALEModel:
         derivative[inv + 4] = p.evaporation_mass_flux
         return derivative
 
-    def initial_state(self) -> np.ndarray:
+    def initial_state(self, initial_profile: str = "equilibrium") -> np.ndarray:
         n = self.n.n_cells
         y0 = np.zeros(2 * n + 1 + self.N_INVENTORIES)
         y0[:n] = self.p.epsilon_ref
         y0[n:2 * n] = self.p.C_eq
         y0[2 * n] = self.p.h0
+        if initial_profile == "quasi_steady":
+            from .frozen import solve_frozen
+            q = "Q3" if self.closure == "B1" else "Q6"
+            y0[n:2*n] = solve_frozen(self.p, self.n, self.p.h0, y0[:n], q).concentration
+        elif initial_profile != "equilibrium":
+            raise ValueError(initial_profile)
         return y0
 
     def _events(self):
@@ -232,7 +231,7 @@ class DynamicALEModel:
             event.direction = -1
         return [eps_low, eps_high, c_low, c_high]
 
-    def run(self) -> DynamicResult:
+    def run(self, initial_profile: str = "equilibrium") -> DynamicResult:
         n = self.n.n_cells
         output_times = np.arange(0.0, self.n.t_end + 0.5 * self.n.output_interval,
                                  self.n.output_interval)
@@ -244,17 +243,19 @@ class DynamicALEModel:
             np.full(self.N_INVENTORIES, self.n.atol_inventory),
         ])
         event_functions = self._events()
-        solution = solve_ivp(
-            self.rhs,
-            (0.0, self.n.t_end),
-            self.initial_state(),
-            method="BDF",
-            t_eval=output_times,
-            rtol=self.n.rtol,
-            atol=atol,
-            max_step=self.n.max_step,
-            events=event_functions,
-        )
+        with warnings.catch_warnings(record=True) as captured:
+            warnings.simplefilter("always", RuntimeWarning)
+            solution = solve_ivp(
+                self.rhs,
+                (0.0, self.n.t_end),
+                self.initial_state(initial_profile),
+                method="BDF",
+                t_eval=output_times,
+                rtol=self.n.rtol,
+                atol=atol,
+                max_step=self.n.max_step,
+                events=event_functions,
+            )
         time = solution.t
         state_matrix = solution.y
         message = solution.message
@@ -290,6 +291,8 @@ class DynamicALEModel:
             evaporated=inventory[4],
             status=solution.status,
             message=message,
+            initial_profile=initial_profile,
+            solver_warnings=sorted(set(str(w.message) for w in captured)),
         )
 
 
@@ -306,7 +309,7 @@ def snapshot_diagnostics(result: DynamicResult, index: int) -> dict[str, float |
     bulk = float(np.sum((p.rho_solution * eps + p.rho_crystal * (1.0 - eps)) * volumes))
 
     eps0 = p.epsilon_ref
-    initial_dissolved = p.rho_solution * eps0 * p.C_eq * p.h0
+    initial_dissolved = float(np.sum(p.rho_solution * result.epsilon[:, 0] * result.concentration[:, 0] * result.height[0] * result.widths))
     initial_solid = p.rho_crystal * (1.0 - eps0) * p.h0
     initial_bulk = (p.rho_solution * eps0 + p.rho_crystal * (1.0 - eps0)) * p.h0
     salt_residual = dissolved + solid - (initial_dissolved + initial_solid + result.bottom_salt[index])
