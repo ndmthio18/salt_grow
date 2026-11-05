@@ -77,3 +77,5 @@ bound.
 Interpretation is in `RESULTS.md`; limitations are in
 `MODEL_ASSUMPTIONS.md`; the extension decision is in `GO_NO_GO.md`. Failed and
 replaced development attempts are retained in `NUMERICAL_PROVENANCE.md`.
+The M2 audit of the interface closure, controlled attribution matrix, hydraulic
+feedback, and sparse-solver acceptance gates is in `M2_CRITICAL_REVIEW.md`.

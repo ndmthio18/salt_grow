@@ -20,3 +20,19 @@
   `GO_NO_GO.md`.
 
 Current status: prototype complete. Physical validation is not claimed.
+
+## 2026-11-05 — M2 critical review
+
+- Audited the existing ALE equations, top boundary, inventories, campaign
+  controls, and verification tests without changing solver code.
+- Identified constant birth porosity as the self-replication closure and showed
+  quantitatively why wake densification has weak direct leverage on velocity.
+- Defined the Q0--Q6 frozen-snapshot attribution matrix and T0--T3 initial-state
+  controls required to isolate the approximately 3% deviation.
+- Proposed a conservative morphology-state front closure and a minimal
+  permeability/capillary supply constraint.
+- Specified sparse-solver and independent local/interface residual acceptance
+  gates in `M2_CRITICAL_REVIEW.md`.
+
+Current M2 status: review complete; additional models are intentionally not yet
+implemented pending the governing-equation and acceptance-test gate.
