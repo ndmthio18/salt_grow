@@ -1,0 +1,79 @@
+# Dynamic internal precipitation versus Prat (2026)
+
+This directory contains a reproducible one-dimensional prototype comparing
+Prat's analytical growth law with a conservative transient ALE finite-volume
+model in which porosity evolves through internal precipitation.
+
+The implementation uses the moving-interface solution and salt balances from
+Prat (2026), Eqs. (6)-(7), and computes the interface velocity independently
+from the kinetic relation in Eq. (20). It never substitutes the analytical
+growth velocity into Model B.
+
+## Source and scope
+
+- Paper: Marc Prat, *The Evaporation-Driven Growth Law of Porous Salt
+  Structures*, Langmuir 42 (2026), 21269-21282,
+  DOI `10.1021/acs.langmuir.6c02211`.
+- Local source: `C:/Users/12608/Downloads/Prat2026.pdf`.
+- Recorded SHA-256:
+  `82E4F450481F7185AFAF3F1B1C2A7A60C25C16FF04B0A570FCB2C989EB23AB3A`.
+- `rho_solution = 1200 kg/m3` is an explicit illustrative assumption, not a
+  value attributed to Prat (2026).
+
+## Reproduction on PowerShell
+
+```powershell
+cd "D:\3OutputFile\1Research\Article\23salt grow\prat_dynamic_growth"
+$env:PYTHONPATH = (Join-Path (Resolve-Path '.').Path 'src')
+$env:OMP_NUM_THREADS = '1'
+$env:OPENBLAS_NUM_THREADS = '1'
+$env:MKL_NUM_THREADS = '1'
+
+python -m pytest -q
+python -m prat_growth.campaign stage-a --config configs/baseline.json --output outputs
+python -m prat_growth.campaign baseline --config configs/baseline.json --output outputs
+python -m prat_growth.campaign refinement --config configs/baseline.json --output outputs
+python -m prat_growth.campaign sensitivity --config configs/baseline.json --output outputs
+```
+
+To execute the complete campaign in one command:
+
+```powershell
+python -m prat_growth.campaign all --config configs/baseline.json --output outputs
+```
+
+The baseline campaign uses an equilibrium concentration initial condition,
+160 ALE cells, `grid_power = 2.5`, a 6 h duration, and SciPy's implicit BDF
+integrator. The time step is adaptive; `max_step = 60 s` is only an upper
+bound.
+
+## Numerical formulation
+
+- Cell-integrated pore volume and dissolved-salt mass are advanced on a
+  normalized moving mesh.
+- Mesh-motion fluxes are included explicitly; new volume enters at the top
+  with `epsilon_birth = 0.43`.
+- The liquid flux is reconstructed from liquid mass conservation and the
+  reaction-induced divergence. The bottom reservoir flux is therefore an
+  output, not a second imposed boundary condition.
+- The top concentration is obtained from the moving-interface salt balance and
+  kinetic velocity relation.
+- No porosity or concentration clipping is used. Terminal events stop a run at
+  stated physical bounds.
+- B1 evolves porosity but freezes reference `a_v` and `D_eff`; B2 updates
+  `a_v = 36(1-epsilon)/d_sub` and `D_eff = sqrt(epsilon) D_s`.
+
+## Outputs
+
+- `outputs/stage_a_convergence.csv`: independent analytical-equation
+  verification.
+- `outputs/run_time_series.csv`: every recorded time point.
+- `outputs/run_summary.csv`: terminal row of every registered run, including
+  stopped runs and their event messages.
+- `outputs/run_assessment.csv`: acceptance interpretation for each run.
+- `outputs/runs/*.npz` and `*.json`: complete fields and provenance per run.
+- `outputs/figures/`: required figures in PNG and PDF.
+
+Interpretation is in `RESULTS.md`; limitations are in
+`MODEL_ASSUMPTIONS.md`; the extension decision is in `GO_NO_GO.md`. Failed and
+replaced development attempts are retained in `NUMERICAL_PROVENANCE.md`.

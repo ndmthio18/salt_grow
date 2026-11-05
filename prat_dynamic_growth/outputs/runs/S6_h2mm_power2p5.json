@@ -1,0 +1,34 @@
+{
+  "case_id": "S6_h2mm_power2p5",
+  "closure": "B2",
+  "physical": {
+    "C_eq": 0.264,
+    "rho_solution": 1200.0,
+    "rho_crystal": 2170.0,
+    "epsilon_ref": 0.43,
+    "epsilon_birth": 0.43,
+    "D_molecular": 1.3e-09,
+    "k_reaction": 0.0023,
+    "beta": 2.0,
+    "d_sub": 2.5e-05,
+    "h0": 0.002,
+    "U_evap": 1.1574074074074074e-07
+  },
+  "numerical": {
+    "n_cells": 160,
+    "grid_power": 2.5,
+    "t_end": 21600.0,
+    "output_interval": 300.0,
+    "max_step": 60.0,
+    "rtol": 1e-07,
+    "atol_field": 1e-10,
+    "atol_height": 1e-12,
+    "atol_inventory": 1e-10,
+    "porosity_stop_min": 0.02,
+    "porosity_stop_max": 0.95,
+    "concentration_stop_min": 0.0,
+    "concentration_stop_max": 0.95
+  },
+  "solver_status": 0,
+  "solver_message": "The solver successfully reached the end of the integration interval."
+}

@@ -1,0 +1,23 @@
+case_id,assessment,reason
+baseline_B1,accepted,Accepted baseline frozen-coefficient closure
+baseline_B2,accepted,Accepted baseline evolving-coefficient closure
+grid_B2_N80,rejected_resolution,Only two cells across final delta_C
+grid_B2_N120,rejected_resolution,Only two cells across final delta_C
+grid_B2_N160,rejected_resolution,Quadratic grid falls to three cells across final delta_C
+grid_B2_N160_power2p5,accepted,Seven cells across delta_C and less than one percent velocity difference from power3
+grid_B2_N160_power3p0,supporting_refinement,More strongly clustered reference; accepted but not selected as coarsest passing mesh
+time_B2_dt120,supporting_historical,Quadratic-grid time-step check
+time_B2_dt30,supporting_historical,Quadratic-grid time-step check
+time_B2_power3_dt120,supporting_refinement,Strongly clustered time-step check
+time_B2_power3_dt30,supporting_refinement,Strongly clustered time-step check
+S1_dsub10um,accepted,Completed with six cells across delta_C and conservation passed
+S1_dsub100um,accepted,Completed with nine cells across delta_C and conservation passed
+S2_evap0p1cmday,accepted,Completed with eight cells across delta_C and conservation passed
+S3_kr2p3e6,superseded,Overclustered power3 precursor; replaced by resolved quadratic-grid event run
+S3_kr2p3e5,superseded,Overclustered power3 precursor; replaced by resolved quadratic-grid event run
+S3_kr2p3e6_power2,accepted_terminated,Porosity-min event at 219.8 s; resolved negative result
+S3_kr2p3e5_power2,accepted_terminated,Porosity-min event at 110.5 s; resolved negative result
+S3_kr2p3e4_power2,accepted,Completed with six cells across delta_C and conservation passed
+S6_h0p5mm_power2,accepted,Completed at the four-cells-across-delta_C threshold
+S6_h2mm_power2,rejected_resolution,Only three cells across final delta_C
+S6_h2mm_power2p5,accepted,Replacement completed with six cells across delta_C

@@ -1,0 +1,16 @@
+{
+  "python": "3.12.4 (tags/v3.12.4:8e8a4ba, Jun  6 2024, 19:30:16) [MSC v.1940 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "numpy": "2.0.0",
+  "scipy": "1.14.0",
+  "matplotlib": "3.9.2",
+  "paper": {
+    "title": "The Evaporation-Driven Growth Law of Porous Salt Structures",
+    "author": "Marc Prat",
+    "journal": "Langmuir",
+    "year": 2026,
+    "doi": "10.1021/acs.langmuir.6c02211",
+    "source_path": "C:/Users/12608/Downloads/Prat2026.pdf",
+    "source_sha256": "82E4F450481F7185AFAF3F1B1C2A7A60C25C16FF04B0A570FCB2C989EB23AB3A"
+  }
+}
