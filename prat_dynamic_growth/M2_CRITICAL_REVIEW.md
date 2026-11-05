@@ -1,6 +1,6 @@
 # M2 critical review: interface closure, attribution, and supply limitation
 
-Date: 2026-11-05  
+Date: 2026-11-05
 Scope: audit and model-design stage only. No solver equations or production
 code are changed in M2 at this stage.
 
