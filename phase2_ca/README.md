@@ -73,6 +73,20 @@ reproducibility, and joint-rotation covariance. See
 `docs/phase2a_3b0_growth_interface_validation.md`. The GO is limited to a
 resolved single-grain numerical pilot with both edge policies retained.
 
+Run the Phase 2A.3b-1 method-development gate and locked anisotropic morphology
+verification with:
+
+```powershell
+python phase2_ca/run_phase2a3b1_validation.py --stage development --config phase2_ca/configs/phase2a3b1_method_development.json --output phase2_ca/outputs/phase2a3b1_development_reproduced
+python phase2_ca/run_phase2a3b1_validation.py --stage locked --config phase2_ca/configs/phase2a3b1_locked_verification.json --output phase2_ca/outputs/phase2a3b1_locked_reproduced
+```
+
+See `docs/phase2a_3b1_anisotropic_growth_mechanism.md`. Fixed-front probability,
+cache correctness, mass closure, rotation covariance, and a separate anchored
+supply control pass. The registered 10% growth-only morphology-signal gate
+fails, so the complete single-grain morphology model and all multigrain or
+transport extensions remain NO-GO.
+
 Run the Phase 2A.2 rollback, grid-sensitivity, pore-envelope, and morphology
 feasibility audit with:
 

@@ -52,6 +52,18 @@ from .anisotropic_growth import (
     candidate_interface_faces,
     map_candidate_normals,
 )
+from .anisotropic_metrics import (
+    CrystallographicCandidate,
+    air_exposed_face_area_m2,
+    classify_crystal_directions,
+    closure_tolerance_kg,
+    crystallographic_candidate_diagnostics,
+    directional_growth_extents,
+    fixed_front_probabilities,
+    ideal_cubic_direction_families,
+    sample_fixed_front,
+    symmetric_chamfer_distance,
+)
 
 __all__ = [
     "AttachmentWeights",
@@ -102,4 +114,14 @@ __all__ = [
     "OrientationCandidateWeightModel",
     "candidate_interface_faces",
     "map_candidate_normals",
+    "CrystallographicCandidate",
+    "air_exposed_face_area_m2",
+    "classify_crystal_directions",
+    "closure_tolerance_kg",
+    "crystallographic_candidate_diagnostics",
+    "directional_growth_extents",
+    "fixed_front_probabilities",
+    "ideal_cubic_direction_families",
+    "sample_fixed_front",
+    "symmetric_chamfer_distance",
 ]

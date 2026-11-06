@@ -1,0 +1,12 @@
+{
+  "stage": "development",
+  "base_commit": "3a9a7b2575f0c1cb5e0eef2d540ed26257e2a52e",
+  "config": "phase2_ca/configs/phase2a3b1_method_development.json",
+  "config_sha256": "c9cc1d9abf19c98ae3c21de2c3347ec148e7b8e1b663c0c470e9c5bb7d6beeee",
+  "python": "3.12.4",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "numpy": "2.0.0",
+  "runtime_s": 171.9878228000016,
+  "maximum_workers": 6,
+  "physical_validation_claimed": false
+}

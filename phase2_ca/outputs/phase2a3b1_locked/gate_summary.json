@@ -1,0 +1,33 @@
+{
+  "fixed_front_probability_agreement": true,
+  "cache_long_sequence_exactness": true,
+  "cache_periodic_full_checks": true,
+  "mass_closure": true,
+  "rotation_covariance_growth_increment": true,
+  "morphology_signal_beyond_alpha_zero_grid_and_stochastic_baseline": false,
+  "anchored_supply_control": true,
+  "morphology_signal_summary": {
+    "smooth_average|-1.03972077084": {
+      "median_chamfer_voxels": 1.0782313774408216,
+      "baseline_chamfer_voxels": 1.1258148370586567,
+      "signal_to_baseline_ratio": 0.9577342045498767
+    },
+    "smooth_average|+1.03972077084": {
+      "median_chamfer_voxels": 1.071962736222528,
+      "baseline_chamfer_voxels": 1.1258148370586567,
+      "signal_to_baseline_ratio": 0.9521661119897614
+    },
+    "isotropic_ambiguous|-1.03972077084": {
+      "median_chamfer_voxels": 1.0049299476704017,
+      "baseline_chamfer_voxels": 1.1258148370586567,
+      "signal_to_baseline_ratio": 0.8926245369939491
+    },
+    "isotropic_ambiguous|+1.03972077084": {
+      "median_chamfer_voxels": 1.0718607440910732,
+      "baseline_chamfer_voxels": 1.1258148370586567,
+      "signal_to_baseline_ratio": 0.9520755179345959
+    }
+  },
+  "overall_pass": false,
+  "decision": "NO-GO pending failed Phase 2A.3b-1 gates"
+}

@@ -1,0 +1,8 @@
+{
+  "fixed_front_probability_agreement": true,
+  "cache_100_event_exactness": true,
+  "targeted_cache_insertions": true,
+  "selected_locked_fixed_front_sample_count": 100000,
+  "overall_pass": true,
+  "decision": "PROCEED_TO_LOCKED"
+}

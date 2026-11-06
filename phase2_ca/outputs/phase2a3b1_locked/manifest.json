@@ -1,0 +1,12 @@
+{
+  "stage": "locked",
+  "base_commit": "3a9a7b2575f0c1cb5e0eef2d540ed26257e2a52e",
+  "config": "phase2_ca/configs/phase2a3b1_locked_verification.json",
+  "config_sha256": "162dabd1956c04b3f9a37ea825235cfc3df5e7fe51f359ad8406aabff268c3a3",
+  "python": "3.12.4",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "numpy": "2.0.0",
+  "runtime_s": 476.76706329999433,
+  "maximum_workers": 6,
+  "physical_validation_claimed": false
+}

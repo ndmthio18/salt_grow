@@ -279,6 +279,16 @@ class OrientationCandidateWeightModel:
         except KeyError as error:
             raise RuntimeError("selected candidate lacks a normal diagnostic") from error
 
+    def diagnostics_for_candidates(
+        self,
+        salt_mask: NDArray[np.bool_],
+        coordinates: list[Coordinate],
+    ) -> tuple[CandidateNormalDiagnostic, ...]:
+        """Return current ordered diagnostics through the configured cache policy."""
+
+        self.weights_for_candidates(salt_mask, coordinates)
+        return tuple(self._last_records[coordinate] for coordinate in coordinates)
+
     def notify_insertion(self, coordinate: Coordinate) -> None:
         if self.update_strategy == "full":
             invalid = set(self._cache)

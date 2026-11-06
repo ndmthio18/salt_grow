@@ -116,3 +116,27 @@ diffusion, PNM coupling, or physical calibration was implemented.
 Status: conditional GO for a bounded full Phase 2A.3b single-grain numerical
 pilot with both edge policies retained. NO-GO for a uniquely selected physical
 edge rule, calibrated NaCl kinetics, multi-grain growth, or transport coupling.
+
+## 2026-11-06 — Phase 2A.3b-1 anisotropic mechanism and morphology signal
+
+- Separated method development from a SHA-256-locked verification protocol.
+- Verified eight 100,000-draw fixed-front distributions on a sphere and rotated
+  cube; maximum absolute and standardized family-probability errors were 0.002227
+  and 2.073.
+- Quantified face/edge/corner contributions at 16/24/32 cells across the grain;
+  ambiguous-site influence did not diminish over the tested refinement range.
+- Ran 36 paired single-grain trajectories to approximately 1%, 5%, and 10%
+  added volume using two rotations, two edge policies, three alpha values, and
+  three random seeds.
+- Verified exact 256-event full/local cache sequences and exact periodic full
+  checks across all 108 growth stages; median cache speedup was 7.76-fold.
+- Confirmed event-family response to alpha, exact mass closure within 1.03e-25
+  kg, and bounded joint-rotation error.
+- Added a separate substrate-contact control with one prescribed supply anchor
+  and Phase 1 RH/duration mass budget; no film hydraulics are claimed.
+- The locked morphology signal/baseline ratios were only 0.893-0.958 versus the
+  predeclared 1.25 minimum.
+
+Status: numerical selector and cache accepted; **NO-GO for a complete
+single-grain anisotropic morphology model**. Do not proceed automatically to
+multigrain growth or transport coupling.

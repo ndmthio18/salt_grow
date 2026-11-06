@@ -1,0 +1,5 @@
+scenario,insertion_coordinate,insertion_site_class,candidate_count_after,maximum_weight_error,site_class_mismatch_count,pass
+convex_corner,"[6, 7, 7]",face_like,602,0.0,0,True
+concave_reentrant,"[15, 15, 5]",edge_like,1130,0.0,0,True
+three_face_corner,"[12, 12, 12]",corner_like,396,0.0,0,True
+domain_boundary,"[0, 6, 7]",face_like,501,0.0,0,True

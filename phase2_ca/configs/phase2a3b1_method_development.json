@@ -1,0 +1,34 @@
+{
+  "stage": "method_development",
+  "base_commit": "3a9a7b2575f0c1cb5e0eef2d540ed26257e2a52e",
+  "voxel_size_um": 10.0,
+  "grain_size_um": 160.0,
+  "fitting_radius_over_grain_size": 0.25,
+  "quality_minimum": 0.6,
+  "near_family_tolerance_deg": 15.0,
+  "alpha_values": [1.0397207708399179, -1.0397207708399179],
+  "edge_policies": ["smooth_average", "isotropic_ambiguous"],
+  "fixed_front": {
+    "geometries": ["sphere", "rotated_cube"],
+    "shape": [32, 32, 32],
+    "sphere_radius_um": 80.0,
+    "cube_rotation_xyz_deg": [17.0, 23.0, 11.0],
+    "sample_counts": [20000, 100000],
+    "rng_seed": 701,
+    "minimum_locked_sample_count": 100000,
+    "maximum_group_absolute_probability_error": 0.005,
+    "maximum_group_standardized_error": 4.5
+  },
+  "cache_development": {
+    "shape": [32, 32, 32],
+    "rotations_xyz_deg": [[17.0, 23.0, 11.0], [-19.0, 31.0, 7.0]],
+    "rng_seeds": [17, 29],
+    "events": 100,
+    "alpha": 1.0397207708399179,
+    "require_exact_sequence": true,
+    "require_exact_final_mask": true,
+    "maximum_selected_weight_error": 1e-12,
+    "maximum_workers": 6
+  },
+  "locked_configuration_rule": "Proceed only if every 100-event conservative-local case equals full recomputation and fixed-front family probabilities meet both finite-sampling tolerances. Use at least 100000 samples per locked fixed-front distribution."
+}
