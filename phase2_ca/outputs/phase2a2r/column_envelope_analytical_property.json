@@ -1,0 +1,6 @@
+{
+  "column_envelope_definition": "for each occupied x-y column, include substrate surface through that column's highest salt voxel",
+  "proof": "at the global maximum envelope height, every included column has a highest salt voxel on that plane; therefore the envelope-empty intersection on its implicit upper plane is empty",
+  "automated_test": "test_column_envelope_implicit_global_top_has_no_empty_voxels_by_construction",
+  "corrected_use": "void paths are evaluated against caller-defined physical surfaces; column envelopes are retained only for volume sensitivity"
+}

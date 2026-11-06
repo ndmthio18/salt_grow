@@ -53,6 +53,7 @@ WEIGHT_SETS = {
 }
 PHASE2A1_SEEDS = ((6, 6, 1), (6, 13, 1), (13, 6, 1), (13, 13, 1))
 TARGET_NEW_VOLUME_M3 = 160 * (10.0e-6) ** 3
+PHYSICAL_SHELL_THICKNESS_M = 20.0e-6
 
 
 def _integer_ratio(numerator: float, denominator: float, name: str) -> int:
@@ -132,6 +133,7 @@ def build_grid_configurations() -> list[CaseConfiguration]:
                         evaporation_area_scale=area_scale,
                         voxel_size_m=voxel_size_m,
                         solid_density_kg_m3=SOLID_DENSITY_KG_M3,
+                        physical_shell_thickness_m=PHYSICAL_SHELL_THICKNESS_M,
                     )
                 )
     return configurations
@@ -584,7 +586,9 @@ def run_campaign(output_dir: Path) -> dict[str, object]:
             "computational_box": "whole domain above substrate",
             "bounding_box": "tight axis-aligned box around salt",
             "column": "occupied x-y columns from substrate to local salt top",
-            "face_shell": "salt plus one six-face-neighbor voxel shell",
+            "face_shell": (
+                "salt plus a fixed 20 um six-face-neighbor physical shell"
+            ),
             "candidate_pore_figure": "empty voxels inside the column mask",
         },
         "reused_phase2a1_source_hashes": reused["source_hashes"],

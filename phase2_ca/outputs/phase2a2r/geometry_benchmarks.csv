@@ -1,0 +1,6 @@
+benchmark,window_bottom_to_top,material_bottom_to_top,exterior_bypass_detected,material_external_void_voxels,material_enclosed_void_voxels,accessible_intergranular_void_voxels,expected_window_bottom_to_top,expected_material_bottom_to_top,expected_material_external_void_voxels,expected_material_enclosed_void_voxels,expected_accessible_intergranular_void_voxels,all_reference_answers_match
+solid_pillar_exterior_bypass,True,False,True,0,0,,True,False,0,0,,True
+porous_slab_through_channel,True,True,False,7,0,,True,True,7,0,,True
+two_grains_connected_intergranular_gap,True,True,False,35,0,35,True,True,35,0,35,True
+closed_internal_cavity,True,False,True,0,1,,True,False,0,1,,True
+externally_connected_blind_pore,True,False,True,3,0,,True,False,3,0,,True

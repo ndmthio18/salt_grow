@@ -1,5 +1,12 @@
 # Phase 2A.2 morphology feasibility and numerical robustness audit
 
+> **Phase 2A.2R correction:** the original column-envelope bottom-to-top test
+> used an implicit upper boundary that contains no empty cells by construction.
+> Its negative results must not be interpreted as evidence that a physical
+> pore pathway is absent. Mass closure and grid-sensitivity results remain
+> valid. Corrected connectivity definitions and conclusions are in
+> docs/phase2a_2r_pore_diagnostics_and_grain_design.md.
+
 ## Decision
 
 **The sequential CA remains useful as a conservative numerical test bed, but

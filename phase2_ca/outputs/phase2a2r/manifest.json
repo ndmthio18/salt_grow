@@ -1,0 +1,39 @@
+{
+  "provenance": {
+    "base_commit": "3f6fc075e88fed9a175960554b8325c13ccb2045",
+    "python": "3.12.4",
+    "numpy": "2.0.0",
+    "physical_validation_claimed": false,
+    "permeability_calculated": false,
+    "grain_growth_implemented": false,
+    "phase2b_started": false
+  },
+  "benchmark_count": 5,
+  "selected_mask_count": 6,
+  "fixed_window": {
+    "x_um": [
+      60.0,
+      140.0
+    ],
+    "y_um": [
+      60.0,
+      140.0
+    ],
+    "z_um": [
+      20.0,
+      100.0
+    ],
+    "inlet": "z=20 um",
+    "top_outlet": "z=100 um minus one voxel",
+    "physical_shell_thickness_um": 20.0
+  },
+  "source_hashes": {
+    "masks/grid_uniform_5um_seed101_final.npy": "8b29e23165711d037059c62c52c433716f04be488055c7e3ade99cf34671ef31",
+    "masks/grid_uniform_10um_seed101_final.npy": "8aebc46f18a58e4253b8f0db3a80237fc4f736038b538b7c06e6c39a5a3465d4",
+    "masks/grid_uniform_20um_seed101_final.npy": "3a48fa5b9fa37797c8c97a8a683c00dd03d82d0ec95bfae9b465f1436bb70141",
+    "masks/grid_strong_high_coord_5um_seed101_final.npy": "fdfee57023955bcbed3fa830b816e0682b07661e1a19ea4bb0bd454c358c1d46",
+    "masks/grid_strong_high_coord_10um_seed101_final.npy": "6a07ca15cb50f26ab98fd62f450dc76f9dcb16346fb4670fe563616a3d2b16b2",
+    "masks/grid_strong_high_coord_20um_seed101_final.npy": "f9c05d58c3a6a510d8a612fb0f51f334b9d9322d0a961f4dbaa0ceaaba83ad38"
+  },
+  "claim_boundary": "geometric void connectivity is reported separately from exterior air and does not establish liquid-film connectivity"
+}

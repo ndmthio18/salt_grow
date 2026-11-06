@@ -36,6 +36,7 @@ class CaseConfiguration:
     evaporation_area_scale: float = 1.0
     voxel_size_m: float = 10.0e-6
     solid_density_kg_m3: float = 2160.0
+    physical_shell_thickness_m: float | None = None
 
 
 @dataclass
@@ -103,6 +104,7 @@ def run_case(config: CaseConfiguration) -> CaseResult:
         state,
         supply_connected_salt=ca.supply_connected_salt_mask(),
         voxel_size_m=config.voxel_size_m,
+        physical_shell_thickness_m=config.physical_shell_thickness_m,
     )
     previous_cluster_count = initial_analysis.salt_cluster_count
     coalescence_events = 0
@@ -114,6 +116,7 @@ def run_case(config: CaseConfiguration) -> CaseResult:
             state,
             supply_connected_salt=ca.supply_connected_salt_mask(),
             voxel_size_m=config.voxel_size_m,
+            physical_shell_thickness_m=config.physical_shell_thickness_m,
         )
         decrease = max(previous_cluster_count - analysis.salt_cluster_count, 0)
         if decrease:
@@ -164,6 +167,7 @@ def run_case(config: CaseConfiguration) -> CaseResult:
         state,
         supply_connected_salt=final_connected,
         voxel_size_m=config.voxel_size_m,
+        physical_shell_thickness_m=config.physical_shell_thickness_m,
     )
     morphology = ca.morphology_diagnostics()
     retained_mass = (
@@ -271,6 +275,19 @@ def run_case(config: CaseConfiguration) -> CaseResult:
         ),
         "intrinsic_porosity_identifiable": (
             final_analysis.intrinsic_porosity_identifiable
+        ),
+        "intrinsic_porosity": final_analysis.intrinsic_porosity,
+        "fixed_window_solid_volume_fraction": (
+            final_analysis.fixed_window_solid_volume_fraction
+        ),
+        "ambiguous_exterior_void_voxels": (
+            final_analysis.ambiguous_exterior_void_voxels
+        ),
+        "physical_shell_thickness_m": (
+            final_analysis.physical_shell_thickness_m
+        ),
+        "pathway_boundary_definition": (
+            final_analysis.computational_box.boundary_definition
         ),
         "unrealized_whole_voxels": unrealized_whole_voxels,
         "full_whole_voxel_realization": unrealized_whole_voxels == 0,

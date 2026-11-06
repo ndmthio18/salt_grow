@@ -54,3 +54,12 @@ feasibility audit with:
 
 Outputs are under outputs/phase2a2/. The evidence-bounded assessment is
 docs/phase2a_2_morphology_feasibility.md.
+
+Run the Phase 2A.2R corrected pore-connectivity benchmarks and selected-mask
+reanalysis with:
+
+    python phase2_ca/run_phase2a2r_validation.py
+
+Outputs are under outputs/phase2a2r/. The corrected scientific assessment and
+minimal grain-aware architecture are in
+docs/phase2a_2r_pore_diagnostics_and_grain_design.md.

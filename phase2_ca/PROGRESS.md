@@ -53,3 +53,22 @@ coupling because morphology and inferred porosity remain rule/envelope sensitive
 Status: numerical transaction and diagnostics accepted; NO-GO for Phase 2B.
 Next gate is a grain/orientation and film-access morphology pilot validated
 against independent 3D evidence.
+
+## 2026-11-06 — Phase 2A.2R corrected pore diagnostics
+
+- Proved and tested that the column envelope's implicit upper plane contains no
+  empty cells by construction.
+- Replaced envelope-derived pathway boundaries with explicit physical inlet,
+  top-outlet, and lateral-outlet masks.
+- Added five analytical geometry benchmarks separating exterior bypass,
+  through-channel, intergranular gap, closed cavity, and blind pore.
+- Replaced exact-envelope-equality porosity logic with explicit fixed-window,
+  envelope, intergranular, enclosed, and ambiguous-exterior quantities.
+- Added fixed 20 µm shell comparisons across 5/10/20 µm grids.
+- Hash-verified and reanalyzed six selected Phase 2A.2 masks.
+- Designed, but did not implement, a minimal grain-ID/orientation/film-access
+  growth architecture.
+- Passed 44 Phase 2 tests and all 113 combined repository tests.
+
+Status: conditional GO for a bounded grain-aware morphology pilot; NO-GO for
+physical calibration claims, permeability, liquid transport, or Phase 2B.

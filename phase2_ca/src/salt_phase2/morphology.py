@@ -44,6 +44,28 @@ class EnvelopeVoidStatistics:
     bottom_to_lateral_pathway_voxels: int
     accessible_pore_volume_m3: float | None
     enclosed_void_volume_m3: float | None
+    boundary_definition: str
+
+
+@dataclass(frozen=True)
+class PhysicalBoundarySurfaces:
+    """Explicit inlet and outlet surfaces independent of an analysis envelope."""
+
+    name: str
+    inlet: NDArray[np.bool_]
+    top_outlet: NDArray[np.bool_]
+    lateral_outlet: NDArray[np.bool_]
+
+    def validate(self, shape: tuple[int, int, int]) -> None:
+        for name, mask in (
+            ("inlet", self.inlet),
+            ("top_outlet", self.top_outlet),
+            ("lateral_outlet", self.lateral_outlet),
+        ):
+            if mask.shape != shape or mask.dtype != np.bool_:
+                raise ValueError(f"{name} must be a boolean mask matching the domain")
+        if np.any(self.inlet & self.top_outlet):
+            raise ValueError("inlet and top_outlet must not overlap")
 
 
 @dataclass(frozen=True)
@@ -66,6 +88,13 @@ class MorphologyAnalysis:
     tested_envelope_pathway_agreement: bool
     intrinsic_porosity_identifiable: bool
     intrinsic_porosity_flag: str
+    fixed_window_solid_volume_fraction: float | None
+    intrinsic_porosity: float | None
+    accessible_intergranular_void_voxels: int | None
+    accessible_intergranular_void_volume_m3: float | None
+    ambiguous_exterior_void_voxels: int
+    ambiguous_exterior_void_volume_m3: float | None
+    physical_shell_thickness_m: float | None
 
 
 def connected_components(
@@ -129,6 +158,80 @@ def computational_box_envelope(state: PhysicalState) -> NDArray[np.bool_]:
     return envelope
 
 
+def rectangular_window_mask(
+    shape: tuple[int, int, int],
+    *,
+    lower: Coordinate,
+    upper_exclusive: Coordinate,
+) -> NDArray[np.bool_]:
+    """Return a fixed rectangular analysis window with explicit coordinates."""
+
+    if any(
+        lower[axis] < 0
+        or upper_exclusive[axis] > shape[axis]
+        or lower[axis] >= upper_exclusive[axis]
+        for axis in range(3)
+    ):
+        raise ValueError("window bounds must define a non-empty box inside the domain")
+    mask = np.zeros(shape, dtype=bool)
+    mask[
+        lower[0] : upper_exclusive[0],
+        lower[1] : upper_exclusive[1],
+        lower[2] : upper_exclusive[2],
+    ] = True
+    return mask
+
+
+def rectangular_boundary_surfaces(
+    shape: tuple[int, int, int],
+    *,
+    lower: Coordinate,
+    upper_exclusive: Coordinate,
+    name: str,
+) -> PhysicalBoundarySurfaces:
+    """Create fixed planar inlet/top/lateral surfaces for a physical window."""
+
+    window = rectangular_window_mask(
+        shape, lower=lower, upper_exclusive=upper_exclusive
+    )
+    inlet = np.zeros(shape, dtype=bool)
+    top = np.zeros(shape, dtype=bool)
+    lateral = np.zeros(shape, dtype=bool)
+    inlet[
+        lower[0] : upper_exclusive[0],
+        lower[1] : upper_exclusive[1],
+        lower[2],
+    ] = True
+    top[
+        lower[0] : upper_exclusive[0],
+        lower[1] : upper_exclusive[1],
+        upper_exclusive[2] - 1,
+    ] = True
+    lateral[lower[0], :, :] |= window[lower[0], :, :]
+    lateral[upper_exclusive[0] - 1, :, :] |= window[upper_exclusive[0] - 1, :, :]
+    lateral[:, lower[1], :] |= window[:, lower[1], :]
+    lateral[:, upper_exclusive[1] - 1, :] |= window[:, upper_exclusive[1] - 1, :]
+    boundaries = PhysicalBoundarySurfaces(
+        name=name,
+        inlet=inlet,
+        top_outlet=top,
+        lateral_outlet=lateral,
+    )
+    boundaries.validate(shape)
+    return boundaries
+
+
+def domain_boundary_surfaces(state: PhysicalState) -> PhysicalBoundarySurfaces:
+    """Return substrate, domain-top, and domain-lateral physical surfaces."""
+
+    return rectangular_boundary_surfaces(
+        state.shape,
+        lower=(0, 0, state.substrate_layers),
+        upper_exclusive=state.shape,
+        name="computational_domain_surfaces",
+    )
+
+
 def bounding_box_envelope(state: PhysicalState) -> NDArray[np.bool_]:
     """Return the tight axis-aligned bounding box containing all salt."""
 
@@ -159,37 +262,47 @@ def column_envelope(state: PhysicalState) -> NDArray[np.bool_]:
     return envelope
 
 
-def face_shell_envelope(state: PhysicalState) -> NDArray[np.bool_]:
-    """Return salt plus its one-voxel six-face shell, clipped above substrate."""
+def face_shell_envelope(
+    state: PhysicalState,
+    *,
+    voxel_size_m: float | None = None,
+    shell_thickness_m: float | None = None,
+) -> NDArray[np.bool_]:
+    """Return salt plus a six-face shell of explicit voxel or physical width."""
+
+    if (voxel_size_m is None) != (shell_thickness_m is None):
+        raise ValueError(
+            "voxel_size_m and shell_thickness_m must be supplied together"
+        )
+    if voxel_size_m is None:
+        shell_steps = 1
+    else:
+        if (
+            not np.isfinite(voxel_size_m)
+            or voxel_size_m <= 0.0
+            or not np.isfinite(shell_thickness_m)
+            or shell_thickness_m <= 0.0
+        ):
+            raise ValueError("voxel size and shell thickness must be positive")
+        ratio = float(shell_thickness_m / voxel_size_m)
+        shell_steps = int(round(ratio))
+        if shell_steps < 1 or not np.isclose(
+            ratio, shell_steps, rtol=0.0, atol=1.0e-10
+        ):
+            raise ValueError("shell thickness must be an integer number of voxels")
 
     salt = state.material == Material.SALT
     shell = salt.copy()
-    shell[1:, :, :] |= salt[:-1, :, :]
-    shell[:-1, :, :] |= salt[1:, :, :]
-    shell[:, 1:, :] |= salt[:, :-1, :]
-    shell[:, :-1, :] |= salt[:, 1:, :]
-    shell[:, :, 1:] |= salt[:, :, :-1]
-    shell[:, :, :-1] |= salt[:, :, 1:]
+    for _ in range(shell_steps):
+        previous = shell.copy()
+        shell[1:, :, :] |= previous[:-1, :, :]
+        shell[:-1, :, :] |= previous[1:, :, :]
+        shell[:, 1:, :] |= previous[:, :-1, :]
+        shell[:, :-1, :] |= previous[:, 1:, :]
+        shell[:, :, 1:] |= previous[:, :, :-1]
+        shell[:, :, :-1] |= previous[:, :, 1:]
     shell[:, :, : state.substrate_layers] = False
     return shell
-
-
-def _boundary_masks(envelope: NDArray[np.bool_]) -> tuple[NDArray[np.bool_], ...]:
-    bottom = np.zeros(envelope.shape, dtype=bool)
-    top = np.zeros(envelope.shape, dtype=bool)
-    lateral = np.zeros(envelope.shape, dtype=bool)
-    coordinates = np.argwhere(envelope)
-    if coordinates.size == 0:
-        return bottom, top, lateral
-    lower = np.min(coordinates, axis=0)
-    upper = np.max(coordinates, axis=0)
-    bottom[:, :, int(lower[2])] = envelope[:, :, int(lower[2])]
-    top[:, :, int(upper[2])] = envelope[:, :, int(upper[2])]
-    lateral[int(lower[0]), :, :] |= envelope[int(lower[0]), :, :]
-    lateral[int(upper[0]), :, :] |= envelope[int(upper[0]), :, :]
-    lateral[:, int(lower[1]), :] |= envelope[:, int(lower[1]), :]
-    lateral[:, int(upper[1]), :] |= envelope[:, int(upper[1]), :]
-    return bottom, top, lateral
 
 
 def _labels_touching(
@@ -205,16 +318,17 @@ def _envelope_statistics(
     envelope: NDArray[np.bool_],
     salt: NDArray[np.bool_],
     external_air: NDArray[np.bool_],
+    boundaries: PhysicalBoundarySurfaces,
     voxel_size_m: float | None,
 ) -> EnvelopeVoidStatistics:
+    boundaries.validate(envelope.shape)
     void = envelope & ~salt
     labels, void_sizes = connected_components(void)
     enclosed = void & ~external_air
     _, enclosed_sizes = connected_components(enclosed)
-    bottom, top, lateral = _boundary_masks(envelope)
-    bottom_labels = _labels_touching(labels, bottom)
-    top_labels = _labels_touching(labels, top)
-    lateral_labels = _labels_touching(labels, lateral)
+    bottom_labels = _labels_touching(labels, boundaries.inlet)
+    top_labels = _labels_touching(labels, boundaries.top_outlet)
+    lateral_labels = _labels_touching(labels, boundaries.lateral_outlet)
     bottom_top_labels = np.intersect1d(bottom_labels, top_labels)
     bottom_lateral_labels = np.intersect1d(bottom_labels, lateral_labels)
     bottom_connected = np.isin(labels, bottom_labels)
@@ -250,7 +364,79 @@ def _envelope_statistics(
         enclosed_void_volume_m3=(
             None if voxel_volume is None else enclosed_count * voxel_volume
         ),
+        boundary_definition=boundaries.name,
     )
+
+
+def analyze_void_space(
+    *,
+    name: str,
+    analysis_mask: NDArray[np.bool_],
+    salt_mask: NDArray[np.bool_],
+    external_air_mask: NDArray[np.bool_],
+    boundaries: PhysicalBoundarySurfaces,
+    voxel_size_m: float | None = None,
+) -> EnvelopeVoidStatistics:
+    """Analyze void paths using caller-defined material and boundary masks."""
+
+    if (
+        analysis_mask.shape != salt_mask.shape
+        or analysis_mask.shape != external_air_mask.shape
+    ):
+        raise ValueError("analysis, salt, and external-air masks must match")
+    for mask in (analysis_mask, salt_mask, external_air_mask):
+        if mask.dtype != np.bool_:
+            raise ValueError("analysis masks must be boolean")
+    return _envelope_statistics(
+        name=name,
+        envelope=analysis_mask,
+        salt=salt_mask,
+        external_air=external_air_mask,
+        boundaries=boundaries,
+        voxel_size_m=voxel_size_m,
+    )
+
+
+def face_adjacent_intergranular_gap_mask(
+    state: PhysicalState,
+    grain_ids: NDArray[np.integer],
+    *,
+    analysis_mask: NDArray[np.bool_] | None = None,
+) -> NDArray[np.bool_]:
+    """Return empty cells touching at least two distinct positive grain IDs."""
+
+    if grain_ids.shape != state.shape or not np.issubdtype(grain_ids.dtype, np.integer):
+        raise ValueError("grain_ids must be an integer array matching state shape")
+    if np.any((state.material == Material.SALT) & (grain_ids <= 0)):
+        raise ValueError("every salt voxel must have a positive grain ID")
+    if np.any((state.material != Material.SALT) & (grain_ids != 0)):
+        raise ValueError("non-salt voxels must have grain ID zero")
+    if analysis_mask is None:
+        analysis = computational_box_envelope(state)
+    else:
+        if analysis_mask.shape != state.shape or analysis_mask.dtype != np.bool_:
+            raise ValueError("analysis_mask must be boolean and match state shape")
+        analysis = analysis_mask
+    candidate = analysis & (state.material == Material.EMPTY)
+    gap = np.zeros(state.shape, dtype=bool)
+    shape = state.shape
+    for coordinate_array in np.argwhere(candidate):
+        coordinate = tuple(int(value) for value in coordinate_array)
+        x, y, z = coordinate
+        neighbors: set[int] = set()
+        for dx, dy, dz in _FACE_OFFSETS:
+            neighbor = x + dx, y + dy, z + dz
+            if (
+                0 <= neighbor[0] < shape[0]
+                and 0 <= neighbor[1] < shape[1]
+                and 0 <= neighbor[2] < shape[2]
+            ):
+                grain_id = int(grain_ids[neighbor])
+                if grain_id > 0:
+                    neighbors.add(grain_id)
+        if len(neighbors) >= 2:
+            gap[coordinate] = True
+    return gap
 
 
 def _salt_void_surface_faces(state: PhysicalState) -> int:
@@ -271,6 +457,12 @@ def analyze_morphology(
     *,
     supply_connected_salt: NDArray[np.bool_] | None = None,
     voxel_size_m: float | None = None,
+    boundary_surfaces: PhysicalBoundarySurfaces | None = None,
+    fixed_window_mask: NDArray[np.bool_] | None = None,
+    physical_shell_thickness_m: float | None = None,
+    intrinsic_material_mask: NDArray[np.bool_] | None = None,
+    intrinsic_boundary_source: str | None = None,
+    grain_ids: NDArray[np.integer] | None = None,
 ) -> MorphologyAnalysis:
     """Analyze solid and void connectivity under explicit, non-equivalent masks."""
 
@@ -279,6 +471,10 @@ def analyze_morphology(
         not np.isfinite(voxel_size_m) or voxel_size_m <= 0
     ):
         raise ValueError("voxel_size_m must be finite and positive")
+    if physical_shell_thickness_m is not None and voxel_size_m is None:
+        raise ValueError("a physical shell thickness requires voxel_size_m")
+    boundaries = boundary_surfaces or domain_boundary_surfaces(state)
+    boundaries.validate(state.shape)
     salt = state.material == Material.SALT
     salt_labels, salt_sizes = connected_components(salt)
     seed_labels = np.unique(salt_labels[state.seed_mask])
@@ -291,11 +487,36 @@ def analyze_morphology(
             raise ValueError("supply_connected_salt must match state shape")
         supply_connected_count = int(np.count_nonzero(supply_connected_salt & salt))
 
+    computational_mask = computational_box_envelope(state)
+    if fixed_window_mask is None:
+        fixed_window = computational_mask
+    else:
+        if (
+            fixed_window_mask.shape != state.shape
+            or fixed_window_mask.dtype != np.bool_
+        ):
+            raise ValueError("fixed_window_mask must be boolean and match state shape")
+        fixed_window = fixed_window_mask
+    if physical_shell_thickness_m is None:
+        shell = face_shell_envelope(state)
+        shell_name = "salt_plus_one_voxel_face_shell"
+        recorded_shell_thickness = voxel_size_m
+    else:
+        shell = face_shell_envelope(
+            state,
+            voxel_size_m=voxel_size_m,
+            shell_thickness_m=physical_shell_thickness_m,
+        )
+        shell_name = (
+            f"salt_plus_{physical_shell_thickness_m:.9g}_m_face_shell"
+        )
+        recorded_shell_thickness = physical_shell_thickness_m
+
     masks = {
-        "computational_box_above_substrate": computational_box_envelope(state),
+        "computational_box_above_substrate": computational_mask,
         "axis_aligned_salt_bounding_box": bounding_box_envelope(state),
         "footprint_columns_to_local_salt_top": column_envelope(state),
-        "salt_plus_one_voxel_face_shell": face_shell_envelope(state),
+        shell_name: shell,
     }
     statistics = {
         name: _envelope_statistics(
@@ -303,6 +524,7 @@ def analyze_morphology(
             envelope=envelope,
             salt=salt,
             external_air=external_air,
+            boundaries=boundaries,
             voxel_size_m=voxel_size_m,
         )
         for name, envelope in masks.items()
@@ -325,16 +547,53 @@ def analyze_morphology(
         for item in tested
     }
     pathway_agreement = len(signatures) <= 1
-    masks_equal = all(
-        np.array_equal(masks[tested_names[0]], masks[name])
-        for name in tested_names[1:]
+    fixed_window_count = int(np.count_nonzero(fixed_window))
+    fixed_window_solid_fraction = (
+        int(np.count_nonzero(fixed_window & salt)) / fixed_window_count
+        if fixed_window_count
+        else None
     )
-    identifiable = bool(masks_equal)
-    flag = (
-        "tested envelope masks coincide"
-        if identifiable
-        else "tested envelope masks differ; no unique intrinsic pore volume"
-    )
+    if intrinsic_material_mask is None:
+        identifiable = False
+        intrinsic_porosity = None
+        flag = "undefined material boundary; intrinsic porosity not reported"
+        ambiguous_exterior = statistics[
+            "axis_aligned_salt_bounding_box"
+        ].external_air_connected_void_voxels
+    else:
+        if (
+            intrinsic_material_mask.shape != state.shape
+            or intrinsic_material_mask.dtype != np.bool_
+        ):
+            raise ValueError(
+                "intrinsic_material_mask must be boolean and match state shape"
+            )
+        if np.any(
+            intrinsic_material_mask & (state.material == Material.SUBSTRATE)
+        ):
+            raise ValueError("intrinsic material boundary cannot include substrate")
+        if not intrinsic_boundary_source:
+            raise ValueError(
+                "intrinsic_boundary_source is required with intrinsic_material_mask"
+            )
+        material_count = int(np.count_nonzero(intrinsic_material_mask))
+        material_void = int(
+            np.count_nonzero(
+                intrinsic_material_mask & (state.material == Material.EMPTY)
+            )
+        )
+        identifiable = True
+        intrinsic_porosity = material_void / material_count if material_count else None
+        flag = f"reported within explicit boundary: {intrinsic_boundary_source}"
+        ambiguous_exterior = 0
+
+    if grain_ids is None:
+        accessible_intergranular = None
+    else:
+        gap_mask = face_adjacent_intergranular_gap_mask(
+            state, grain_ids, analysis_mask=fixed_window
+        )
+        accessible_intergranular = int(np.count_nonzero(gap_mask & external_air))
 
     surface_faces = _salt_void_surface_faces(state)
     salt_count = int(np.count_nonzero(salt))
@@ -355,7 +614,7 @@ def analyze_morphology(
         computational_box=statistics["computational_box_above_substrate"],
         bounding_box=statistics["axis_aligned_salt_bounding_box"],
         column_envelope=statistics["footprint_columns_to_local_salt_top"],
-        face_shell_envelope=statistics["salt_plus_one_voxel_face_shell"],
+        face_shell_envelope=statistics[shell_name],
         salt_void_surface_faces=surface_faces,
         salt_surface_area_m2=surface_area,
         salt_volume_m3=volume,
@@ -365,4 +624,19 @@ def analyze_morphology(
         tested_envelope_pathway_agreement=pathway_agreement,
         intrinsic_porosity_identifiable=identifiable,
         intrinsic_porosity_flag=flag,
+        fixed_window_solid_volume_fraction=fixed_window_solid_fraction,
+        intrinsic_porosity=intrinsic_porosity,
+        accessible_intergranular_void_voxels=accessible_intergranular,
+        accessible_intergranular_void_volume_m3=(
+            None
+            if accessible_intergranular is None or voxel_size_m is None
+            else accessible_intergranular * voxel_size_m**3
+        ),
+        ambiguous_exterior_void_voxels=ambiguous_exterior,
+        ambiguous_exterior_void_volume_m3=(
+            None
+            if voxel_size_m is None
+            else ambiguous_exterior * voxel_size_m**3
+        ),
+        physical_shell_thickness_m=recorded_shell_thickness,
     )
