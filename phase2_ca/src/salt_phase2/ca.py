@@ -1,8 +1,9 @@
-"""Deterministic CPU cellular automaton for the bounded Phase 2A prototype."""
+"""CPU cellular automaton for the bounded Phase 2A/2A.1 prototypes."""
 
 from __future__ import annotations
 
 from collections import deque
+import copy
 from dataclasses import dataclass
 import math
 from typing import Literal
@@ -61,6 +62,37 @@ class GrowthStepResult:
     candidate_voxel_count: int
     selected_coordinates: tuple[Coordinate, ...]
     morphology: MorphologyDiagnostics
+    growth_mode: str
+    update_mode: str
+
+
+@dataclass(frozen=True)
+class AttachmentWeights:
+    """Uncalibrated relative weights for coordination-dependent sampling."""
+
+    w1: float = 1.0
+    w2: float = 1.0
+    w3: float = 1.0
+    w4: float = 1.0
+
+    def __post_init__(self) -> None:
+        for name, value in (
+            ("w1", self.w1),
+            ("w2", self.w2),
+            ("w3", self.w3),
+            ("w4", self.w4),
+        ):
+            if not math.isfinite(value) or value <= 0.0:
+                raise ValueError(f"{name} must be finite and positive")
+
+    def values_for(self, coordination: NDArray[np.uint8]) -> NDArray[np.float64]:
+        """Map coordination 1, 2, 3, and >=4 to relative weights."""
+
+        return np.select(
+            [coordination == 1, coordination == 2, coordination == 3],
+            [self.w1, self.w2, self.w3],
+            default=self.w4,
+        ).astype(float)
 
 
 class SaltGrowthCA:
@@ -80,15 +112,30 @@ class SaltGrowthCA:
         voxel_size_m: float,
         enforce_wetting: bool = True,
         tie_break_seed: int = 0,
+        growth_mode: Literal["deterministic", "stochastic"] = "deterministic",
+        update_mode: Literal["synchronous", "sequential"] = "synchronous",
+        attachment_weights: AttachmentWeights | None = None,
+        rng_seed: int = 0,
     ) -> None:
         state.validate()
         if not isinstance(enforce_wetting, bool):
             raise ValueError("enforce_wetting must be boolean")
         if isinstance(tie_break_seed, bool) or int(tie_break_seed) != tie_break_seed:
             raise ValueError("tie_break_seed must be an integer")
+        if growth_mode not in {"deterministic", "stochastic"}:
+            raise ValueError("growth_mode must be 'deterministic' or 'stochastic'")
+        if update_mode not in {"synchronous", "sequential"}:
+            raise ValueError("update_mode must be 'synchronous' or 'sequential'")
+        if isinstance(rng_seed, bool) or int(rng_seed) != rng_seed:
+            raise ValueError("rng_seed must be an integer")
         self.state = state
         self.enforce_wetting = enforce_wetting
         self.tie_break_seed = int(tie_break_seed)
+        self.growth_mode = growth_mode
+        self.update_mode = update_mode
+        self.attachment_weights = attachment_weights or AttachmentWeights()
+        self.rng_seed = int(rng_seed)
+        self.rng = np.random.default_rng(self.rng_seed)
         self.allocator = TransactionalMassToVoxelAllocator(
             solid_density_kg_m3=solid_density_kg_m3,
             voxel_size_m=voxel_size_m,
@@ -162,7 +209,11 @@ class SaltGrowthCA:
         ) & 0xFFFFFFFF
 
     def _ordered_candidates(
-        self, eligible: NDArray[np.bool_], *, transaction_id: int
+        self,
+        eligible: NDArray[np.bool_],
+        *,
+        transaction_id: int,
+        event_index: int = 0,
     ) -> list[Coordinate]:
         salt_coordination = _face_neighbor_count(self.state.material == Material.SALT)
         coordinates = [
@@ -172,12 +223,92 @@ class SaltGrowthCA:
             coordinates,
             key=lambda coordinate: (
                 -int(salt_coordination[coordinate]),
-                self._tie_break_priority(coordinate, transaction_id),
+                self._tie_break_priority(
+                    coordinate, transaction_id * 1_000_003 + event_index
+                ),
                 coordinate[0],
                 coordinate[1],
                 coordinate[2],
             ),
         )
+
+    def _stochastic_candidate(
+        self,
+        coordinates: list[Coordinate],
+        salt_coordination: NDArray[np.uint8],
+    ) -> Coordinate:
+        coordination = np.array(
+            [salt_coordination[coordinate] for coordinate in coordinates],
+            dtype=np.uint8,
+        )
+        weights = self.attachment_weights.values_for(coordination)
+        probabilities = weights / np.sum(weights)
+        index = int(self.rng.choice(len(coordinates), p=probabilities))
+        return coordinates[index]
+
+    def _synchronous_selection(
+        self,
+        eligible: NDArray[np.bool_],
+        *,
+        requested: int,
+        transaction_id: int,
+    ) -> tuple[Coordinate, ...]:
+        coordinates = [
+            tuple(int(value) for value in coordinate)
+            for coordinate in np.argwhere(eligible)
+        ]
+        realized = min(requested, len(coordinates))
+        if realized == 0:
+            return ()
+        if self.growth_mode == "deterministic":
+            ordered = self._ordered_candidates(
+                eligible, transaction_id=transaction_id
+            )
+            return tuple(ordered[:realized])
+
+        salt_coordination = _face_neighbor_count(
+            self.state.material == Material.SALT
+        )
+        coordination = np.array(
+            [salt_coordination[coordinate] for coordinate in coordinates],
+            dtype=np.uint8,
+        )
+        weights = self.attachment_weights.values_for(coordination)
+        probabilities = weights / np.sum(weights)
+        indices = self.rng.choice(
+            len(coordinates), size=realized, replace=False, p=probabilities
+        )
+        return tuple(coordinates[int(index)] for index in indices)
+
+    def _sequential_selection(
+        self, *, requested: int, transaction_id: int
+    ) -> tuple[int, tuple[Coordinate, ...]]:
+        initial_candidate_count = int(np.count_nonzero(self.eligible_growth_mask()))
+        selected: list[Coordinate] = []
+        for event_index in range(requested):
+            eligible = self.eligible_growth_mask()
+            coordinates = [
+                tuple(int(value) for value in coordinate)
+                for coordinate in np.argwhere(eligible)
+            ]
+            if not coordinates:
+                break
+            if self.growth_mode == "deterministic":
+                coordinate = self._ordered_candidates(
+                    eligible,
+                    transaction_id=transaction_id,
+                    event_index=event_index,
+                )[0]
+            else:
+                salt_coordination = _face_neighbor_count(
+                    self.state.material == Material.SALT
+                )
+                coordinate = self._stochastic_candidate(
+                    coordinates, salt_coordination
+                )
+            self.state.material[coordinate] = Material.SALT
+            selected.append(coordinate)
+        return initial_candidate_count, tuple(selected)
 
     def grow(
         self,
@@ -189,35 +320,50 @@ class SaltGrowthCA:
         """Execute one transactional mass-limited geometry update."""
 
         self.assert_invariants()
+        rng_state_before = copy.deepcopy(self.rng.bit_generator.state)
         proposal = self.allocator.prepare(
             available_precipitation_mass_kg,
             released_solution_mass_kg=released_solution_mass_kg,
         )
-        eligible = self.eligible_growth_mask()
-        candidates = self._ordered_candidates(
-            eligible, transaction_id=proposal.transaction_id
-        )
-        selected = tuple(candidates[: proposal.requested_solid_voxels])
-        for coordinate in selected:
-            self.state.material[coordinate] = Material.SALT
-
+        selected: tuple[Coordinate, ...] = ()
         try:
+            if self.update_mode == "synchronous":
+                eligible = self.eligible_growth_mask()
+                candidate_count = int(np.count_nonzero(eligible))
+                selected = self._synchronous_selection(
+                    eligible,
+                    requested=proposal.requested_solid_voxels,
+                    transaction_id=proposal.transaction_id,
+                )
+                for coordinate in selected:
+                    self.state.material[coordinate] = Material.SALT
+            else:
+                candidate_count, selected = self._sequential_selection(
+                    requested=proposal.requested_solid_voxels,
+                    transaction_id=proposal.transaction_id,
+                )
             transaction = self.allocator.commit(
                 proposal,
                 realized_solid_voxels=len(selected),
                 unallocated_state=unallocated_state,
             )
         except Exception:
-            for coordinate in selected:
-                self.state.material[coordinate] = Material.EMPTY
+            if self.allocator.has_pending_transaction:
+                for coordinate in selected:
+                    self.state.material[coordinate] = Material.EMPTY
+                self.allocator.abort(proposal)
+                self.rng.bit_generator.state = rng_state_before
+                self.assert_invariants()
             raise
 
         self.assert_invariants()
         return GrowthStepResult(
             transaction=transaction,
-            candidate_voxel_count=len(candidates),
+            candidate_voxel_count=candidate_count,
             selected_coordinates=selected,
             morphology=self.morphology_diagnostics(),
+            growth_mode=self.growth_mode,
+            update_mode=self.update_mode,
         )
 
     def morphology_diagnostics(self) -> MorphologyDiagnostics:

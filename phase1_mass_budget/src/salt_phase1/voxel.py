@@ -199,6 +199,12 @@ class TransactionalMassToVoxelAllocator:
     def voxel_mass_kg(self) -> float:
         return self.solid_density_kg_m3 * self.voxel_size_m**3
 
+    @property
+    def has_pending_transaction(self) -> bool:
+        """Return whether a proposal is awaiting commit or abort."""
+
+        return self._pending is not None
+
     def prepare(
         self,
         available_precipitation_mass_kg: float,
@@ -315,6 +321,17 @@ class TransactionalMassToVoxelAllocator:
             unallocated_state=unallocated_state,
             status=status,
         )
+
+    def abort(self, proposal: AllocationProposal) -> None:
+        """Discard an uncommitted proposal without changing any mass pool.
+
+        The incoming mass remains owned by the caller and may be proposed again.
+        This method is only valid before :meth:`commit` succeeds.
+        """
+
+        if self._pending is None or proposal is not self._pending:
+            raise RuntimeError("proposal is not the allocator's pending transaction")
+        self._pending = None
 
     def closure_error_kg(self) -> float:
         """Return solid plus retained pools minus all supplied mass."""

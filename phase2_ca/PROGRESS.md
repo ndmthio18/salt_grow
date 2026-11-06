@@ -16,3 +16,19 @@
 
 Status: numerical prototype only. No film-flow physics or physical validation
 is claimed.
+
+## 2026-11-06 — Phase 2A.1 growth-rule validation
+
+- Preserved the legacy deterministic synchronous control and added weighted
+  stochastic synchronous/sequential modes with persistent NumPy RNG state.
+- Added transaction abort/rollback and injected-failure tests.
+- Ran 44 CPU cases across three weight sets, five rule seeds, three timesteps,
+  two update modes, seed topology, wetting, and capacity controls.
+- Verified exact sequential 30/60/120 s event-sequence invariance and strong
+  synchronous timestep grouping sensitivity at matched salt inventory.
+- Saved 3D masks, orthogonal sections, connectivity/void tables, and opaque RGB
+  figures with a SHA-256 inventory.
+- Passed 30 Phase 2 tests and all 99 combined repository tests.
+
+Status: GO as a stochastic numerical test bed; NO-GO for Phase 2B transport
+coupling because morphology and inferred porosity remain rule/envelope sensitive.

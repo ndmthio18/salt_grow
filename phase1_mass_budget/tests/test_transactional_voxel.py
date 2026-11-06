@@ -110,3 +110,8 @@ def test_stale_or_over_realized_transaction_is_rejected():
     proposal = allocator.prepare(VOXEL_MASS)
     with pytest.raises(ValueError):
         allocator.commit(proposal, realized_solid_voxels=2)
+    assert allocator.has_pending_transaction
+    allocator.abort(proposal)
+    assert not allocator.has_pending_transaction
+    assert allocator.cumulative_input_mass_kg == 0.0
+    assert allocator.closure_error_kg() == 0.0

@@ -1,0 +1,17 @@
+case_id,horizontal_z_index,vertical_y_index
+rule_legacy_deterministic,2,5
+rule_uniform_seed101,1,6
+rule_strong_high_coord_seed101,1,12
+rule_mild_high_coord_seed101,1,6
+dt_synchronous_30s_seed101,1,16
+dt_synchronous_60s_seed101,1,15
+dt_synchronous_120s_seed101,1,4
+dt_sequential_30s_seed101,1,10
+dt_sequential_60s_seed101,1,10
+dt_sequential_120s_seed101,1,10
+nucleation_single_seed101,2,10
+nucleation_multiple_seed101,1,6
+wetting_enforced_dry_cluster,1,2
+wetting_disabled_control,3,4
+capacity_stress_synchronous,1,10
+capacity_stress_sequential,1,11

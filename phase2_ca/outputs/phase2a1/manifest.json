@@ -1,0 +1,99 @@
+{
+  "provenance": {
+    "reviewed_commit": "96effabf9bca5c8825d2a158dc7c59feb0dd56c1",
+    "python": "3.12.4",
+    "numpy": "2.0.0",
+    "matplotlib": "3.9.2",
+    "physical_validation_claimed": false
+  },
+  "common_configuration": {
+    "shape": [
+      20,
+      20,
+      18
+    ],
+    "substrate_layers": 1,
+    "duration_s": 600.0,
+    "rule_rng_seeds": [
+      101,
+      202,
+      303,
+      404,
+      505
+    ],
+    "paired_rng_seeds": [
+      101,
+      202,
+      303
+    ],
+    "weight_sets": {
+      "uniform": {
+        "w1": 1.0,
+        "w2": 1.0,
+        "w3": 1.0,
+        "w4": 1.0
+      },
+      "strong_high_coord": {
+        "w1": 1.0,
+        "w2": 4.0,
+        "w3": 16.0,
+        "w4": 64.0
+      },
+      "mild_high_coord": {
+        "w1": 1.0,
+        "w2": 1.5,
+        "w3": 2.0,
+        "w4": 3.0
+      }
+    },
+    "statistics": "descriptive mean, sample SD, range, paired mask Jaccard and difference; no inferential p-values because simulation seeds are not experimental replicates",
+    "envelopes": "axis-aligned salt bounding box and footprint columns to local salt top"
+  },
+  "case_ids": [
+    "rule_legacy_deterministic",
+    "rule_uniform_seed101",
+    "rule_uniform_seed202",
+    "rule_uniform_seed303",
+    "rule_uniform_seed404",
+    "rule_uniform_seed505",
+    "rule_strong_high_coord_seed101",
+    "rule_strong_high_coord_seed202",
+    "rule_strong_high_coord_seed303",
+    "rule_strong_high_coord_seed404",
+    "rule_strong_high_coord_seed505",
+    "rule_mild_high_coord_seed101",
+    "rule_mild_high_coord_seed202",
+    "rule_mild_high_coord_seed303",
+    "rule_mild_high_coord_seed404",
+    "rule_mild_high_coord_seed505",
+    "dt_synchronous_30s_seed101",
+    "dt_synchronous_30s_seed202",
+    "dt_synchronous_30s_seed303",
+    "dt_synchronous_60s_seed101",
+    "dt_synchronous_60s_seed202",
+    "dt_synchronous_60s_seed303",
+    "dt_synchronous_120s_seed101",
+    "dt_synchronous_120s_seed202",
+    "dt_synchronous_120s_seed303",
+    "dt_sequential_30s_seed101",
+    "dt_sequential_30s_seed202",
+    "dt_sequential_30s_seed303",
+    "dt_sequential_60s_seed101",
+    "dt_sequential_60s_seed202",
+    "dt_sequential_60s_seed303",
+    "dt_sequential_120s_seed101",
+    "dt_sequential_120s_seed202",
+    "dt_sequential_120s_seed303",
+    "nucleation_single_seed101",
+    "nucleation_multiple_seed101",
+    "nucleation_single_seed202",
+    "nucleation_multiple_seed202",
+    "nucleation_single_seed303",
+    "nucleation_multiple_seed303",
+    "wetting_enforced_dry_cluster",
+    "wetting_disabled_control",
+    "capacity_stress_synchronous",
+    "capacity_stress_sequential"
+  ],
+  "case_count": 44
+}

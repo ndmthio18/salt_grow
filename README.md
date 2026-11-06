@@ -27,6 +27,8 @@ model that permits internal precipitation and porosity evolution.
   [`phase2_ca/`](phase2_ca/)
 - Phase 2A design, numerical evidence, and limitations:
   [`docs/phase2a_minimal_ca.md`](docs/phase2a_minimal_ca.md)
+- Phase 2A.1 stochastic growth-rule and morphology validation:
+  [`docs/phase2a_1_growth_rule_validation.md`](docs/phase2a_1_growth_rule_validation.md)
 
 The repository records numerical verification separately from physical
 validation. The reported reaction layer is smaller than the estimated crystal
