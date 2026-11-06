@@ -71,6 +71,19 @@ from .anisotropy_diagnosis import (
     uniform_cube_facet_displacement_m,
     volume_fraction_for_facet_displacement,
 )
+from .interface_flux import (
+    AreaCandidateWeightModel,
+    CandidatePatch,
+    ConservativePatchLedger,
+    LedgerUpdate,
+    PatchAllocation,
+    SurfaceElements,
+    allocate_interface_volume,
+    bundle_elements_by_candidate,
+    corrected_digital_interface,
+    frozen_front_realization,
+    triangulated_interface,
+)
 
 __all__ = [
     "AttachmentWeights",
@@ -136,4 +149,15 @@ __all__ = [
     "support_advances_m",
     "uniform_cube_facet_displacement_m",
     "volume_fraction_for_facet_displacement",
+    "AreaCandidateWeightModel",
+    "CandidatePatch",
+    "ConservativePatchLedger",
+    "LedgerUpdate",
+    "PatchAllocation",
+    "SurfaceElements",
+    "allocate_interface_volume",
+    "bundle_elements_by_candidate",
+    "corrected_digital_interface",
+    "frozen_front_realization",
+    "triangulated_interface",
 ]

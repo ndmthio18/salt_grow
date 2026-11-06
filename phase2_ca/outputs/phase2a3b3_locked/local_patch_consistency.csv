@@ -1,0 +1,2 @@
+insertion_coordinate,invalidation_radius_cells,affected_candidate_count,candidate_keys_exact,maximum_area_abs_error_m2,maximum_normal_vector_error,note
+"[22, 19, 19]",6.732050807568877,129,True,0.0,0.0,fresh full reconstruction was used as the validation oracle; only affected patch records were replaced

@@ -1,0 +1,4 @@
+voxel_size_um,rule_a,rule_b,face_partition_weight_m2,candidate_bundle_weight_m2,relative_sensitivity,digital_multiface_fraction,physical_edge_element_fraction,selection_basis
+40.0,unique_face_partition_then_kappa,candidate_bundle_then_kappa,3.429389217738958e-07,3.460064583871582e-07,0.008944848247014914,0.28169014084507044,0.9895833333333334,predeclared geometric partition; neither rule selected by appearance
+20.0,unique_face_partition_then_kappa,candidate_bundle_then_kappa,3.804425888106672e-07,3.8004054660896044e-07,0.0010567749603523913,0.34285714285714286,0.8349514563106796,predeclared geometric partition; neither rule selected by appearance
+10.0,unique_face_partition_then_kappa,candidate_bundle_then_kappa,3.9081443010874036e-07,3.9064684615558324e-07,0.0004288069739658562,0.37274368231046934,0.8366983372921615,predeclared geometric partition; neither rule selected by appearance

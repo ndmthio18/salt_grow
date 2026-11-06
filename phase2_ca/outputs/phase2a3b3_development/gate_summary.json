@@ -1,0 +1,38 @@
+{
+  "analytical_allocation_pass": true,
+  "maximum_analytical_ratio_relative_error": 5.281140480496309e-16,
+  "surface_selection": {
+    "candidates": [
+      {
+        "method": "triangulated",
+        "endpoint_refinement_all_geometries": false,
+        "finest_errors": {
+          "plane": 0.06276629478464679,
+          "sphere": 0.11778338870160665,
+          "rotated_cube": 0.10796930498796575
+        },
+        "maximum_finest_error": 0.11778338870160665,
+        "within_predeclared_error": false
+      },
+      {
+        "method": "corrected_digital",
+        "endpoint_refinement_all_geometries": true,
+        "finest_errors": {
+          "plane": 0.013888888888889284,
+          "sphere": 0.01430398758716056,
+          "rotated_cube": 0.03099568157585364
+        },
+        "maximum_finest_error": 0.03099568157585364,
+        "within_predeclared_error": true
+      }
+    ],
+    "selected_method": "corrected_digital",
+    "selection_rule": {
+      "description": "Choose the method with the smallest maximum finest-grid absolute area error among methods whose error does not worsen from the coarsest to finest grid for all three geometries.",
+      "maximum_finest_grid_area_error": 0.1,
+      "maximum_analytical_relative_error": 2e-14
+    }
+  },
+  "overall_pass": true,
+  "decision": "PROCEED_TO_LOCKED"
+}

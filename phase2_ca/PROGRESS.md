@@ -166,3 +166,32 @@ multigrain growth or transport coupling.
 Status: **NO-GO for the current site-weighted law and porous-salt continuation.**
 A separately specified area/flux-based kinetic closure is required before any
 further morphology physics. Multigrain and transport work remain out of scope.
+
+## 2026-11-07 — Phase 2A.3b-3 conservative interface-area closure
+
+- Implemented the candidate-count-independent continuum law
+  `Delta V_i = Delta V_s A_i kappa_i / sum(A kappa)` with exact floating-point
+  volume closure.
+- Compared signed-distance marching-tetrahedra and unique-face L1-corrected
+  digital areas on planes, spheres, and rotated cubes; retained the failed
+  triangulated method and selected the corrected digital estimator using the
+  predeclared development rule.
+- Added non-overlapping face/candidate partitions, explicit numerical
+  multi-face labels, and predeclared face-versus-bundle edge-rule sensitivity.
+- Added a transactional per-patch mass ledger with fractional reservoirs,
+  retained constrained mass, globally unique candidate consumption, closure
+  checks after every update, and exact injected-failure rollback.
+- Passed analytical `<100>/<110>/<111>` allocation, joint rotation, candidate
+  count independence, 20/10/5 micrometre frozen-front refinement, mass closure,
+  capacity, and conservative local patch-data consistency gates.
+- Reduced the finest frozen-front maximum relative advance error to 0.192%; the
+  old site-weighted law retained errors up to 43.8% from candidate density.
+- Ran the gate-dependent matched-volume single-grain comparison. It did not
+  establish morphology-level improvement: the new method's positive `<111>`
+  support advance was zero for all three numerical seeds.
+- Passed 145 combined repository tests; verified development/locked SHA-256
+  inventories and obtained zero unit-audit findings.
+
+Status: **GO for the bounded numerical allocation/ledger closure only. NO-GO
+for claims of validated evolving anisotropic NaCl morphology, multigrain
+growth, or transport coupling.** Stop at Phase 2A.3b-3.

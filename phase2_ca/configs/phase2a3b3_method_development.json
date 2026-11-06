@@ -1,0 +1,27 @@
+{
+  "stage": "method_development",
+  "base_commit": "58c8db851d8c5de91c6499e7b255ef37256bb530",
+  "alpha_values": [-1.0397207708399179, 0.0, 1.0397207708399179],
+  "analytical_patch_side_um": 320.0,
+  "analytical_total_volume_m3": 3.817025033688163e-13,
+  "candidate_count_variants": [3, 37, 503],
+  "surface_benchmarks": {
+    "domain_length_um": 480.0,
+    "voxel_sizes_um": [40.0, 20.0, 10.0],
+    "plane_normal": [1.0, 1.0, 1.0],
+    "sphere_radius_um": 120.0,
+    "cube_half_width_um": 100.0,
+    "cube_rotation_xyz_deg": [17.0, 23.0, 11.0],
+    "fitting_radius_um": 60.0
+  },
+  "selection_rule": {
+    "description": "Choose the method with the smallest maximum finest-grid absolute area error among methods whose error does not worsen from the coarsest to finest grid for all three geometries.",
+    "maximum_finest_grid_area_error": 0.10,
+    "maximum_analytical_relative_error": 2e-14
+  },
+  "resource_limits": {
+    "maximum_workers": 6,
+    "omp_threads_per_worker": 1,
+    "gpu_used": false
+  }
+}

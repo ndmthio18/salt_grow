@@ -99,6 +99,20 @@ Phase 2A.3b-1 failure, quantifies sub-voxel growth depth, audits the missing
 probability-to-velocity closure, and tests one mean voxel layer with paired
 seeds. The current site-weighted CA remains NO-GO as a physical morphology law.
 
+Run the Phase 2A.3b-3 conservative interface-area development and locked
+verification with:
+
+```powershell
+python phase2_ca/run_phase2a3b3_validation.py --config phase2_ca/configs/phase2a3b3_method_development.json --output phase2_ca/outputs/phase2a3b3_development_reproduced
+python phase2_ca/run_phase2a3b3_validation.py --config phase2_ca/configs/phase2a3b3_locked_verification.json --output phase2_ca/outputs/phase2a3b3_locked_reproduced
+```
+
+See `docs/phase2a_3b3_interface_flux_closure.md`. The independent area-times-
+kinetic-factor allocation, transactional patch ledger, and frozen-front
+realization pass their locked gates. The GO is limited to this numerical
+closure: the small evolving-grain comparison does not validate anisotropic NaCl
+morphology, and multigrain or transport extensions remain out of scope.
+
 Run the Phase 2A.2 rollback, grid-sensitivity, pore-envelope, and morphology
 feasibility audit with:
 

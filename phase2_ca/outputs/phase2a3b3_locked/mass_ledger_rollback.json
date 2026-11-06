@@ -1,0 +1,7 @@
+{
+  "first_realized_voxels": 3,
+  "unique_consumed_candidates": 3,
+  "double_consumption_absent": true,
+  "mass_closure_error_kg": 0.0,
+  "rollback_exact": true
+}
