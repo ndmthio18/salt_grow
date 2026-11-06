@@ -23,6 +23,10 @@ model that permits internal precipitation and porosity evolution.
   [`docs/phase1_feasibility_and_validation.md`](docs/phase1_feasibility_and_validation.md)
 - Phase 1 source, tests, and reproducible reference case:
   [`phase1_mass_budget/`](phase1_mass_budget/)
+- Phase 2A minimal CPU 3D CA and deterministic demonstration:
+  [`phase2_ca/`](phase2_ca/)
+- Phase 2A design, numerical evidence, and limitations:
+  [`docs/phase2a_minimal_ca.md`](docs/phase2a_minimal_ca.md)
 
 The repository records numerical verification separately from physical
 validation. The reported reaction layer is smaller than the estimated crystal

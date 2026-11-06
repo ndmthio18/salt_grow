@@ -1,0 +1,2122 @@
+{
+  "provenance": {
+    "reviewed_phase1_1_commit": "ae4c7ae6bb641e2f2bbda5a2d01e434b473966d3",
+    "ca_implementation": "independent CPU Phase 2A prototype",
+    "physical_validation_claimed": false
+  },
+  "configuration": {
+    "shape": [
+      16,
+      16,
+      12
+    ],
+    "substrate_layers": 1,
+    "voxel_size_m": 1e-05,
+    "solid_density_kg_m3": 2160.0,
+    "timestep_s": 60.0,
+    "steps": 12,
+    "seed_coordinates": [
+      [
+        4,
+        4,
+        1
+      ],
+      [
+        4,
+        11,
+        1
+      ],
+      [
+        11,
+        4,
+        1
+      ],
+      [
+        11,
+        11,
+        1
+      ]
+    ],
+    "enforce_wetting": true,
+    "neighbor_rule": "six-face",
+    "candidate_priority": "descending salt coordination then fixed-seed mixed-coordinate priority",
+    "tie_break_seed": 20261106
+  },
+  "evaporation_mass_budget": {
+    "saturation_vapor_concentration_kg_m3": 0.023026611554494373,
+    "interface_vapor_concentration_kg_m3": 0.017339038500534264,
+    "ambient_vapor_concentration_kg_m3": 0.006907983466348312,
+    "positive_driving_concentration_kg_m3": 0.010431055034185953,
+    "evaporation_flux_kg_m2_s": 5.215527517092976e-05,
+    "water_evaporation_rate_kg_s": 1.335175044375802e-12,
+    "evaporated_water_mass_kg": 8.011050266254812e-11,
+    "salt_to_water_mass_ratio": 0.3586956521739131,
+    "salt_precipitation_rate_kg_s": 4.789214833087117e-13,
+    "precipitated_salt_mass_kg": 2.8735288998522698e-11,
+    "precipitated_salt_volume_m3": 1.3303374536353101e-14,
+    "regime": "evaporation",
+    "condensation_or_deliquescence_modeled": false,
+    "note": "Positive evaporation under the imposed Phase 1 assumptions."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "time_s": 60.0,
+      "candidate_voxel_count": 20,
+      "selected_coordinates": [
+        [
+          5,
+          11,
+          1
+        ],
+        [
+          4,
+          10,
+          1
+        ],
+        [
+          4,
+          4,
+          2
+        ],
+        [
+          4,
+          12,
+          1
+        ],
+        [
+          4,
+          3,
+          1
+        ],
+        [
+          5,
+          4,
+          1
+        ],
+        [
+          4,
+          11,
+          2
+        ],
+        [
+          4,
+          5,
+          1
+        ],
+        [
+          3,
+          4,
+          1
+        ],
+        [
+          3,
+          11,
+          1
+        ],
+        [
+          11,
+          10,
+          1
+        ],
+        [
+          11,
+          4,
+          2
+        ],
+        [
+          12,
+          11,
+          1
+        ]
+      ],
+      "transaction": {
+        "transaction_id": 1,
+        "available_mass_kg": 2.8735288998522698e-11,
+        "requested_solid_voxels": 13,
+        "realized_solid_voxels": 13,
+        "committed_solid_mass_kg": 2.8080000000000008e-11,
+        "unrealized_requested_mass_kg": 0.0,
+        "subvoxel_mass_kg": 6.552889985226897e-13,
+        "unallocated_mass_kg": 6.552889985226897e-13,
+        "deferred_precipitation_mass_kg": 6.552889985226897e-13,
+        "mass_remaining_in_solution_kg": 0.0,
+        "unallocated_state": "deferred",
+        "status": "committed"
+      },
+      "morphology": {
+        "seed_salt_voxels": 4,
+        "new_salt_voxels": 13,
+        "total_salt_voxels": 17,
+        "supply_connected_salt_voxels": 17,
+        "eligible_growth_voxels": 45,
+        "footprint_voxels": 14,
+        "occupied_salt_layers": 2,
+        "maximum_height_voxels_above_substrate": 2,
+        "seed_salt_mass_kg": 8.640000000000002e-12,
+        "new_salt_mass_kg": 2.8080000000000008e-11,
+        "total_salt_mass_kg": 3.672000000000001e-11,
+        "retained_unallocated_mass_kg": 6.552889985226897e-13,
+        "mass_closure_error_kg": 0.0
+      }
+    },
+    {
+      "step": 2,
+      "time_s": 120.0,
+      "candidate_voxel_count": 45,
+      "selected_coordinates": [
+        [
+          12,
+          10,
+          1
+        ],
+        [
+          4,
+          5,
+          2
+        ],
+        [
+          5,
+          12,
+          1
+        ],
+        [
+          5,
+          10,
+          1
+        ],
+        [
+          5,
+          4,
+          2
+        ],
+        [
+          4,
+          3,
+          2
+        ],
+        [
+          4,
+          12,
+          2
+        ],
+        [
+          5,
+          5,
+          1
+        ],
+        [
+          5,
+          3,
+          1
+        ],
+        [
+          5,
+          11,
+          2
+        ],
+        [
+          4,
+          10,
+          2
+        ],
+        [
+          3,
+          5,
+          1
+        ],
+        [
+          3,
+          11,
+          2
+        ]
+      ],
+      "transaction": {
+        "transaction_id": 2,
+        "available_mass_kg": 2.939057799704539e-11,
+        "requested_solid_voxels": 13,
+        "realized_solid_voxels": 13,
+        "committed_solid_mass_kg": 2.8080000000000008e-11,
+        "unrealized_requested_mass_kg": 0.0,
+        "subvoxel_mass_kg": 1.3105779970453794e-12,
+        "unallocated_mass_kg": 1.3105779970453794e-12,
+        "deferred_precipitation_mass_kg": 1.3105779970453794e-12,
+        "mass_remaining_in_solution_kg": 0.0,
+        "unallocated_state": "deferred",
+        "status": "committed"
+      },
+      "morphology": {
+        "seed_salt_voxels": 4,
+        "new_salt_voxels": 26,
+        "total_salt_voxels": 30,
+        "supply_connected_salt_voxels": 30,
+        "eligible_growth_voxels": 67,
+        "footprint_voxels": 20,
+        "occupied_salt_layers": 2,
+        "maximum_height_voxels_above_substrate": 2,
+        "seed_salt_mass_kg": 8.640000000000002e-12,
+        "new_salt_mass_kg": 5.6160000000000016e-11,
+        "total_salt_mass_kg": 6.480000000000002e-11,
+        "retained_unallocated_mass_kg": 1.3105779970453794e-12,
+        "mass_closure_error_kg": 0.0
+      }
+    },
+    {
+      "step": 3,
+      "time_s": 180.0,
+      "candidate_voxel_count": 67,
+      "selected_coordinates": [
+        [
+          5,
+          5,
+          2
+        ],
+        [
+          5,
+          3,
+          2
+        ],
+        [
+          5,
+          12,
+          2
+        ],
+        [
+          5,
+          10,
+          2
+        ],
+        [
+          3,
+          3,
+          1
+        ],
+        [
+          3,
+          12,
+          2
+        ],
+        [
+          3,
+          10,
+          2
+        ],
+        [
+          3,
+          10,
+          1
+        ],
+        [
+          3,
+          5,
+          2
+        ],
+        [
+          3,
+          4,
+          2
+        ],
+        [
+          3,
+          12,
+          1
+        ],
+        [
+          4,
+          13,
+          1
+        ],
+        [
+          4,
+          4,
+          3
+        ]
+      ],
+      "transaction": {
+        "transaction_id": 3,
+        "available_mass_kg": 3.004586699556808e-11,
+        "requested_solid_voxels": 13,
+        "realized_solid_voxels": 13,
+        "committed_solid_mass_kg": 2.8080000000000008e-11,
+        "unrealized_requested_mass_kg": 0.0,
+        "subvoxel_mass_kg": 1.965866995568069e-12,
+        "unallocated_mass_kg": 1.965866995568069e-12,
+        "deferred_precipitation_mass_kg": 1.965866995568069e-12,
+        "mass_remaining_in_solution_kg": 0.0,
+        "unallocated_state": "deferred",
+        "status": "committed"
+      },
+      "morphology": {
+        "seed_salt_voxels": 4,
+        "new_salt_voxels": 39,
+        "total_salt_voxels": 43,
+        "supply_connected_salt_voxels": 43,
+        "eligible_growth_voxels": 85,
+        "footprint_voxels": 24,
+        "occupied_salt_layers": 3,
+        "maximum_height_voxels_above_substrate": 3,
+        "seed_salt_mass_kg": 8.640000000000002e-12,
+        "new_salt_mass_kg": 8.424000000000002e-11,
+        "total_salt_mass_kg": 9.288000000000002e-11,
+        "retained_unallocated_mass_kg": 1.965866995568069e-12,
+        "mass_closure_error_kg": 0.0
+      }
+    },
+    {
+      "step": 4,
+      "time_s": 240.0,
+      "candidate_voxel_count": 85,
+      "selected_coordinates": [
+        [
+          3,
+          3,
+          2
+        ],
+        [
+          4,
+          5,
+          3
+        ],
+        [
+          5,
+          4,
+          3
+        ],
+        [
+          4,
+          3,
+          3
+        ],
+        [
+          5,
+          13,
+          1
+        ],
+        [
+          4,
+          13,
+          2
+        ],
+        [
+          3,
+          4,
+          3
+        ],
+        [
+          3,
+          13,
+          1
+        ],
+        [
+          12,
+          4,
+          2
+        ],
+        [
+          11,
+          12,
+          1
+        ],
+        [
+          11,
+          3,
+          2
+        ],
+        [
+          12,
+          9,
+          1
+        ],
+        [
+          11,
+          4,
+          3
+        ],
+        [
+          12,
+          12,
+          1
+        ]
+      ],
+      "transaction": {
+        "transaction_id": 4,
+        "available_mass_kg": 3.070115599409077e-11,
+        "requested_solid_voxels": 14,
+        "realized_solid_voxels": 14,
+        "committed_solid_mass_kg": 3.0240000000000004e-11,
+        "unrealized_requested_mass_kg": 0.0,
+        "subvoxel_mass_kg": 4.611559940907632e-13,
+        "unallocated_mass_kg": 4.611559940907632e-13,
+        "deferred_precipitation_mass_kg": 4.611559940907632e-13,
+        "mass_remaining_in_solution_kg": 0.0,
+        "unallocated_state": "deferred",
+        "status": "committed"
+      },
+      "morphology": {
+        "seed_salt_voxels": 4,
+        "new_salt_voxels": 53,
+        "total_salt_voxels": 57,
+        "supply_connected_salt_voxels": 57,
+        "eligible_growth_voxels": 107,
+        "footprint_voxels": 31,
+        "occupied_salt_layers": 3,
+        "maximum_height_voxels_above_substrate": 3,
+        "seed_salt_mass_kg": 8.640000000000002e-12,
+        "new_salt_mass_kg": 1.1448000000000003e-10,
+        "total_salt_mass_kg": 1.2312000000000004e-10,
+        "retained_unallocated_mass_kg": 4.611559940907632e-13,
+        "mass_closure_error_kg": 0.0
+      }
+    },
+    {
+      "step": 5,
+      "time_s": 300.0,
+      "candidate_voxel_count": 107,
+      "selected_coordinates": [
+        [
+          5,
+          13,
+          2
+        ],
+        [
+          5,
+          5,
+          3
+        ],
+        [
+          5,
+          3,
+          3
+        ],
+        [
+          3,
+          5,
+          3
+        ],
+        [
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          13,
+          2
+        ],
+        [
+          11,
+          3,
+          1
+        ],
+        [
+          12,
+          4,
+          1
+        ],
+        [
+          12,
+          3,
+          2
+        ],
+        [
+          12,
+          4,
+          3
+        ],
+        [
+          11,
+          9,
+          1
+        ],
+        [
+          11,
+          3,
+          3
+        ],
+        [
+          6,
+          5,
+          2
+        ]
+      ],
+      "transaction": {
+        "transaction_id": 5,
+        "available_mass_kg": 2.919644499261346e-11,
+        "requested_solid_voxels": 13,
+        "realized_solid_voxels": 13,
+        "committed_solid_mass_kg": 2.8080000000000008e-11,
+        "unrealized_requested_mass_kg": 0.0,
+        "subvoxel_mass_kg": 1.116444992613453e-12,
+        "unallocated_mass_kg": 1.116444992613453e-12,
+        "deferred_precipitation_mass_kg": 1.116444992613453e-12,
+        "mass_remaining_in_solution_kg": 0.0,
+        "unallocated_state": "deferred",
+        "status": "committed"
+      },
+      "morphology": {
+        "seed_salt_voxels": 4,
+        "new_salt_voxels": 66,
+        "total_salt_voxels": 70,
+        "supply_connected_salt_voxels": 70,
+        "eligible_growth_voxels": 131,
+        "footprint_voxels": 34,
+        "occupied_salt_layers": 3,
+        "maximum_height_voxels_above_substrate": 3,
+        "seed_salt_mass_kg": 8.640000000000002e-12,
+        "new_salt_mass_kg": 1.4256000000000002e-10,
+        "total_salt_mass_kg": 1.5120000000000003e-10,
+        "retained_unallocated_mass_kg": 1.116444992613453e-12,
+        "mass_closure_error_kg": 0.0
+      }
+    },
+    {
+      "step": 6,
+      "time_s": 360.0,
+      "candidate_voxel_count": 131,
+      "selected_coordinates": [
+        [
+          12,
+          3,
+          1
+        ],
+        [
+          12,
+          3,
+          3
+        ],
+        [
+          6,
+          4,
+          2
+        ],
+        [
+          6,
+          5,
+          3
+        ],
+        [
+          6,
+          5,
+          1
+        ],
+        [
+          13,
+          4,
+          2
+        ],
+        [
+          11,
+          12,
+          2
+        ],
+        [
+          11,
+          11,
+          2
+        ],
+        [
+          12,
+          5,
+          1
+        ],
+        [
+          13,
+          10,
+          1
+        ],
+        [
+          11,
+          2,
+          1
+        ],
+        [
+          12,
+          10,
+          2
+        ],
+        [
+          12,
+          9,
+          2
+        ]
+      ],
+      "transaction": {
+        "transaction_id": 6,
+        "available_mass_kg": 2.985173399113615e-11,
+        "requested_solid_voxels": 13,
+        "realized_solid_voxels": 13,
+        "committed_solid_mass_kg": 2.8080000000000008e-11,
+        "unrealized_requested_mass_kg": 0.0,
+        "subvoxel_mass_kg": 1.7717339911361426e-12,
+        "unallocated_mass_kg": 1.7717339911361426e-12,
+        "deferred_precipitation_mass_kg": 1.7717339911361426e-12,
+        "mass_remaining_in_solution_kg": 0.0,
+        "unallocated_state": "deferred",
+        "status": "committed"
+      },
+      "morphology": {
+        "seed_salt_voxels": 4,
+        "new_salt_voxels": 79,
+        "total_salt_voxels": 83,
+        "supply_connected_salt_voxels": 83,
+        "eligible_growth_voxels": 146,
+        "footprint_voxels": 39,
+        "occupied_salt_layers": 3,
+        "maximum_height_voxels_above_substrate": 3,
+        "seed_salt_mass_kg": 8.640000000000002e-12,
+        "new_salt_mass_kg": 1.7064000000000004e-10,
+        "total_salt_mass_kg": 1.7928000000000005e-10,
+        "retained_unallocated_mass_kg": 1.7717339911361426e-12,
+        "mass_closure_error_kg": 2.5849394142282115e-26
+      }
+    },
+    {
+      "step": 7,
+      "time_s": 420.0,
+      "candidate_voxel_count": 146,
+      "selected_coordinates": [
+        [
+          6,
+          4,
+          3
+        ],
+        [
+          6,
+          4,
+          1
+        ],
+        [
+          11,
+          10,
+          2
+        ],
+        [
+          12,
+          11,
+          2
+        ],
+        [
+          6,
+          3,
+          2
+        ],
+        [
+          12,
+          2,
+          1
+        ],
+        [
+          13,
+          3,
+          2
+        ],
+        [
+          11,
+          9,
+          2
+        ],
+        [
+          13,
+          4,
+          3
+        ],
+        [
+          12,
+          12,
+          2
+        ],
+        [
+          13,
+          11,
+          1
+        ],
+        [
+          11,
+          5,
+          1
+        ],
+        [
+          13,
+          9,
+          1
+        ],
+        [
+          11,
+          2,
+          2
+        ]
+      ],
+      "transaction": {
+        "transaction_id": 7,
+        "available_mass_kg": 3.050702298965884e-11,
+        "requested_solid_voxels": 14,
+        "realized_solid_voxels": 14,
+        "committed_solid_mass_kg": 3.0240000000000004e-11,
+        "unrealized_requested_mass_kg": 0.0,
+        "subvoxel_mass_kg": 2.670229896588367e-13,
+        "unallocated_mass_kg": 2.670229896588367e-13,
+        "deferred_precipitation_mass_kg": 2.670229896588367e-13,
+        "mass_remaining_in_solution_kg": 0.0,
+        "unallocated_state": "deferred",
+        "status": "committed"
+      },
+      "morphology": {
+        "seed_salt_voxels": 4,
+        "new_salt_voxels": 93,
+        "total_salt_voxels": 97,
+        "supply_connected_salt_voxels": 97,
+        "eligible_growth_voxels": 161,
+        "footprint_voxels": 45,
+        "occupied_salt_layers": 3,
+        "maximum_height_voxels_above_substrate": 3,
+        "seed_salt_mass_kg": 8.640000000000002e-12,
+        "new_salt_mass_kg": 2.0088000000000003e-10,
+        "total_salt_mass_kg": 2.0952000000000004e-10,
+        "retained_unallocated_mass_kg": 2.670229896588367e-13,
+        "mass_closure_error_kg": 0.0
+      }
+    },
+    {
+      "step": 8,
+      "time_s": 480.0,
+      "candidate_voxel_count": 161,
+      "selected_coordinates": [
+        [
+          13,
+          3,
+          3
+        ],
+        [
+          12,
+          2,
+          2
+        ],
+        [
+          6,
+          3,
+          3
+        ],
+        [
+          6,
+          3,
+          1
+        ],
+        [
+          13,
+          12,
+          1
+        ],
+        [
+          12,
+          5,
+          2
+        ],
+        [
+          13,
+          4,
+          1
+        ],
+        [
+          13,
+          9,
+          2
+        ],
+        [
+          13,
+          10,
+          2
+        ],
+        [
+          11,
+          2,
+          3
+        ],
+        [
+          11,
+          5,
+          2
+        ],
+        [
+          13,
+          11,
+          2
+        ],
+        [
+          13,
+          3,
+          1
+        ]
+      ],
+      "transaction": {
+        "transaction_id": 8,
+        "available_mass_kg": 2.9002311988181534e-11,
+        "requested_solid_voxels": 13,
+        "realized_solid_voxels": 13,
+        "committed_solid_mass_kg": 2.8080000000000008e-11,
+        "unrealized_requested_mass_kg": 0.0,
+        "subvoxel_mass_kg": 9.223119881815264e-13,
+        "unallocated_mass_kg": 9.223119881815264e-13,
+        "deferred_precipitation_mass_kg": 9.223119881815264e-13,
+        "mass_remaining_in_solution_kg": 0.0,
+        "unallocated_state": "deferred",
+        "status": "committed"
+      },
+      "morphology": {
+        "seed_salt_voxels": 4,
+        "new_salt_voxels": 106,
+        "total_salt_voxels": 110,
+        "supply_connected_salt_voxels": 110,
+        "eligible_growth_voxels": 174,
+        "footprint_voxels": 46,
+        "occupied_salt_layers": 3,
+        "maximum_height_voxels_above_substrate": 3,
+        "seed_salt_mass_kg": 8.640000000000002e-12,
+        "new_salt_mass_kg": 2.2896000000000006e-10,
+        "total_salt_mass_kg": 2.3760000000000004e-10,
+        "retained_unallocated_mass_kg": 9.223119881815264e-13,
+        "mass_closure_error_kg": 2.5849394142282115e-26
+      }
+    },
+    {
+      "step": 9,
+      "time_s": 540.0,
+      "candidate_voxel_count": 174,
+      "selected_coordinates": [
+        [
+          13,
+          12,
+          2
+        ],
+        [
+          12,
+          2,
+          3
+        ],
+        [
+          12,
+          5,
+          3
+        ],
+        [
+          13,
+          2,
+          1
+        ],
+        [
+          11,
+          5,
+          3
+        ],
+        [
+          13,
+          5,
+          1
+        ],
+        [
+          13,
+          5,
+          2
+        ],
+        [
+          13,
+          2,
+          2
+        ],
+        [
+          3,
+          9,
+          2
+        ],
+        [
+          3,
+          12,
+          3
+        ],
+        [
+          2,
+          13,
+          2
+        ],
+        [
+          5,
+          14,
+          2
+        ],
+        [
+          2,
+          3,
+          1
+        ]
+      ],
+      "transaction": {
+        "transaction_id": 9,
+        "available_mass_kg": 2.9657600986704224e-11,
+        "requested_solid_voxels": 13,
+        "realized_solid_voxels": 13,
+        "committed_solid_mass_kg": 2.8080000000000008e-11,
+        "unrealized_requested_mass_kg": 0.0,
+        "subvoxel_mass_kg": 1.5776009867042161e-12,
+        "unallocated_mass_kg": 1.5776009867042161e-12,
+        "deferred_precipitation_mass_kg": 1.5776009867042161e-12,
+        "mass_remaining_in_solution_kg": 0.0,
+        "unallocated_state": "deferred",
+        "status": "committed"
+      },
+      "morphology": {
+        "seed_salt_voxels": 4,
+        "new_salt_voxels": 119,
+        "total_salt_voxels": 123,
+        "supply_connected_salt_voxels": 123,
+        "eligible_growth_voxels": 192,
+        "footprint_voxels": 52,
+        "occupied_salt_layers": 3,
+        "maximum_height_voxels_above_substrate": 3,
+        "seed_salt_mass_kg": 8.640000000000002e-12,
+        "new_salt_mass_kg": 2.570400000000001e-10,
+        "total_salt_mass_kg": 2.6568000000000006e-10,
+        "retained_unallocated_mass_kg": 1.5776009867042161e-12,
+        "mass_closure_error_kg": 5.169878828456423e-26
+      }
+    },
+    {
+      "step": 10,
+      "time_s": 600.0,
+      "candidate_voxel_count": 192,
+      "selected_coordinates": [
+        [
+          13,
+          2,
+          3
+        ],
+        [
+          13,
+          5,
+          3
+        ],
+        [
+          3,
+          11,
+          3
+        ],
+        [
+          3,
+          13,
+          3
+        ],
+        [
+          2,
+          12,
+          2
+        ],
+        [
+          4,
+          14,
+          2
+        ],
+        [
+          2,
+          4,
+          1
+        ],
+        [
+          3,
+          9,
+          1
+        ],
+        [
+          2,
+          3,
+          2
+        ],
+        [
+          5,
+          14,
+          1
+        ],
+        [
+          2,
+          13,
+          1
+        ],
+        [
+          4,
+          9,
+          2
+        ],
+        [
+          4,
+          12,
+          3
+        ],
+        [
+          10,
+          9,
+          2
+        ]
+      ],
+      "transaction": {
+        "transaction_id": 10,
+        "available_mass_kg": 3.0312889985226914e-11,
+        "requested_solid_voxels": 14,
+        "realized_solid_voxels": 14,
+        "committed_solid_mass_kg": 3.0240000000000004e-11,
+        "unrealized_requested_mass_kg": 0.0,
+        "subvoxel_mass_kg": 7.28899852269102e-14,
+        "unallocated_mass_kg": 7.28899852269102e-14,
+        "deferred_precipitation_mass_kg": 7.28899852269102e-14,
+        "mass_remaining_in_solution_kg": 0.0,
+        "unallocated_state": "deferred",
+        "status": "committed"
+      },
+      "morphology": {
+        "seed_salt_voxels": 4,
+        "new_salt_voxels": 133,
+        "total_salt_voxels": 137,
+        "supply_connected_salt_voxels": 137,
+        "eligible_growth_voxels": 206,
+        "footprint_voxels": 57,
+        "occupied_salt_layers": 3,
+        "maximum_height_voxels_above_substrate": 3,
+        "seed_salt_mass_kg": 8.640000000000002e-12,
+        "new_salt_mass_kg": 2.8728000000000007e-10,
+        "total_salt_mass_kg": 2.9592000000000005e-10,
+        "retained_unallocated_mass_kg": 7.28899852269102e-14,
+        "mass_closure_error_kg": 0.0
+      }
+    },
+    {
+      "step": 11,
+      "time_s": 660.0,
+      "candidate_voxel_count": 206,
+      "selected_coordinates": [
+        [
+          4,
+          14,
+          1
+        ],
+        [
+          2,
+          4,
+          2
+        ],
+        [
+          2,
+          12,
+          1
+        ],
+        [
+          4,
+          9,
+          1
+        ],
+        [
+          4,
+          13,
+          3
+        ],
+        [
+          4,
+          11,
+          3
+        ],
+        [
+          2,
+          11,
+          2
+        ],
+        [
+          2,
+          5,
+          1
+        ],
+        [
+          3,
+          10,
+          3
+        ],
+        [
+          2,
+          13,
+          3
+        ],
+        [
+          2,
+          12,
+          3
+        ],
+        [
+          2,
+          3,
+          3
+        ],
+        [
+          5,
+          12,
+          3
+        ]
+      ],
+      "transaction": {
+        "transaction_id": 11,
+        "available_mass_kg": 2.8808178983749608e-11,
+        "requested_solid_voxels": 13,
+        "realized_solid_voxels": 13,
+        "committed_solid_mass_kg": 2.8080000000000008e-11,
+        "unrealized_requested_mass_kg": 0.0,
+        "subvoxel_mass_kg": 7.281789837495999e-13,
+        "unallocated_mass_kg": 7.281789837495999e-13,
+        "deferred_precipitation_mass_kg": 7.281789837495999e-13,
+        "mass_remaining_in_solution_kg": 0.0,
+        "unallocated_state": "deferred",
+        "status": "committed"
+      },
+      "morphology": {
+        "seed_salt_voxels": 4,
+        "new_salt_voxels": 146,
+        "total_salt_voxels": 150,
+        "supply_connected_salt_voxels": 150,
+        "eligible_growth_voxels": 214,
+        "footprint_voxels": 59,
+        "occupied_salt_layers": 3,
+        "maximum_height_voxels_above_substrate": 3,
+        "seed_salt_mass_kg": 8.640000000000002e-12,
+        "new_salt_mass_kg": 3.153600000000001e-10,
+        "total_salt_mass_kg": 3.2400000000000007e-10,
+        "retained_unallocated_mass_kg": 7.281789837495999e-13,
+        "mass_closure_error_kg": 0.0
+      }
+    },
+    {
+      "step": 12,
+      "time_s": 720.0,
+      "candidate_voxel_count": 214,
+      "selected_coordinates": [
+        [
+          2,
+          11,
+          3
+        ],
+        [
+          2,
+          4,
+          3
+        ],
+        [
+          2,
+          11,
+          1
+        ],
+        [
+          2,
+          5,
+          2
+        ],
+        [
+          5,
+          13,
+          3
+        ],
+        [
+          4,
+          10,
+          3
+        ],
+        [
+          5,
+          11,
+          3
+        ],
+        [
+          10,
+          10,
+          2
+        ],
+        [
+          10,
+          9,
+          1
+        ],
+        [
+          2,
+          10,
+          2
+        ],
+        [
+          3,
+          9,
+          3
+        ],
+        [
+          4,
+          14,
+          3
+        ],
+        [
+          3,
+          14,
+          1
+        ]
+      ],
+      "transaction": {
+        "transaction_id": 12,
+        "available_mass_kg": 2.94634679822723e-11,
+        "requested_solid_voxels": 13,
+        "realized_solid_voxels": 13,
+        "committed_solid_mass_kg": 2.8080000000000008e-11,
+        "unrealized_requested_mass_kg": 0.0,
+        "subvoxel_mass_kg": 1.3834679822722896e-12,
+        "unallocated_mass_kg": 1.3834679822722896e-12,
+        "deferred_precipitation_mass_kg": 1.3834679822722896e-12,
+        "mass_remaining_in_solution_kg": 0.0,
+        "unallocated_state": "deferred",
+        "status": "committed"
+      },
+      "morphology": {
+        "seed_salt_voxels": 4,
+        "new_salt_voxels": 159,
+        "total_salt_voxels": 163,
+        "supply_connected_salt_voxels": 163,
+        "eligible_growth_voxels": 224,
+        "footprint_voxels": 62,
+        "occupied_salt_layers": 3,
+        "maximum_height_voxels_above_substrate": 3,
+        "seed_salt_mass_kg": 8.640000000000002e-12,
+        "new_salt_mass_kg": 3.434400000000001e-10,
+        "total_salt_mass_kg": 3.520800000000001e-10,
+        "retained_unallocated_mass_kg": 1.3834679822722896e-12,
+        "mass_closure_error_kg": 0.0
+      }
+    }
+  ],
+  "final_salt_coordinates": [
+    [
+      2,
+      3,
+      1
+    ],
+    [
+      2,
+      3,
+      2
+    ],
+    [
+      2,
+      3,
+      3
+    ],
+    [
+      2,
+      4,
+      1
+    ],
+    [
+      2,
+      4,
+      2
+    ],
+    [
+      2,
+      4,
+      3
+    ],
+    [
+      2,
+      5,
+      1
+    ],
+    [
+      2,
+      5,
+      2
+    ],
+    [
+      2,
+      10,
+      2
+    ],
+    [
+      2,
+      11,
+      1
+    ],
+    [
+      2,
+      11,
+      2
+    ],
+    [
+      2,
+      11,
+      3
+    ],
+    [
+      2,
+      12,
+      1
+    ],
+    [
+      2,
+      12,
+      2
+    ],
+    [
+      2,
+      12,
+      3
+    ],
+    [
+      2,
+      13,
+      1
+    ],
+    [
+      2,
+      13,
+      2
+    ],
+    [
+      2,
+      13,
+      3
+    ],
+    [
+      3,
+      3,
+      1
+    ],
+    [
+      3,
+      3,
+      2
+    ],
+    [
+      3,
+      3,
+      3
+    ],
+    [
+      3,
+      4,
+      1
+    ],
+    [
+      3,
+      4,
+      2
+    ],
+    [
+      3,
+      4,
+      3
+    ],
+    [
+      3,
+      5,
+      1
+    ],
+    [
+      3,
+      5,
+      2
+    ],
+    [
+      3,
+      5,
+      3
+    ],
+    [
+      3,
+      9,
+      1
+    ],
+    [
+      3,
+      9,
+      2
+    ],
+    [
+      3,
+      9,
+      3
+    ],
+    [
+      3,
+      10,
+      1
+    ],
+    [
+      3,
+      10,
+      2
+    ],
+    [
+      3,
+      10,
+      3
+    ],
+    [
+      3,
+      11,
+      1
+    ],
+    [
+      3,
+      11,
+      2
+    ],
+    [
+      3,
+      11,
+      3
+    ],
+    [
+      3,
+      12,
+      1
+    ],
+    [
+      3,
+      12,
+      2
+    ],
+    [
+      3,
+      12,
+      3
+    ],
+    [
+      3,
+      13,
+      1
+    ],
+    [
+      3,
+      13,
+      2
+    ],
+    [
+      3,
+      13,
+      3
+    ],
+    [
+      3,
+      14,
+      1
+    ],
+    [
+      4,
+      3,
+      1
+    ],
+    [
+      4,
+      3,
+      2
+    ],
+    [
+      4,
+      3,
+      3
+    ],
+    [
+      4,
+      4,
+      1
+    ],
+    [
+      4,
+      4,
+      2
+    ],
+    [
+      4,
+      4,
+      3
+    ],
+    [
+      4,
+      5,
+      1
+    ],
+    [
+      4,
+      5,
+      2
+    ],
+    [
+      4,
+      5,
+      3
+    ],
+    [
+      4,
+      9,
+      1
+    ],
+    [
+      4,
+      9,
+      2
+    ],
+    [
+      4,
+      10,
+      1
+    ],
+    [
+      4,
+      10,
+      2
+    ],
+    [
+      4,
+      10,
+      3
+    ],
+    [
+      4,
+      11,
+      1
+    ],
+    [
+      4,
+      11,
+      2
+    ],
+    [
+      4,
+      11,
+      3
+    ],
+    [
+      4,
+      12,
+      1
+    ],
+    [
+      4,
+      12,
+      2
+    ],
+    [
+      4,
+      12,
+      3
+    ],
+    [
+      4,
+      13,
+      1
+    ],
+    [
+      4,
+      13,
+      2
+    ],
+    [
+      4,
+      13,
+      3
+    ],
+    [
+      4,
+      14,
+      1
+    ],
+    [
+      4,
+      14,
+      2
+    ],
+    [
+      4,
+      14,
+      3
+    ],
+    [
+      5,
+      3,
+      1
+    ],
+    [
+      5,
+      3,
+      2
+    ],
+    [
+      5,
+      3,
+      3
+    ],
+    [
+      5,
+      4,
+      1
+    ],
+    [
+      5,
+      4,
+      2
+    ],
+    [
+      5,
+      4,
+      3
+    ],
+    [
+      5,
+      5,
+      1
+    ],
+    [
+      5,
+      5,
+      2
+    ],
+    [
+      5,
+      5,
+      3
+    ],
+    [
+      5,
+      10,
+      1
+    ],
+    [
+      5,
+      10,
+      2
+    ],
+    [
+      5,
+      11,
+      1
+    ],
+    [
+      5,
+      11,
+      2
+    ],
+    [
+      5,
+      11,
+      3
+    ],
+    [
+      5,
+      12,
+      1
+    ],
+    [
+      5,
+      12,
+      2
+    ],
+    [
+      5,
+      12,
+      3
+    ],
+    [
+      5,
+      13,
+      1
+    ],
+    [
+      5,
+      13,
+      2
+    ],
+    [
+      5,
+      13,
+      3
+    ],
+    [
+      5,
+      14,
+      1
+    ],
+    [
+      5,
+      14,
+      2
+    ],
+    [
+      6,
+      3,
+      1
+    ],
+    [
+      6,
+      3,
+      2
+    ],
+    [
+      6,
+      3,
+      3
+    ],
+    [
+      6,
+      4,
+      1
+    ],
+    [
+      6,
+      4,
+      2
+    ],
+    [
+      6,
+      4,
+      3
+    ],
+    [
+      6,
+      5,
+      1
+    ],
+    [
+      6,
+      5,
+      2
+    ],
+    [
+      6,
+      5,
+      3
+    ],
+    [
+      10,
+      9,
+      1
+    ],
+    [
+      10,
+      9,
+      2
+    ],
+    [
+      10,
+      10,
+      2
+    ],
+    [
+      11,
+      2,
+      1
+    ],
+    [
+      11,
+      2,
+      2
+    ],
+    [
+      11,
+      2,
+      3
+    ],
+    [
+      11,
+      3,
+      1
+    ],
+    [
+      11,
+      3,
+      2
+    ],
+    [
+      11,
+      3,
+      3
+    ],
+    [
+      11,
+      4,
+      1
+    ],
+    [
+      11,
+      4,
+      2
+    ],
+    [
+      11,
+      4,
+      3
+    ],
+    [
+      11,
+      5,
+      1
+    ],
+    [
+      11,
+      5,
+      2
+    ],
+    [
+      11,
+      5,
+      3
+    ],
+    [
+      11,
+      9,
+      1
+    ],
+    [
+      11,
+      9,
+      2
+    ],
+    [
+      11,
+      10,
+      1
+    ],
+    [
+      11,
+      10,
+      2
+    ],
+    [
+      11,
+      11,
+      1
+    ],
+    [
+      11,
+      11,
+      2
+    ],
+    [
+      11,
+      12,
+      1
+    ],
+    [
+      11,
+      12,
+      2
+    ],
+    [
+      12,
+      2,
+      1
+    ],
+    [
+      12,
+      2,
+      2
+    ],
+    [
+      12,
+      2,
+      3
+    ],
+    [
+      12,
+      3,
+      1
+    ],
+    [
+      12,
+      3,
+      2
+    ],
+    [
+      12,
+      3,
+      3
+    ],
+    [
+      12,
+      4,
+      1
+    ],
+    [
+      12,
+      4,
+      2
+    ],
+    [
+      12,
+      4,
+      3
+    ],
+    [
+      12,
+      5,
+      1
+    ],
+    [
+      12,
+      5,
+      2
+    ],
+    [
+      12,
+      5,
+      3
+    ],
+    [
+      12,
+      9,
+      1
+    ],
+    [
+      12,
+      9,
+      2
+    ],
+    [
+      12,
+      10,
+      1
+    ],
+    [
+      12,
+      10,
+      2
+    ],
+    [
+      12,
+      11,
+      1
+    ],
+    [
+      12,
+      11,
+      2
+    ],
+    [
+      12,
+      12,
+      1
+    ],
+    [
+      12,
+      12,
+      2
+    ],
+    [
+      13,
+      2,
+      1
+    ],
+    [
+      13,
+      2,
+      2
+    ],
+    [
+      13,
+      2,
+      3
+    ],
+    [
+      13,
+      3,
+      1
+    ],
+    [
+      13,
+      3,
+      2
+    ],
+    [
+      13,
+      3,
+      3
+    ],
+    [
+      13,
+      4,
+      1
+    ],
+    [
+      13,
+      4,
+      2
+    ],
+    [
+      13,
+      4,
+      3
+    ],
+    [
+      13,
+      5,
+      1
+    ],
+    [
+      13,
+      5,
+      2
+    ],
+    [
+      13,
+      5,
+      3
+    ],
+    [
+      13,
+      9,
+      1
+    ],
+    [
+      13,
+      9,
+      2
+    ],
+    [
+      13,
+      10,
+      1
+    ],
+    [
+      13,
+      10,
+      2
+    ],
+    [
+      13,
+      11,
+      1
+    ],
+    [
+      13,
+      11,
+      2
+    ],
+    [
+      13,
+      12,
+      1
+    ],
+    [
+      13,
+      12,
+      2
+    ]
+  ],
+  "final_morphology": {
+    "seed_salt_voxels": 4,
+    "new_salt_voxels": 159,
+    "total_salt_voxels": 163,
+    "supply_connected_salt_voxels": 163,
+    "eligible_growth_voxels": 224,
+    "footprint_voxels": 62,
+    "occupied_salt_layers": 3,
+    "maximum_height_voxels_above_substrate": 3,
+    "seed_salt_mass_kg": 8.640000000000002e-12,
+    "new_salt_mass_kg": 3.434400000000001e-10,
+    "total_salt_mass_kg": 3.520800000000001e-10,
+    "retained_unallocated_mass_kg": 1.3834679822722896e-12,
+    "mass_closure_error_kg": 0.0
+  }
+}
