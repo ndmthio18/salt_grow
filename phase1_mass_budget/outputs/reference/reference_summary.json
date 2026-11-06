@@ -24,6 +24,34 @@
   },
   "salt_to_water_mass_ratio": 0.3586956521739131,
   "voxel_mass_kg": 2.1600000000000005e-12,
+  "time_grid_point_count": 1441,
+  "capacity_diagnostic_rh_0.3": {
+    "grid_shape": [
+      64,
+      64,
+      64
+    ],
+    "voxel_size_m": 1e-05,
+    "domain_volume_m3": 2.6214400000000007e-10,
+    "initial_seed_voxel_count": 0,
+    "initial_seed_solid_volume_m3": 0.0,
+    "cumulative_precipitated_salt_volume_m3": 3.0650974931757546e-10,
+    "total_solid_volume_m3": 3.0650974931757546e-10,
+    "solid_volume_fraction": 1.169241902609159,
+    "maximum_permitted_solid_volume_fraction": 1.0,
+    "permitted_solid_volume_m3": 2.6214400000000007e-10,
+    "remaining_permitted_solid_volume_m3": 0.0,
+    "overflow_solid_volume_m3": 4.436574931757539e-11,
+    "fits_permitted_capacity": false,
+    "capacity_reach_time_s": 73894.03322545892,
+    "status": "capacity_exceeded",
+    "note": "The scalar solid inventory exceeds the permitted domain capacity; no salt mass may be silently discarded or converted to fictitious voxels."
+  },
+  "required_domain_heights_m": {
+    "solid_fraction_0.3": 0.002494382725566206,
+    "solid_fraction_0.5": 0.0014966296353397237,
+    "solid_fraction_0.7": 0.0010690211680998028
+  },
   "rows": [
     {
       "relative_humidity": 0.3,

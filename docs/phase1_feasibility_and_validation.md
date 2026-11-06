@@ -101,6 +101,12 @@ and Numba were absent. Consequently there are no defensible initial/final
 particle counts, runtime, conservation error, or morphology output for the
 original model on this host. A CUDA-to-CPU rewrite was intentionally not made.
 
+A later Phase 1.1 remote-resource check found an NVIDIA RTX 2060 on `frodo`,
+but that execution environment lacked both the CUDA toolkit and PyCUDA required
+by the audited reference implementation. The hardware observation therefore
+does not change the baseline status: the original CA still has not been run,
+and no GPU morphology or conservation result is claimed.
+
 ## Phase 1 physical model
 
 The implemented budget is

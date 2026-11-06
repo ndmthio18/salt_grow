@@ -18,3 +18,24 @@
 Status: Phase 1 accounting module GO. Phase 2 remains on hold for review and
 the explicit licensing, CUDA-baseline, calibration, and spatial-allocation
 gates in `docs/phase1_feasibility_and_validation.md`.
+
+## 2026-11-06 — Phase 1.1 complete
+
+- Added scalar domain-capacity diagnostics with configurable porosity reserve,
+  seed accounting, overflow status, and constant-rate capacity time.
+- Verified that the original 64-cubed, 10-um, RH=0.30, 24 h case requires
+  `116.924%` of the domain and reaches full-solid capacity at `20.526 h`.
+- Added a two-stage mass allocator: geometry requests do not become committed
+  solid until the realized voxel count is confirmed; all other mass remains
+  explicitly deferred or in solution.
+- Removed the hard-coded 1441-point time grid and made SVG identifiers and
+  metadata deterministic within the documented environment.
+- Added the Phase 2 material/phase/eligibility design without implementing the
+  CA, transport, permeability, or vapor solver.
+- Passed 53 Phase 1/1.1 tests and all 69 combined repository tests.
+- Confirmed remote NVIDIA hardware on frodo, but the exact reference-CA
+  environment remains unavailable because CUDA Toolkit and PyCUDA are absent.
+
+Status: conditional GO for a bounded independent CPU Phase 2 prototype after
+this task; NO-GO for the original 64-cubed 24 h geometry and for physical
+validation claims.
