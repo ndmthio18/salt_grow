@@ -88,3 +88,24 @@ remains limited as documented.
 
 Current status: M4 analysis complete; local cell-crossing conservation remains
 the explicit numerical limitation before a stronger pointwise claim.
+
+## 2026-11-06 — Independent CA Phase 1 mass budget
+
+- Audited `avredkov/3D-CA-Crystal-Life` at pinned commit `995f197` without
+  copying its unlicensed source into this repository.
+- Documented the lattice states, diffusion schedule, 2187-entry rule encoding,
+  intended closed-particle conservation, boundaries, initialization modes, and
+  missing physical calibration/external supply.
+- Could not execute the original GPU baseline: this host has Intel Arc graphics
+  and no NVIDIA/CUDA/PyCUDA environment. No GPU success claim was made.
+- Implemented an independent SI-unit evaporation/NaCl budget and conservative
+  mass-to-voxel ledger. Initial seeds remain separate from newly allocated mass.
+- Generated deterministic RH sweep and 24 h cumulative tables plus PNG/SVG
+  figures; visually checked the plot.
+- Passed 34 Phase 1 tests and 50 combined repository tests. The reference
+  `c_sat(298.15 K)` is 0.0230266 kg/m3; at RH 0.30 the illustrative model gives
+  `J_w=5.21553e-5 kg/(m2 s)` and `4.59765e-10 kg` NaCl per 60 s.
+
+Current Phase 1 status: GO for the independent accounting module, but Phase 2
+is held for review, CUDA baseline evidence, licensing, physical calibration,
+and an explicit spatial-allocation/conservation design.

@@ -19,6 +19,10 @@ model that permits internal precipitation and porosity evolution.
   [`prat_dynamic_growth/outputs/m3/`](prat_dynamic_growth/outputs/m3/)
 - M4 fixed-material and travelling-profile analysis:
   [`prat_dynamic_growth/M4_MATERIAL_HISTORY.md`](prat_dynamic_growth/M4_MATERIAL_HISTORY.md)
+- Independent Phase 1 evaporation and salt mass-budget validation:
+  [`docs/phase1_feasibility_and_validation.md`](docs/phase1_feasibility_and_validation.md)
+- Phase 1 source, tests, and reproducible reference case:
+  [`phase1_mass_budget/`](phase1_mass_budget/)
 
 The repository records numerical verification separately from physical
 validation. The reported reaction layer is smaller than the estimated crystal

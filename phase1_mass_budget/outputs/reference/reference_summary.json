@@ -1,0 +1,94 @@
+{
+  "provenance": {
+    "reference_ca_repository": "https://github.com/avredkov/3D-CA-Crystal-Life",
+    "reference_ca_commit": "995f197192988483140e6f7e773c496aa16cf76b",
+    "reference_ca_source_copied": false,
+    "gpu_baseline_executed": false,
+    "vapor_pressure_relation": "Buck (1981) over liquid water"
+  },
+  "assumptions": {
+    "temperature_k": 298.15,
+    "water_activity": 0.753,
+    "salt_mass_fraction": 0.264,
+    "solid_density_kg_m3": 2160.0,
+    "mass_transfer_coefficient_m_s": 0.005,
+    "grid": [
+      64,
+      64,
+      64
+    ],
+    "voxel_size_m": 1e-05,
+    "evaporation_area_m2": 4.0960000000000007e-07,
+    "timestep_s": 60.0,
+    "total_duration_s": 86400.0
+  },
+  "salt_to_water_mass_ratio": 0.3586956521739131,
+  "voxel_mass_kg": 2.1600000000000005e-12,
+  "rows": [
+    {
+      "relative_humidity": 0.3,
+      "regime": "evaporation",
+      "c_sat_kg_m3": 0.023026611554494373,
+      "evaporation_flux_kg_m2_s": 5.215527517092976e-05,
+      "water_rate_kg_s": 2.1362800710012833e-11,
+      "water_mass_per_60s_kg": 1.28176804260077e-09,
+      "salt_rate_kg_s": 7.662743732939387e-12,
+      "salt_mass_per_60s_kg": 4.5976462397636316e-10,
+      "salt_volume_per_60s_m3": 2.1285399258164962e-13,
+      "new_voxels_per_60s": 212,
+      "residual_mass_after_60s_kg": 1.844623976363053e-12
+    },
+    {
+      "relative_humidity": 0.5,
+      "regime": "evaporation",
+      "c_sat_kg_m3": 0.023026611554494373,
+      "evaporation_flux_kg_m2_s": 2.912866361643539e-05,
+      "water_rate_kg_s": 1.1931100617291938e-11,
+      "water_mass_per_60s_kg": 7.158660370375163e-10,
+      "salt_rate_kg_s": 4.279633917072109e-12,
+      "salt_mass_per_60s_kg": 2.567780350243265e-10,
+      "salt_volume_per_60s_m3": 1.1887871991866968e-13,
+      "new_voxels_per_60s": 118,
+      "residual_mass_after_60s_kg": 1.898035024326449e-12
+    },
+    {
+      "relative_humidity": 0.7,
+      "regime": "evaporation",
+      "c_sat_kg_m3": 0.023026611554494373,
+      "evaporation_flux_kg_m2_s": 6.102052061941026e-06,
+      "water_rate_kg_s": 2.4994005245710446e-12,
+      "water_mass_per_60s_kg": 1.4996403147426268e-10,
+      "salt_rate_kg_s": 8.965241012048313e-13,
+      "salt_mass_per_60s_kg": 5.379144607228988e-11,
+      "salt_volume_per_60s_m3": 2.490344725568976e-14,
+      "new_voxels_per_60s": 24,
+      "residual_mass_after_60s_kg": 1.951446072289871e-12
+    },
+    {
+      "relative_humidity": 0.753,
+      "regime": "equilibrium",
+      "c_sat_kg_m3": 0.023026611554494373,
+      "evaporation_flux_kg_m2_s": 0.0,
+      "water_rate_kg_s": 0.0,
+      "water_mass_per_60s_kg": 0.0,
+      "salt_rate_kg_s": 0.0,
+      "salt_mass_per_60s_kg": 0.0,
+      "salt_volume_per_60s_m3": 0.0,
+      "new_voxels_per_60s": 0,
+      "residual_mass_after_60s_kg": 0.0
+    },
+    {
+      "relative_humidity": 0.8,
+      "regime": "above_equilibrium_unmodeled",
+      "c_sat_kg_m3": 0.023026611554494373,
+      "evaporation_flux_kg_m2_s": 0.0,
+      "water_rate_kg_s": 0.0,
+      "water_mass_per_60s_kg": 0.0,
+      "salt_rate_kg_s": 0.0,
+      "salt_mass_per_60s_kg": 0.0,
+      "salt_volume_per_60s_m3": 0.0,
+      "new_voxels_per_60s": 0,
+      "residual_mass_after_60s_kg": 0.0
+    }
+  ]
+}
