@@ -257,6 +257,7 @@ def _rotation_covariance(
 
 def _resolution_gate(config: dict[str, object], catalogue: dict[str, object]):
     selection = config["selected_estimator"]
+    criteria = config["resolution_gate"]["criteria"]
     geometry = catalogue[config["resolution_gate"]["geometry"]]
     seed_width_m = 2.0 * geometry.half_width_m
     geometry = replace(geometry, domain_length_m=3.0 * seed_width_m)
@@ -276,7 +277,7 @@ def _resolution_gate(config: dict[str, object], catalogue: dict[str, object]):
             "valid_normal_fraction": 0.0,
             "face_interior_samples": 0,
             "p90_face_normal_error_deg": None,
-            "eligible_as_facet_convergence_evidence": bool(cells_across > 2),
+            "eligible_as_facet_convergence_evidence": False,
         }
         try:
             _, estimate, truth, classes = _estimate(
@@ -297,10 +298,17 @@ def _resolution_gate(config: dict[str, object], catalogue: dict[str, object]):
                     ),
                 }
             )
+            row["eligible_as_facet_convergence_evidence"] = bool(
+                int(cells_across) > 2
+                and int(row["face_interior_samples"])
+                >= int(criteria["facet_face_samples_min"])
+                and row["p90_face_normal_error_deg"] is not None
+                and float(row["p90_face_normal_error_deg"])
+                <= float(criteria["facet_p90_deg_max"])
+            )
         except ValueError as error:
             row["normal_estimator_status"] = f"unresolved: {error}"
         rows.append(row)
-    criteria = config["resolution_gate"]["criteria"]
     def minimum(predicate):
         matches = [int(row["cells_across_seed"]) for row in rows if predicate(row)]
         return min(matches) if matches else None

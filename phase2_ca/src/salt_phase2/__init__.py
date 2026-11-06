@@ -46,6 +46,12 @@ from .surface_orientation import (
     rotation_matrix_xyz_degrees,
     signed_distance_from_mask,
 )
+from .anisotropic_growth import (
+    CandidateNormalDiagnostic,
+    OrientationCandidateWeightModel,
+    candidate_interface_faces,
+    map_candidate_normals,
+)
 
 __all__ = [
     "AttachmentWeights",
@@ -92,4 +98,8 @@ __all__ = [
     "proper_cubic_rotations",
     "rotation_matrix_xyz_degrees",
     "signed_distance_from_mask",
+    "CandidateNormalDiagnostic",
+    "OrientationCandidateWeightModel",
+    "candidate_interface_faces",
+    "map_candidate_normals",
 ]

@@ -1,0 +1,4 @@
+strategy,total_runtime_s,normal_runtime_s,recomputed_candidates,selected_sequence_equals_full,final_mask_equals_full,selected_weight_max_abs_error_vs_full,eligible_for_selection
+full,2.2411830999917584,2.1008470999950077,11420,True,True,0.0,True
+local,0.6033655000064755,0.441129800005001,2114,True,True,0.0,True
+cached,0.43325370000093244,0.30420180001237895,1460,False,False,nan,False

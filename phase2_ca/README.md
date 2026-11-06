@@ -60,6 +60,19 @@ assessment is `docs/phase2a_3a_normals_orientation_verification.md`. The result
 is conditional GO for a resolved single-grain orientation pilot only; one- and
 two-voxel seeds, multi-grain growth, and transport coupling remain NO-GO.
 
+Run the Phase 2A.3b-0 candidate-normal and anisotropic-growth interface
+validation with:
+
+```powershell
+python phase2_ca/run_phase2a3b0_validation.py --config phase2_ca/configs/phase2a3b0_protocol.json --output phase2_ca/outputs/phase2a3b0_reproduced
+```
+
+The campaign compares two predeclared edge/corner policies, physical-scale
+transfer, full/local/cached normal updates, alpha-zero equivalence, pinned RNG
+reproducibility, and joint-rotation covariance. See
+`docs/phase2a_3b0_growth_interface_validation.md`. The GO is limited to a
+resolved single-grain numerical pilot with both edge policies retained.
+
 Run the Phase 2A.2 rollback, grid-sensitivity, pore-envelope, and morphology
 feasibility audit with:
 

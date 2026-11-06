@@ -1,0 +1,12 @@
+{
+  "mass_closure": true,
+  "alpha_zero_exact": true,
+  "pinned_reproducibility": true,
+  "cubic_symmetry": true,
+  "scale_transfer": true,
+  "joint_rotation_covariance": true,
+  "performance_strategy": "local",
+  "four_voxel_corrected_ineligible": true,
+  "overall_pass": true,
+  "decision": "GO for full Phase 2A.3b single-grain numerical pilot"
+}

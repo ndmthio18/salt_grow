@@ -1,0 +1,12 @@
+{
+  "stage": "phase2a_3b0_growth_interface_validation",
+  "base_commit": "6b9c97201dd6c393af07cec24351a3bcf1426739",
+  "config": "phase2_ca/configs/phase2a3b0_protocol.json",
+  "config_sha256": "97372f1d6e077ed492e6876f37d4a355c0411ca31b7ad55eebdfa82d544acbef",
+  "python": "3.12.4",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "numpy": "2.0.0",
+  "growth_case_count": 42,
+  "candidate_snapshot_row_count": 16704,
+  "physical_validation_claimed": false
+}

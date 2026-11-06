@@ -1,0 +1,13 @@
+rotation_index,rng_seed,edge_policy,selected_sequence_exact,final_mask_exact,mass_exact
+0,101,smooth_average,True,True,True
+0,101,isotropic_ambiguous,True,True,True
+0,202,smooth_average,True,True,True
+0,202,isotropic_ambiguous,True,True,True
+0,303,smooth_average,True,True,True
+0,303,isotropic_ambiguous,True,True,True
+1,101,smooth_average,True,True,True
+1,101,isotropic_ambiguous,True,True,True
+1,202,smooth_average,True,True,True
+1,202,isotropic_ambiguous,True,True,True
+1,303,smooth_average,True,True,True
+1,303,isotropic_ambiguous,True,True,True

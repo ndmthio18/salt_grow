@@ -1,0 +1,9 @@
+{
+  "original_locked_file": "phase2_ca/outputs/phase2a3a_locked/resolution_gate.csv",
+  "original_locked_sha256": "6a00e3db0604c741a25972e05e52fab54e401cfb53b77dcc00af8570a8038b3c",
+  "original_locked_file_modified": false,
+  "one_alignment_volume_result": "preserved only as the original locked diagnostic",
+  "robust_alignment_rotation_audit": "remains a separately labelled post-lock diagnostic",
+  "four_voxel_original_flag": "True",
+  "four_voxel_corrected_flag": false
+}

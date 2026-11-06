@@ -1,0 +1,5 @@
+case_id,selected_sequence_exact,final_mask_exact
+R0_a+1.03972077084_smooth_average_seed101,True,True
+R0_a+1.03972077084_isotropic_ambiguous_seed101,True,True
+R1_a+1.03972077084_smooth_average_seed101,True,True
+R1_a+1.03972077084_isotropic_ambiguous_seed101,True,True

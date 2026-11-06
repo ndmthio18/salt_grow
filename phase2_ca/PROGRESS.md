@@ -93,3 +93,26 @@ physical calibration claims, permeability, liquid transport, or Phase 2B.
 Status: conditional GO for a resolved single-grain CA orientation pilot only.
 No growth physics, multi-grain interaction, film flow, permeability, vapour
 diffusion, PNM coupling, or physical calibration was implemented.
+
+## 2026-11-06 — Phase 2A.3b-0 orientation-to-growth interface
+
+- Mapped every eligible empty growth voxel to reconstructed normals at all
+  adjacent salt-interface faces; no Cartesian face direction was substituted
+  for the reconstructed normal.
+- Added smooth-average and isotropic-ambiguous edge/corner policies with
+  candidate-level quality, class, eligibility, and weight records.
+- Tested dimensionless fitting-radius transfer on 320/480 µm continuous cubes,
+  16/24/32 cells across, two rotations, and two radius ratios.
+- Preserved the original Phase 2A.3a locked data and added corrected resolution
+  metadata; four and eight cells are excluded from facet evidence.
+- Integrated cubic weights into the transactional sequential CA, including
+  rollback of normal caches and diagnostics.
+- Ran 42 paired CPU growth cases across two rotations, three alpha values, two
+  edge policies, and three numerical RNG seeds; all mass closures were exact.
+- Selected conservative local invalidation after exact agreement with full
+  recomputation; rejected the faster stale adjacency-only cache.
+- Passed 128 combined repository tests.
+
+Status: conditional GO for a bounded full Phase 2A.3b single-grain numerical
+pilot with both edge policies retained. NO-GO for a uniquely selected physical
+edge rule, calibrated NaCl kinetics, multi-grain growth, or transport coupling.

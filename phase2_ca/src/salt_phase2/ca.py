@@ -6,7 +6,7 @@ from collections import deque
 import copy
 from dataclasses import dataclass
 import math
-from typing import Literal
+from typing import Literal, Protocol
 
 import numpy as np
 from numpy.typing import NDArray
@@ -95,6 +95,24 @@ class AttachmentWeights:
         ).astype(float)
 
 
+class CandidateWeightModel(Protocol):
+    """Transactional optional weighting model for eligible growth sites."""
+
+    def weights_for_candidates(
+        self,
+        salt_mask: NDArray[np.bool_],
+        coordinates: list[Coordinate],
+    ) -> NDArray[np.float64]: ...
+
+    def record_selection(self, coordinate: Coordinate) -> None: ...
+
+    def notify_insertion(self, coordinate: Coordinate) -> None: ...
+
+    def snapshot_state(self) -> object: ...
+
+    def restore_state(self, snapshot: object) -> None: ...
+
+
 class SaltGrowthCA:
     """Minimal mass-conservative CA with a conceptual surface-film supply rule.
 
@@ -116,6 +134,7 @@ class SaltGrowthCA:
         update_mode: Literal["synchronous", "sequential"] = "synchronous",
         attachment_weights: AttachmentWeights | None = None,
         rng_seed: int = 0,
+        candidate_weight_model: CandidateWeightModel | None = None,
     ) -> None:
         state.validate()
         if not isinstance(enforce_wetting, bool):
@@ -136,6 +155,7 @@ class SaltGrowthCA:
         self.attachment_weights = attachment_weights or AttachmentWeights()
         self.rng_seed = int(rng_seed)
         self.rng = np.random.default_rng(self.rng_seed)
+        self.candidate_weight_model = candidate_weight_model
         self.allocator = TransactionalMassToVoxelAllocator(
             solid_density_kg_m3=solid_density_kg_m3,
             voxel_size_m=voxel_size_m,
@@ -242,9 +262,17 @@ class SaltGrowthCA:
             dtype=np.uint8,
         )
         weights = self.attachment_weights.values_for(coordination)
+        if self.candidate_weight_model is not None:
+            weights *= self.candidate_weight_model.weights_for_candidates(
+                self.state.material == Material.SALT,
+                coordinates,
+            )
         probabilities = weights / np.sum(weights)
         index = int(self.rng.choice(len(coordinates), p=probabilities))
-        return coordinates[index]
+        selected = coordinates[index]
+        if self.candidate_weight_model is not None:
+            self.candidate_weight_model.record_selection(selected)
+        return selected
 
     def _synchronous_selection(
         self,
@@ -274,11 +302,20 @@ class SaltGrowthCA:
             dtype=np.uint8,
         )
         weights = self.attachment_weights.values_for(coordination)
+        if self.candidate_weight_model is not None:
+            weights *= self.candidate_weight_model.weights_for_candidates(
+                self.state.material == Material.SALT,
+                coordinates,
+            )
         probabilities = weights / np.sum(weights)
         indices = self.rng.choice(
             len(coordinates), size=realized, replace=False, p=probabilities
         )
-        return tuple(coordinates[int(index)] for index in indices)
+        selected = tuple(coordinates[int(index)] for index in indices)
+        if self.candidate_weight_model is not None:
+            for coordinate in selected:
+                self.candidate_weight_model.record_selection(coordinate)
+        return selected
 
     def _sequential_selection(
         self, *, requested: int, transaction_id: int
@@ -316,6 +353,8 @@ class SaltGrowthCA:
         if self.state.material[coordinate] != Material.EMPTY:
             raise RuntimeError("tentative growth target is not empty")
         self.state.material[coordinate] = Material.SALT
+        if self.candidate_weight_model is not None:
+            self.candidate_weight_model.notify_insertion(coordinate)
 
     def grow(
         self,
@@ -330,6 +369,11 @@ class SaltGrowthCA:
         material_before = self.state.material.copy()
         rng_state_before = copy.deepcopy(self.rng.bit_generator.state)
         allocator_before = self.allocator.snapshot_state()
+        weight_model_before = (
+            self.candidate_weight_model.snapshot_state()
+            if self.candidate_weight_model is not None
+            else None
+        )
         selected: tuple[Coordinate, ...] = ()
         try:
             proposal = self.allocator.prepare(
@@ -346,6 +390,8 @@ class SaltGrowthCA:
                 )
                 for coordinate in selected:
                     self.state.material[coordinate] = Material.SALT
+                    if self.candidate_weight_model is not None:
+                        self.candidate_weight_model.notify_insertion(coordinate)
             else:
                 candidate_count, selected = self._sequential_selection(
                     requested=proposal.requested_solid_voxels,
@@ -362,6 +408,8 @@ class SaltGrowthCA:
             self.state.material[...] = material_before
             self.allocator.restore_state(allocator_before)
             self.rng.bit_generator.state = rng_state_before
+            if self.candidate_weight_model is not None:
+                self.candidate_weight_model.restore_state(weight_model_before)
             self.assert_invariants()
             raise
 
