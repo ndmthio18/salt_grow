@@ -64,6 +64,13 @@ from .anisotropic_metrics import (
     sample_fixed_front,
     symmetric_chamfer_distance,
 )
+from .anisotropy_diagnosis import (
+    equivalent_displacement_m,
+    group_allocation,
+    support_advances_m,
+    uniform_cube_facet_displacement_m,
+    volume_fraction_for_facet_displacement,
+)
 
 __all__ = [
     "AttachmentWeights",
@@ -124,4 +131,9 @@ __all__ = [
     "ideal_cubic_direction_families",
     "sample_fixed_front",
     "symmetric_chamfer_distance",
+    "equivalent_displacement_m",
+    "group_allocation",
+    "support_advances_m",
+    "uniform_cube_facet_displacement_m",
+    "volume_fraction_for_facet_displacement",
 ]

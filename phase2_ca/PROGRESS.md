@@ -140,3 +140,29 @@ edge rule, calibrated NaCl kinetics, multi-grain growth, or transport coupling.
 Status: numerical selector and cache accepted; **NO-GO for a complete
 single-grain anisotropic morphology model**. Do not proceed automatically to
 multigrain growth or transport coupling.
+
+## 2026-11-06 — Phase 2A.3b-2 weak-anisotropy mechanism diagnosis
+
+- Preserved the Phase 2A.3b-1 failed 1.25 morphology-signal gate unchanged.
+- Calculated that 10% uniform cubic growth advances a 160 micrometre facet only
+  2.582 micrometres or 0.258 of a 10 micrometre voxel; 42.3828% is required for
+  one mean voxel layer.
+- Reanalyzed 14,760 existing event records and separated alpha, seed,
+  rotation/grid, and edge-policy distributions without rerunning them.
+- Proved with frozen `<100>/<110>/<111>` planes that site-weighted displacement
+  equals weight multiplied by orientation-dependent candidate density, not
+  weight alone.
+- Found that the isotropic ambiguous policy suppresses crystallographic weights
+  on digital `<110>/<111>` staircase planes.
+- Passed a 1735-event feasibility gate, then ran a frozen 15-case, three-seed,
+  five-depth controlled matrix in a boundary-clear 48 cubed domain.
+- Verified exact periodic full/local cache diagnostics and mass closure within
+  1.03e-25 kg across 75 controlled stage states.
+- Found signed area-normalized facet response, strongest for negative alpha,
+  but positive-alpha response remained seed-sensitive and policy-dependent.
+- All final Chamfer signal/baseline ratios remained 0.886-1.002, below the
+  unchanged 1.25 threshold; Chamfer also decreased with point-cloud density.
+
+Status: **NO-GO for the current site-weighted law and porous-salt continuation.**
+A separately specified area/flux-based kinetic closure is required before any
+further morphology physics. Multigrain and transport work remain out of scope.

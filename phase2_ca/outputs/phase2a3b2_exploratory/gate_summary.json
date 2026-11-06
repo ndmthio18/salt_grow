@@ -1,0 +1,12 @@
+{
+  "realized_all_target_events": true,
+  "domain_boundary_clear": true,
+  "domain_boundary_salt_voxels": 0,
+  "periodic_full_cache_exact": true,
+  "mass_closure": true,
+  "runtime_within_budget": true,
+  "final_runtime_s": 145.2456494000071,
+  "controlled_campaign_maximum_workers": 6,
+  "overall_pass": true,
+  "decision": "PROCEED_TO_CONTROLLED_PROTOCOL"
+}

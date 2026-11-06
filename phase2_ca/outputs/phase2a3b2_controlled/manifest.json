@@ -1,0 +1,13 @@
+{
+  "stage": "controlled",
+  "base_commit": "f39fb8bb1e304f50c5b0662cbb5e100f54dd19c4",
+  "config": "phase2_ca/configs/phase2a3b2_controlled.json",
+  "config_sha256": "aadab2f5c6ff4c089785a467d75af0631f930f4f139b766c75edbde4d697a33e",
+  "python": "3.12.4",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "numpy": "2.0.0",
+  "runtime_s": 593.7925380000088,
+  "maximum_workers": 6,
+  "phase2a3b1_no_go_preserved": true,
+  "physical_validation_claimed": false
+}

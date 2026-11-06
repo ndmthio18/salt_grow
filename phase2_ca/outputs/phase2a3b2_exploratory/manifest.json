@@ -1,0 +1,13 @@
+{
+  "stage": "exploratory",
+  "base_commit": "f39fb8bb1e304f50c5b0662cbb5e100f54dd19c4",
+  "config": "phase2_ca/configs/phase2a3b2_exploratory.json",
+  "config_sha256": "97c2231df5b67fbf91767e501659bb942b2643ae0f4f94bb4346353ac8fca038",
+  "python": "3.12.4",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "numpy": "2.0.0",
+  "runtime_s": 169.63291929999832,
+  "maximum_workers": 1,
+  "phase2a3b1_no_go_preserved": true,
+  "physical_validation_claimed": false
+}

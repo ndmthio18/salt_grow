@@ -1,0 +1,6 @@
+{
+  "n_comparisons": 216,
+  "spearman_chamfer_vs_event_family_l1": 0.6433278974184868,
+  "spearman_chamfer_vs_facet_area_l1": -0.11981169843153512,
+  "interpretation": "Chamfer is complementary, not sufficient: it has no sign and does not directly measure facet-normal advance."
+}

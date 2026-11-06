@@ -1,0 +1,11 @@
+{
+  "preserved_phase2a3b1_no_go": true,
+  "periodic_full_cache_exact": true,
+  "mass_closure": true,
+  "domain_boundary_clear": true,
+  "retained_phase2a3b1_morphology_signal_gate": false,
+  "facet_contrast_sign_consistency": true,
+  "site_weighted_law_has_unique_physical_velocity_mapping": false,
+  "current_site_weighted_model_go": false,
+  "decision": "NO-GO: modified kinetic growth law required before porous-salt continuation"
+}

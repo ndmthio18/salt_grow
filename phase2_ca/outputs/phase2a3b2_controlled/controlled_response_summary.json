@@ -1,0 +1,72 @@
+{
+  "alpha_zero_seed_chamfer_values_voxels": [
+    0.7736098585273001,
+    0.7442787381620259,
+    0.7714498646242687
+  ],
+  "alpha_zero_seed_chamfer_median_voxels": 0.7714498646242687,
+  "conditions": {
+    "smooth_average|-1.03972077084": {
+      "median_chamfer_voxels": 0.7430148678417481,
+      "chamfer_range_voxels": [
+        0.7290588947503654,
+        0.7754374189851567
+      ],
+      "alpha_zero_seed_baseline_median_voxels": 0.7714498646242687,
+      "signal_to_baseline_ratio": 0.9631408363829712,
+      "equivalent_displacement_contrast_um": [
+        -3.7350250390675517,
+        -1.9276436058596231,
+        -1.9719807928383482
+      ],
+      "expected_sign_fraction": 1.0
+    },
+    "smooth_average|+1.03972077084": {
+      "median_chamfer_voxels": 0.7178427630944995,
+      "chamfer_range_voxels": [
+        0.7126662289534245,
+        0.7467733405326105
+      ],
+      "alpha_zero_seed_baseline_median_voxels": 0.7714498646242687,
+      "signal_to_baseline_ratio": 0.9305112308809875,
+      "equivalent_displacement_contrast_um": [
+        -0.22510448782414816,
+        2.677170451514994,
+        1.4129553304803424
+      ],
+      "expected_sign_fraction": 0.6666666666666666
+    },
+    "isotropic_ambiguous|-1.03972077084": {
+      "median_chamfer_voxels": 0.683461415533686,
+      "chamfer_range_voxels": [
+        0.6615389697959946,
+        0.7324863067770231
+      ],
+      "alpha_zero_seed_baseline_median_voxels": 0.7714498646242687,
+      "signal_to_baseline_ratio": 0.8859440475325806,
+      "equivalent_displacement_contrast_um": [
+        -2.787981571834657,
+        -0.2491335045890537,
+        -2.0082441692990316
+      ],
+      "expected_sign_fraction": 1.0
+    },
+    "isotropic_ambiguous|+1.03972077084": {
+      "median_chamfer_voxels": 0.7732848567656121,
+      "chamfer_range_voxels": [
+        0.7014916539995915,
+        0.794379049949787
+      ],
+      "alpha_zero_seed_baseline_median_voxels": 0.7714498646242687,
+      "signal_to_baseline_ratio": 1.0023786278609785,
+      "equivalent_displacement_contrast_um": [
+        0.13266136995080346,
+        2.400488844022006,
+        -1.2018277638301567
+      ],
+      "expected_sign_fraction": 0.6666666666666666
+    }
+  },
+  "retained_morphology_signal_gate": false,
+  "facet_contrast_sign_consistency": true
+}

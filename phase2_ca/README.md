@@ -87,6 +87,18 @@ supply control pass. The registered 10% growth-only morphology-signal gate
 fails, so the complete single-grain morphology model and all multigrain or
 transport extensions remain NO-GO.
 
+Run the Phase 2A.3b-2 weak-anisotropy diagnosis in its gated order with:
+
+```powershell
+python phase2_ca/run_phase2a3b2_diagnosis.py --stage exploratory --config phase2_ca/configs/phase2a3b2_exploratory.json --output phase2_ca/outputs/phase2a3b2_exploratory_reproduced
+python phase2_ca/run_phase2a3b2_diagnosis.py --stage controlled --config phase2_ca/configs/phase2a3b2_controlled.json --output phase2_ca/outputs/phase2a3b2_controlled_reproduced
+```
+
+See `docs/phase2a_3b2_anisotropy_diagnosis.md`. The diagnosis preserves the
+Phase 2A.3b-1 failure, quantifies sub-voxel growth depth, audits the missing
+probability-to-velocity closure, and tests one mean voxel layer with paired
+seeds. The current site-weighted CA remains NO-GO as a physical morphology law.
+
 Run the Phase 2A.2 rollback, grid-sensitivity, pore-envelope, and morphology
 feasibility audit with:
 

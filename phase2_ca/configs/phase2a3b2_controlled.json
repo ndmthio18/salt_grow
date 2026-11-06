@@ -1,0 +1,39 @@
+{
+  "stage": "controlled",
+  "base_commit": "f39fb8bb1e304f50c5b0662cbb5e100f54dd19c4",
+  "exploratory_config_sha256": "97c2231df5b67fbf91767e501659bb942b2643ae0f4f94bb4346353ac8fca038",
+  "exploratory_gate_sha256": "7a52929216d3595250ddd5e58d09c5028a254901c4e10025e1574ef077108dbf",
+  "exploratory_inventory_sha256": "6668b6d059e66479c561224c861cbe7e798eb17de3e06640ea4c0a17c20c1b19",
+  "preserved_phase2a3b1_decision": "NO-GO pending failed Phase 2A.3b-1 morphology-signal gate",
+  "voxel_size_um": 10.0,
+  "grain_size_um": 160.0,
+  "fitting_radius_over_grain_size": 0.25,
+  "quality_minimum": 0.6,
+  "near_family_tolerance_deg": 15.0,
+  "alpha_magnitude": 1.0397207708399179,
+  "edge_policies": ["smooth_average", "isotropic_ambiguous"],
+  "controlled_campaign": {
+    "shape": [48, 48, 48],
+    "rotation_xyz_deg": [17.0, 23.0, 11.0],
+    "rng_seeds": [101, 202, 303],
+    "stage_fractions": [0.01, 0.05, 0.10, 0.20, 0.423828125],
+    "stage_events": [41, 205, 410, 819, 1735],
+    "solid_density_kg_m3": 2160.0,
+    "maximum_workers": 6,
+    "unique_case_count": 15,
+    "alpha_zero_reuse_rule": "Alpha zero is identical for both edge policies, so one paired trajectory per seed is reused as the common control."
+  },
+  "acceptance": {
+    "retained_phase2a3b1_signal_ratio_min": 1.25,
+    "minimum_seed_sign_fraction": 0.6666666666666666,
+    "cache_weight_tolerance": 1e-12,
+    "boundary_salt_voxels_max": 0
+  },
+  "proposed_physical_closure_not_implemented": {
+    "statement": "Define facet or interface-patch volume flux as dV_k/dt proportional to A_k times kappa(n_k), normalize the integrated fluxes to the externally supplied salt-volume budget, and use voxel insertion only as a conservative geometric realization step.",
+    "reason": "Candidate-site counts and digital staircasing are numerical properties; they must not define physical facet-normal velocity.",
+    "edge_requirement": "Edges and corners require an explicit interface partition or flux-sharing rule before implementation; assigning unit site weight is not a physical closure.",
+    "implemented_in_this_phase": false
+  },
+  "locked_protocol": "The 15-case single-orientation campaign, three paired seeds, five cumulative depths, metrics, original 1.25 signal threshold, and two-thirds sign-consistency rule were frozen after the one-case feasibility gate and before controlled outcomes. Phase 2A.3b-1 remains failed regardless of this result."
+}

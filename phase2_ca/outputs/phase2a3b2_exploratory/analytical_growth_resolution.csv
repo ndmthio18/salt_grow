@@ -1,0 +1,7 @@
+added_volume_fraction,facet_displacement_um,facet_displacement_voxels,is_at_least_one_voxel_layer,interpretation
+0.01,0.265782683367135,0.026578268336713506,False,"uniform cubic expansion, not nonuniform CA deposition"
+0.05,1.3117085451882813,0.13117085451882815,False,"uniform cubic expansion, not nonuniform CA deposition"
+0.1,2.582409236509377,0.25824092365093776,False,"uniform cubic expansion, not nonuniform CA deposition"
+0.2,5.012685534608891,0.5012685534608892,False,"uniform cubic expansion, not nonuniform CA deposition"
+0.42,9.919269169138136,0.9919269169138137,False,"uniform cubic expansion, not nonuniform CA deposition"
+0.423828125,10.0,1.0,True,"uniform cubic expansion, not nonuniform CA deposition"

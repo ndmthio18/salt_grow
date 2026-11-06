@@ -766,6 +766,7 @@ def locked_growth_worker(case: dict[str, object]) -> dict[str, object]:
     previous_surface = None
     event_rows: list[dict[str, object]] = []
     stage_rows: list[dict[str, object]] = []
+    stage_masks: list[np.ndarray] = []
     started = perf_counter()
     for stage_fraction, target_events in zip(case["stage_fractions"], case["stage_events"], strict=True):
         delta = int(target_events) - previous_target
@@ -872,16 +873,21 @@ def locked_growth_worker(case: dict[str, object]) -> dict[str, object]:
             row[f"new_event_fraction_{column}"] = count / delta if delta else 0.0
             row[f"area_normalized_events_{column}_m_minus2"] = count / mean_area if mean_area > 0.0 else 0.0
         stage_rows.append(row)
+        if bool(case.get("retain_stage_masks", False)):
+            stage_masks.append(final_mask.copy())
         previous_surface = surface
         previous_target = int(target_events)
     ca.assert_invariants()
     final_mask = state.material == Material.SALT
-    return {
+    output = {
         "case_id": case["case_id"],
         "stage_rows": stage_rows,
         "event_rows": event_rows,
         "final_mask": final_mask,
     }
+    if bool(case.get("retain_stage_masks", False)):
+        output["stage_masks"] = stage_masks
+    return output
 
 
 def locked_growth_matrix(config: dict[str, object]) -> list[dict[str, object]]:

@@ -15,3 +15,7 @@ phase2_ca/outputs/phase2a3b1_development/*.svg -whitespace linguist-generated=tr
 phase2_ca/outputs/phase2a3b1_development/*.csv linguist-generated=true
 phase2_ca/outputs/phase2a3b1_locked/*.svg -whitespace linguist-generated=true
 phase2_ca/outputs/phase2a3b1_locked/*.csv linguist-generated=true
+phase2_ca/outputs/phase2a3b2_exploratory/*.svg -whitespace linguist-generated=true
+phase2_ca/outputs/phase2a3b2_exploratory/*.csv linguist-generated=true
+phase2_ca/outputs/phase2a3b2_controlled/*.svg -whitespace linguist-generated=true
+phase2_ca/outputs/phase2a3b2_controlled/*.csv linguist-generated=true
