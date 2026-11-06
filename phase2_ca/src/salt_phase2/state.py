@@ -104,7 +104,7 @@ def initialize_physical_state(
     seed_coordinates: Sequence[Sequence[int]],
     wetted_seed_indices: Sequence[int] | None = None,
 ) -> PhysicalState:
-    """Create a bottom substrate and salt seeds immediately above its surface."""
+    """Create a bottom substrate and seed bodies that touch its top surface."""
 
     checked_shape = _validate_shape(shape)
     if isinstance(substrate_layers, bool) or int(substrate_layers) != substrate_layers:
@@ -120,8 +120,10 @@ def initialize_physical_state(
     ]
     if len(set(coordinates)) != len(coordinates):
         raise ValueError("seed coordinates must be unique")
-    if any(coordinate[2] != substrate_layers for coordinate in coordinates):
-        raise ValueError("seeds must lie immediately above the substrate interface")
+    if any(coordinate[2] < substrate_layers for coordinate in coordinates):
+        raise ValueError("seed coordinates cannot overlap the substrate")
+    if not any(coordinate[2] == substrate_layers for coordinate in coordinates):
+        raise ValueError("at least one seed voxel must touch the substrate interface")
 
     if wetted_seed_indices is None:
         wet_indices = set(range(len(coordinates)))

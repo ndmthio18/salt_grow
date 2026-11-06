@@ -166,6 +166,19 @@ class TransactionResult:
     status: str
 
 
+@dataclass(frozen=True)
+class AllocatorStateSnapshot:
+    """Complete mutable ledger state used for exception-safe rollback."""
+
+    deferred_precipitation_mass_kg: float
+    mass_remaining_in_solution_kg: float
+    cumulative_input_mass_kg: float
+    cumulative_committed_solid_mass_kg: float
+    cumulative_realized_solid_voxels: int
+    next_transaction_id: int
+    pending: AllocationProposal | None
+
+
 class TransactionalMassToVoxelAllocator:
     """Two-stage ledger for future coupling to a spatial growth algorithm.
 
@@ -204,6 +217,40 @@ class TransactionalMassToVoxelAllocator:
         """Return whether a proposal is awaiting commit or abort."""
 
         return self._pending is not None
+
+    def snapshot_state(self) -> AllocatorStateSnapshot:
+        """Return an immutable snapshot of every mutable ledger field."""
+
+        return AllocatorStateSnapshot(
+            deferred_precipitation_mass_kg=self.deferred_precipitation_mass_kg,
+            mass_remaining_in_solution_kg=self.mass_remaining_in_solution_kg,
+            cumulative_input_mass_kg=self.cumulative_input_mass_kg,
+            cumulative_committed_solid_mass_kg=(
+                self.cumulative_committed_solid_mass_kg
+            ),
+            cumulative_realized_solid_voxels=self.cumulative_realized_solid_voxels,
+            next_transaction_id=self._next_transaction_id,
+            pending=self._pending,
+        )
+
+    def restore_state(self, snapshot: AllocatorStateSnapshot) -> None:
+        """Restore a snapshot after an exception in a coupled geometry update."""
+
+        if not isinstance(snapshot, AllocatorStateSnapshot):
+            raise TypeError("snapshot must be an AllocatorStateSnapshot")
+        self.deferred_precipitation_mass_kg = (
+            snapshot.deferred_precipitation_mass_kg
+        )
+        self.mass_remaining_in_solution_kg = snapshot.mass_remaining_in_solution_kg
+        self.cumulative_input_mass_kg = snapshot.cumulative_input_mass_kg
+        self.cumulative_committed_solid_mass_kg = (
+            snapshot.cumulative_committed_solid_mass_kg
+        )
+        self.cumulative_realized_solid_voxels = (
+            snapshot.cumulative_realized_solid_voxels
+        )
+        self._next_transaction_id = snapshot.next_transaction_id
+        self._pending = snapshot.pending
 
     def prepare(
         self,

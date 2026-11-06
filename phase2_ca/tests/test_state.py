@@ -44,3 +44,16 @@ def test_seed_must_remain_salt():
     state.material[2, 2, 1] = Material.EMPTY
     with pytest.raises(ValueError, match="seed"):
         state.validate()
+
+
+def test_multilayer_seed_block_is_allowed_when_it_touches_substrate():
+    coordinates = tuple(
+        (x, y, z) for x in (2, 3) for y in (2, 3) for z in (2, 3)
+    )
+    state = initialize_physical_state(
+        shape=(7, 7, 7),
+        substrate_layers=2,
+        seed_coordinates=coordinates,
+    )
+    assert state.initial_seed_voxel_count == 8
+    assert np.all(state.material[2:4, 2:4, 2:4] == Material.SALT)

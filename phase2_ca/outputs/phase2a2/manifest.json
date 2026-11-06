@@ -1,0 +1,81 @@
+{
+  "provenance": {
+    "base_commit": "098f5bb8cec41ab28502fa3d6b1126057a14901a",
+    "python": "3.12.4",
+    "numpy": "2.0.0",
+    "matplotlib": "3.9.2",
+    "physical_validation_claimed": false,
+    "permeability_calculated": false,
+    "phase2b_started": false
+  },
+  "grid_design": {
+    "physical_domain_m": [
+      0.0002,
+      0.0002,
+      0.00018
+    ],
+    "substrate_thickness_m": 2e-05,
+    "seed_lower_m": [
+      8e-05,
+      8e-05,
+      2e-05
+    ],
+    "seed_size_m": 2e-05,
+    "duration_s": 600.0,
+    "timestep_s": 60.0,
+    "voxel_sizes_m": [
+      5e-06,
+      1e-05,
+      2e-05
+    ],
+    "rng_seeds": [
+      101,
+      202,
+      303
+    ],
+    "target_supplied_salt_mass_kg": 3.4560000000000013e-10,
+    "target_new_salt_volume_m3": 1.6000000000000005e-13,
+    "effective_evaporation_area_m2": 3.0789180510607895e-08,
+    "statistics": "raw simulation seeds, mean, sample SD, range, and paired differences; no inferential p-values"
+  },
+  "analysis_masks": {
+    "computational_box": "whole domain above substrate",
+    "bounding_box": "tight axis-aligned box around salt",
+    "column": "occupied x-y columns from substrate to local salt top",
+    "face_shell": "salt plus one six-face-neighbor voxel shell",
+    "candidate_pore_figure": "empty voxels inside the column mask"
+  },
+  "reused_phase2a1_source_hashes": {
+    "masks/rule_uniform_seed101_final.npy": "fe959df05dee6a19f3780df5fba9ac30c7db209772850131399bc2aa81a5ed1d",
+    "masks/rule_uniform_seed202_final.npy": "cad970dc2ff254da5912b9b981ee86296644de08c57ed20ad1cec852e45940b2",
+    "masks/rule_uniform_seed303_final.npy": "3b11e967fdccdf6ca7d01fef1fb49758cdd50fb3ce6ef6c9b183d43554a9ccc3",
+    "masks/rule_uniform_seed404_final.npy": "82a7072edcad522c88ea3186df646888aefcef1419ba1a65e96554a822e54c77",
+    "masks/rule_uniform_seed505_final.npy": "a2dc813ece64145359d17dd25e237cb48b3baf6df7849175f4121f75e0b99f45",
+    "masks/rule_strong_high_coord_seed101_final.npy": "39cfdc969effc73c7bd55872688fbb4895d8ac3a21bbc5586259c4f905e3ba8b",
+    "masks/rule_strong_high_coord_seed202_final.npy": "0f89544a14d7c25fef44c3a4f41ccf7b03aab12fac971b193256d8760f0f384c",
+    "masks/rule_strong_high_coord_seed303_final.npy": "cdfc39fc980d4790fdfdf1ceb77e82152defaf7bdc0f90906c35e0316634776a",
+    "masks/rule_strong_high_coord_seed404_final.npy": "7e869905b7caa126441e57af404bf38a891cfc233ca5be999e310ce219458db3",
+    "masks/rule_strong_high_coord_seed505_final.npy": "9bcd7ce85323d9333c8ee18b916ff9e466452a7f8ccc90e84d8ccaaaee1affa2"
+  },
+  "case_ids": [
+    "grid_uniform_5um_seed101",
+    "grid_uniform_5um_seed202",
+    "grid_uniform_5um_seed303",
+    "grid_uniform_10um_seed101",
+    "grid_uniform_10um_seed202",
+    "grid_uniform_10um_seed303",
+    "grid_uniform_20um_seed101",
+    "grid_uniform_20um_seed202",
+    "grid_uniform_20um_seed303",
+    "grid_strong_high_coord_5um_seed101",
+    "grid_strong_high_coord_5um_seed202",
+    "grid_strong_high_coord_5um_seed303",
+    "grid_strong_high_coord_10um_seed101",
+    "grid_strong_high_coord_10um_seed202",
+    "grid_strong_high_coord_10um_seed303",
+    "grid_strong_high_coord_20um_seed101",
+    "grid_strong_high_coord_20um_seed202",
+    "grid_strong_high_coord_20um_seed303"
+  ],
+  "case_count": 18
+}

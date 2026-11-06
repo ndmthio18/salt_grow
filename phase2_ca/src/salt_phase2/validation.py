@@ -100,7 +100,9 @@ def run_case(config: CaseConfiguration) -> CaseResult:
     }
     history: list[dict[str, object]] = []
     initial_analysis = analyze_morphology(
-        state, supply_connected_salt=ca.supply_connected_salt_mask()
+        state,
+        supply_connected_salt=ca.supply_connected_salt_mask(),
+        voxel_size_m=config.voxel_size_m,
     )
     previous_cluster_count = initial_analysis.salt_cluster_count
     coalescence_events = 0
@@ -109,7 +111,9 @@ def run_case(config: CaseConfiguration) -> CaseResult:
     for step in range(1, steps + 1):
         result = ca.grow(mass_budget.precipitated_salt_mass_kg)
         analysis = analyze_morphology(
-            state, supply_connected_salt=ca.supply_connected_salt_mask()
+            state,
+            supply_connected_salt=ca.supply_connected_salt_mask(),
+            voxel_size_m=config.voxel_size_m,
         )
         decrease = max(previous_cluster_count - analysis.salt_cluster_count, 0)
         if decrease:
@@ -157,7 +161,9 @@ def run_case(config: CaseConfiguration) -> CaseResult:
     ca.assert_invariants()
     final_connected = ca.supply_connected_salt_mask()
     final_analysis = analyze_morphology(
-        state, supply_connected_salt=final_connected
+        state,
+        supply_connected_salt=final_connected,
+        voxel_size_m=config.voxel_size_m,
     )
     morphology = ca.morphology_diagnostics()
     retained_mass = (
@@ -194,6 +200,10 @@ def run_case(config: CaseConfiguration) -> CaseResult:
         "total_salt_volume_m3": total_salt * config.voxel_size_m**3,
         "maximum_height_voxels": morphology.maximum_height_voxels_above_substrate,
         "footprint_voxels": morphology.footprint_voxels,
+        "maximum_height_m": (
+            morphology.maximum_height_voxels_above_substrate * config.voxel_size_m
+        ),
+        "footprint_area_m2": morphology.footprint_voxels * config.voxel_size_m**2,
         "salt_cluster_count": final_analysis.salt_cluster_count,
         "salt_cluster_sizes": json.dumps(final_analysis.salt_cluster_sizes),
         "seed_occupied_cluster_count": final_analysis.seed_occupied_cluster_count,
@@ -222,6 +232,45 @@ def run_case(config: CaseConfiguration) -> CaseResult:
         ),
         "column_external_void_voxels": (
             final_analysis.column_envelope.external_air_connected_void_voxels
+        ),
+        "computational_bottom_to_top_percolates": (
+            final_analysis.computational_box.bottom_to_top_void_percolates
+        ),
+        "bbox_bottom_to_top_percolates": (
+            final_analysis.bounding_box.bottom_to_top_void_percolates
+        ),
+        "bbox_bottom_to_lateral_percolates": (
+            final_analysis.bounding_box.bottom_to_lateral_void_percolates
+        ),
+        "column_bottom_to_top_percolates": (
+            final_analysis.column_envelope.bottom_to_top_void_percolates
+        ),
+        "column_bottom_to_lateral_percolates": (
+            final_analysis.column_envelope.bottom_to_lateral_void_percolates
+        ),
+        "bbox_accessible_pore_volume_m3": (
+            final_analysis.bounding_box.accessible_pore_volume_m3
+        ),
+        "column_accessible_pore_volume_m3": (
+            final_analysis.column_envelope.accessible_pore_volume_m3
+        ),
+        "face_shell_accessible_pore_volume_m3": (
+            final_analysis.face_shell_envelope.accessible_pore_volume_m3
+        ),
+        "surface_to_volume_ratio_m_inv": (
+            final_analysis.surface_to_volume_ratio_m_inv
+        ),
+        "characteristic_solid_size_m": (
+            final_analysis.characteristic_solid_size_m
+        ),
+        "tested_envelope_void_fraction_range": (
+            final_analysis.tested_envelope_void_fraction_range
+        ),
+        "tested_envelope_pathway_agreement": (
+            final_analysis.tested_envelope_pathway_agreement
+        ),
+        "intrinsic_porosity_identifiable": (
+            final_analysis.intrinsic_porosity_identifiable
         ),
         "unrealized_whole_voxels": unrealized_whole_voxels,
         "full_whole_voxel_realization": unrealized_whole_voxels == 0,

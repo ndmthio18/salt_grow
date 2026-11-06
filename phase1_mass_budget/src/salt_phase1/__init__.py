@@ -13,6 +13,7 @@ from .evaporation import (
     saturation_vapor_pressure_pa,
 )
 from .voxel import (
+    AllocatorStateSnapshot,
     AllocationProposal,
     AllocationResult,
     MassToVoxelAllocator,
@@ -22,6 +23,7 @@ from .voxel import (
 )
 
 __all__ = [
+    "AllocatorStateSnapshot",
     "AllocationProposal",
     "AllocationResult",
     "CapacityDiagnostic",

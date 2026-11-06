@@ -53,3 +53,38 @@ def test_envelope_definitions_report_sensitivity_not_one_intrinsic_porosity():
         analysis.bounding_box.salt_volume_fraction
         != analysis.column_envelope.salt_volume_fraction
     )
+    assert not analysis.intrinsic_porosity_identifiable
+    assert analysis.tested_envelope_void_fraction_range > 0.0
+
+
+def test_computational_percolation_is_separate_from_salt_envelope_pathway():
+    state = initialize_physical_state(
+        shape=(7, 7, 7),
+        substrate_layers=1,
+        seed_coordinates=((3, 3, 1),),
+    )
+    analysis = analyze_morphology(state, voxel_size_m=10.0e-6)
+    assert analysis.computational_box.bottom_to_top_void_percolates
+    assert analysis.computational_box.bottom_to_lateral_void_percolates
+    assert not analysis.bounding_box.bottom_to_top_void_percolates
+    assert analysis.bounding_box.accessible_pore_volume_m3 == 0.0
+
+
+def test_accessible_and_enclosed_pore_volumes_use_explicit_voxel_scale():
+    state = initialize_physical_state(
+        shape=(7, 7, 7),
+        substrate_layers=1,
+        seed_coordinates=((3, 3, 1),),
+    )
+    for x in range(2, 5):
+        for y in range(2, 5):
+            for z in range(2, 5):
+                if x in {2, 4} or y in {2, 4} or z in {2, 4}:
+                    state.material[x, y, z] = Material.SALT
+    voxel_size = 5.0e-6
+    analysis = analyze_morphology(state, voxel_size_m=voxel_size)
+    assert analysis.bounding_box.enclosed_void_voxels == 1
+    assert analysis.bounding_box.enclosed_void_volume_m3 == voxel_size**3
+    assert analysis.salt_surface_area_m2 is not None
+    assert analysis.surface_to_volume_ratio_m_inv is not None
+    assert analysis.characteristic_solid_size_m is not None

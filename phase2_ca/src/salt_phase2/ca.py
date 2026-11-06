@@ -306,9 +306,16 @@ class SaltGrowthCA:
                 coordinate = self._stochastic_candidate(
                     coordinates, salt_coordination
                 )
-            self.state.material[coordinate] = Material.SALT
+            self._insert_tentative_voxel(coordinate)
             selected.append(coordinate)
         return initial_candidate_count, tuple(selected)
+
+    def _insert_tentative_voxel(self, coordinate: Coordinate) -> None:
+        """Insert one uncommitted voxel; the enclosing step owns rollback."""
+
+        if self.state.material[coordinate] != Material.EMPTY:
+            raise RuntimeError("tentative growth target is not empty")
+        self.state.material[coordinate] = Material.SALT
 
     def grow(
         self,
@@ -320,13 +327,15 @@ class SaltGrowthCA:
         """Execute one transactional mass-limited geometry update."""
 
         self.assert_invariants()
+        material_before = self.state.material.copy()
         rng_state_before = copy.deepcopy(self.rng.bit_generator.state)
-        proposal = self.allocator.prepare(
-            available_precipitation_mass_kg,
-            released_solution_mass_kg=released_solution_mass_kg,
-        )
+        allocator_before = self.allocator.snapshot_state()
         selected: tuple[Coordinate, ...] = ()
         try:
+            proposal = self.allocator.prepare(
+                available_precipitation_mass_kg,
+                released_solution_mass_kg=released_solution_mass_kg,
+            )
             if self.update_mode == "synchronous":
                 eligible = self.eligible_growth_mask()
                 candidate_count = int(np.count_nonzero(eligible))
@@ -348,12 +357,12 @@ class SaltGrowthCA:
                 unallocated_state=unallocated_state,
             )
         except Exception:
-            if self.allocator.has_pending_transaction:
-                for coordinate in selected:
-                    self.state.material[coordinate] = Material.EMPTY
-                self.allocator.abort(proposal)
-                self.rng.bit_generator.state = rng_state_before
-                self.assert_invariants()
+            # ``selected`` can still be empty when sequential selection fails
+            # after internal insertions, so restore complete snapshots instead.
+            self.state.material[...] = material_before
+            self.allocator.restore_state(allocator_before)
+            self.rng.bit_generator.state = rng_state_before
+            self.assert_invariants()
             raise
 
         self.assert_invariants()

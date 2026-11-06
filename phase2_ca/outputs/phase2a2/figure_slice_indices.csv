@@ -1,0 +1,6 @@
+label,horizontal_z_index,vertical_y_index,voxel_size_um
+"Uniform, 5 µm",4,18,5.0
+"Uniform, 10 µm",2,9,10.0
+"Uniform, 20 µm",1,3,20.0
+"Open uniform, seed 101",1,8,10.0
+"Compact high-coordination, seed 101",1,12,10.0

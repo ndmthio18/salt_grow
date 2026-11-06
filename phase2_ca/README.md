@@ -46,3 +46,11 @@ The wetting filter can be disabled as an explicitly nonphysical control. This
 prototype contains no pore-network flow, film hydraulics, vapor diffusion,
 permeability, morphology-dependent evaporation, dissolution, or experimental
 calibration. Numerical mass closure does not validate the growth physics.
+
+Run the Phase 2A.2 rollback, grid-sensitivity, pore-envelope, and morphology
+feasibility audit with:
+
+    python phase2_ca/run_phase2a2_validation.py
+
+Outputs are under outputs/phase2a2/. The evidence-bounded assessment is
+docs/phase2a_2_morphology_feasibility.md.
