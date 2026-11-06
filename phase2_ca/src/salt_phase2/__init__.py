@@ -31,6 +31,21 @@ from .validation import (
     mask_jaccard,
     run_case,
 )
+from .surface_orientation import (
+    NormalEstimate,
+    angular_errors_deg,
+    crystal_frame_normals,
+    cubic_attachment_weight,
+    cubic_q4,
+    cube_reference_normals,
+    estimate_plane_fit_normals,
+    estimate_sdf_normals,
+    interface_face_centres,
+    orientation_corrected_surface_area,
+    proper_cubic_rotations,
+    rotation_matrix_xyz_degrees,
+    signed_distance_from_mask,
+)
 
 __all__ = [
     "AttachmentWeights",
@@ -64,4 +79,17 @@ __all__ = [
     "mask_difference_fraction",
     "mask_jaccard",
     "run_case",
+    "NormalEstimate",
+    "angular_errors_deg",
+    "crystal_frame_normals",
+    "cubic_attachment_weight",
+    "cubic_q4",
+    "cube_reference_normals",
+    "estimate_plane_fit_normals",
+    "estimate_sdf_normals",
+    "interface_face_centres",
+    "orientation_corrected_surface_area",
+    "proper_cubic_rotations",
+    "rotation_matrix_xyz_degrees",
+    "signed_distance_from_mask",
 ]

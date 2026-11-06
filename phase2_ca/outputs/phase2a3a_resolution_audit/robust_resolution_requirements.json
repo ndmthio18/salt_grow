@@ -1,0 +1,9 @@
+{
+  "status": "post-lock robustness diagnostic; locked thresholds and results unchanged",
+  "minimum_cells_for_robust_volume_representation": 4,
+  "minimum_cells_for_surface_normal_estimation": 8,
+  "minimum_cells_for_facet_orientation": 16,
+  "minimum_cells_across_narrow_gap": 5,
+  "one_or_two_voxel_seed": "NO-GO for orientation: the 120 um physical fitting support cannot be formed, and maximum volume error over independent alignment/rotation is 100% and 25%, respectively.",
+  "scope": "Numerical geometry requirements only; not a transport, kinetics, or physical-calibration claim."
+}

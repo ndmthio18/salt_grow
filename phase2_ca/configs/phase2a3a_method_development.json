@@ -1,0 +1,13 @@
+{
+  "stage": "method_development",
+  "domain_length_um": 1200.0,
+  "cases": ["plane_axis", "plane_17deg", "sphere_dev", "cube_axis"],
+  "voxel_sizes_um": [40.0, 20.0],
+  "candidates": [
+    {"method": "signed_distance_gradient", "physical_lengths_um": [30.0, 60.0, 90.0]},
+    {"method": "weighted_plane_fit", "physical_lengths_um": [60.0, 90.0, 120.0]}
+  ],
+  "maximum_sample_points_per_case": 3000,
+  "selection_rule": "Minimize the unweighted mean of median and p90 angular error across all development cases and resolutions, then prefer lower runtime. Area and volume errors are diagnostic and may veto a method with non-decreasing refinement error.",
+  "locked_cases_excluded": ["plane_33deg", "sphere_locked", "cube_rot_a", "cube_rot_b"]
+}

@@ -1,0 +1,71 @@
+{
+  "case_checks": [
+    {
+      "case": "plane_33deg",
+      "checks": {
+        "median": true,
+        "p90": true,
+        "maximum": true,
+        "area": true,
+        "volume": true,
+        "p90_refinement": true,
+        "area_refinement": true
+      },
+      "pass": true
+    },
+    {
+      "case": "sphere_locked",
+      "checks": {
+        "median": true,
+        "p90": true,
+        "maximum": true,
+        "area": true,
+        "volume": true,
+        "p90_refinement": true,
+        "area_refinement": true
+      },
+      "pass": true
+    },
+    {
+      "case": "cube_rot_a",
+      "checks": {
+        "median": true,
+        "p90": true,
+        "maximum": true,
+        "area": true,
+        "volume": true,
+        "p90_refinement": true,
+        "area_refinement": true
+      },
+      "pass": true
+    },
+    {
+      "case": "cube_rot_b",
+      "checks": {
+        "median": true,
+        "p90": true,
+        "maximum": true,
+        "area": true,
+        "volume": true,
+        "p90_refinement": true,
+        "area_refinement": true
+      },
+      "pass": true
+    }
+  ],
+  "rotation_covariance_checks": {
+    "matched_fraction": true,
+    "normal_p90": true,
+    "isotropic_exact": true,
+    "joint_weight_rmse": true,
+    "joint_weight_p90": true
+  },
+  "analytical_invariant_checks": {
+    "q4_100": true,
+    "q4_110": true,
+    "q4_111": true,
+    "cubic_symmetry": true
+  },
+  "overall_pass": true,
+  "decision": "GO for a bounded single-grain CA orientation pilot"
+}

@@ -1,0 +1,7 @@
+cells_across_seed,voxel_size_um,volume_relative_error,normal_estimator_status,valid_normal_fraction,face_interior_samples,p90_face_normal_error_deg,eligible_as_facet_convergence_evidence
+1,500.0,0.0,unresolved: fitting_radius_m must be finite and exceed one voxel,0.0,0,,False
+2,250.0,0.0,unresolved: fitting_radius_m must be finite and exceed one voxel,0.0,0,,False
+4,125.0,0.0,unresolved: fitting_radius_m must be finite and exceed one voxel,0.0,0,,True
+8,62.5,0.015624999999999889,evaluated,1.0,138,11.4092468423728,True
+16,31.25,0.00048828125,evaluated,1.0,560,1.625494832494668,True
+32,15.625,0.0,evaluated,1.0,551,0.6157885450081987,True

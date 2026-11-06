@@ -47,6 +47,19 @@ prototype contains no pore-network flow, film hydraulics, vapor diffusion,
 permeability, morphology-dependent evaporation, dissolution, or experimental
 calibration. Numerical mass closure does not validate the growth physics.
 
+Run the Phase 2A.3a surface-normal and crystallographic-orientation verification
+in its pre-registered order with:
+
+```powershell
+python phase2_ca/run_phase2a3a_verification.py --stage development --config phase2_ca/configs/phase2a3a_method_development.json --output phase2_ca/outputs/phase2a3a_development_reproduced
+python phase2_ca/run_phase2a3a_verification.py --stage locked --config phase2_ca/configs/phase2a3a_locked_protocol.json --output phase2_ca/outputs/phase2a3a_locked_reproduced
+```
+
+The locked parameters and thresholds are immutable. The evidence-bounded
+assessment is `docs/phase2a_3a_normals_orientation_verification.md`. The result
+is conditional GO for a resolved single-grain orientation pilot only; one- and
+two-voxel seeds, multi-grain growth, and transport coupling remain NO-GO.
+
 Run the Phase 2A.2 rollback, grid-sensitivity, pore-envelope, and morphology
 feasibility audit with:
 

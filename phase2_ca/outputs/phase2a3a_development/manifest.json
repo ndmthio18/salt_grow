@@ -1,0 +1,10 @@
+{
+  "stage": "development",
+  "config": "phase2_ca\\configs\\phase2a3a_method_development.json",
+  "config_sha256": "8cc34c76894914dfc1ae3a73972c48250d182851266a4debf521f843495c34cd",
+  "python": "3.12.4 (tags/v3.12.4:8e8a4ba, Jun  6 2024, 19:30:16) [MSC v.1940 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "numpy": "2.0.0",
+  "matplotlib": "3.9.2",
+  "record_count": 48
+}

@@ -1,0 +1,8 @@
+{
+  "minimum_cells_for_volume": 1,
+  "minimum_cells_for_surface_normals": 8,
+  "minimum_cells_for_facet_orientation": 16,
+  "minimum_cells_across_narrow_gap": 5,
+  "gap_basis": "A one-cell boundary-location uncertainty gives <=20% relative width uncertainty only at five or more cells across; this is a geometry gate, not a flow-resolution claim.",
+  "one_and_two_voxel_policy": "Reported as unresolved diagnostics only and excluded from facet-convergence evidence."
+}

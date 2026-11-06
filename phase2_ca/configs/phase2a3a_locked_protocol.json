@@ -1,0 +1,51 @@
+{
+  "stage": "locked_verification",
+  "frozen_after_method_development": true,
+  "method_development_config_sha256": "8cc34c76894914dfc1ae3a73972c48250d182851266a4debf521f843495c34cd",
+  "selection_evidence": "phase2_ca/outputs/phase2a3a_development/method_ranking.csv",
+  "selected_estimator": {
+    "method": "weighted_plane_fit",
+    "physical_length_um": 120.0,
+    "selection_reason": "Lowest predeclared mean p90 and median angular errors on the development cases; runtime remained below two seconds for all eight development evaluations at this length."
+  },
+  "locked_cases": ["plane_33deg", "sphere_locked", "cube_rot_a", "cube_rot_b"],
+  "voxel_sizes_um": [40.0, 20.0, 10.0],
+  "maximum_sample_points_per_case": 4000,
+  "alpha_values": [0.0, 1.0397207708399179, -1.0397207708399179],
+  "rotation_covariance": {
+    "reference_geometry": "cube_axis",
+    "rotated_geometry": "cube_rot_a",
+    "grain_rotation_xyz_deg": [9.0, -14.0, 22.0],
+    "matching_radius_voxels": 2.5,
+    "comparison": "Nearest interface point after inverse rigid rotation; no binary-mask equality requirement."
+  },
+  "tolerances": {
+    "finest_median_angular_error_deg_max": 3.0,
+    "finest_p90_angular_error_deg_max": 8.0,
+    "finest_max_angular_error_deg_max": 25.0,
+    "finest_surface_area_relative_error_max": 0.08,
+    "finest_volume_relative_error_max": 0.03,
+    "refinement_slack_deg": 0.5,
+    "rotation_matched_fraction_min": 0.80,
+    "rotation_normal_p90_deg_max": 10.0,
+    "joint_weight_rmse_max": 0.03,
+    "joint_weight_p90_abs_error_max": 0.05,
+    "exact_invariant_tolerance": 1.0e-12
+  },
+  "required_resolution_trend": "At the finest grid, p90 angular error may not exceed the coarsest value by more than 0.5 degree, and surface-area error must be lower than at the coarsest grid.",
+  "resolution_gate": {
+    "geometry": "cube_rot_a",
+    "cells_across_seed": [1, 2, 4, 8, 16, 32],
+    "maximum_sample_points": 2000,
+    "criteria": {
+      "volume_relative_error_max": 0.10,
+      "valid_normal_fraction_min": 0.90,
+      "surface_normal_p90_deg_max": 15.0,
+      "facet_face_samples_min": 100,
+      "facet_p90_deg_max": 10.0,
+      "gap_cells_min": 5
+    },
+    "policy": "One- and two-voxel seeds are reported only as unresolved diagnostics and cannot count as facet-convergence evidence."
+  },
+  "go_no_go": "GO requires every locked geometry, analytical invariant, and finest-grid rotation-covariance check to pass without post-lock threshold or parameter changes."
+}

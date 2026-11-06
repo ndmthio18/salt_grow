@@ -72,3 +72,24 @@ against independent 3D evidence.
 
 Status: conditional GO for a bounded grain-aware morphology pilot; NO-GO for
 physical calibration claims, permeability, liquid transport, or Phase 2B.
+
+## 2026-11-06 — Phase 2A.3a normals and crystallographic orientation
+
+- Added signed-distance-gradient and physical-radius weighted-plane-fit normal
+  estimators with an outward signed-distance convention.
+- Separated development and locked sets; selected the 120 µm plane-fit radius
+  on four development geometries before running the independent locked set.
+- Verified a 33° plane, shifted sphere, and two non-grid-aligned rotated cubes
+  at 40/20/10 µm without changing the locked parameters or thresholds.
+- Passed analytical `<100>/<110>/<111>`, alpha-zero, sign, 24-fold cubic
+  symmetry, and joint-rotation invariants.
+- Demonstrated refinement of inverse-rotation normal and anisotropy fields;
+  finest-grid joint-weight RMSE was 0.000749.
+- Retained the misleading aligned one-voxel volume result and added a labelled
+  post-lock translation/rotation audit; one- and two-voxel seeds remain NO-GO.
+- Set bounded empirical minima of 4 voxels for robust volume, 8 for normals, 16
+  for facet orientation, and 5 across a gap for geometric width resolution.
+
+Status: conditional GO for a resolved single-grain CA orientation pilot only.
+No growth physics, multi-grain interaction, film flow, permeability, vapour
+diffusion, PNM coupling, or physical calibration was implemented.
