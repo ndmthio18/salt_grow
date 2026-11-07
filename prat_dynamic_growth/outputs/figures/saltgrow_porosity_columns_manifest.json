@@ -1,0 +1,117 @@
+{
+  "figure_type": "physical-height column snapshots with internal porosity cloud map",
+  "fractions_of_final_time": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "common_y_limit_mm": 1.7381753661807944,
+  "shared_color_limits": {
+    "epsilon_min": 0.020000000000000007,
+    "epsilon_max": 0.4300000000037529
+  },
+  "colormap": "viridis",
+  "combined_figure": "saltgrow_porosity_columns_2x2.png",
+  "single_figures": [
+    "saltgrow_porosity_columns_kr_2p3em6.png",
+    "saltgrow_porosity_columns_kr_2p3em5.png",
+    "saltgrow_porosity_columns_kr_2p3em4.png",
+    "saltgrow_porosity_columns_kr_2p3em3.png"
+  ],
+  "cases": [
+    {
+      "case_id": "S3_kr2p3e6_power2",
+      "k_reaction_m_s": 2.3e-06,
+      "source": "ALE reconstruction (archived M1 equations/configuration, revision 9d923ea)",
+      "archived_status": 1,
+      "archived_message": "A termination event occurred. event=porosity_min at t=219.75577 s",
+      "selected_times_s": [
+        0.0,
+        54.93894242526795,
+        109.8778848505359,
+        164.81682727580386,
+        219.75576916522033
+      ],
+      "selected_heights_mm": [
+        1.0,
+        1.0001784566559395,
+        1.0003694754402663,
+        1.0005851236630647,
+        1.0008951628554288
+      ]
+    },
+    {
+      "case_id": "S3_kr2p3e5_power2",
+      "k_reaction_m_s": 2.3e-05,
+      "source": "ALE reconstruction (archived M1 equations/configuration, revision 9d923ea)",
+      "archived_status": 1,
+      "archived_message": "A termination event occurred. event=porosity_min at t=110.485392 s",
+      "selected_times_s": [
+        0.0,
+        27.62134803750644,
+        55.24269607501288,
+        82.86404411251932,
+        110.48539203752897
+      ],
+      "selected_heights_mm": [
+        1.0,
+        1.0002437428391127,
+        1.0005079956246425,
+        1.0008144996590842,
+        1.0012392510390584
+      ]
+    },
+    {
+      "case_id": "S3_kr2p3e4_power2",
+      "k_reaction_m_s": 0.00023,
+      "source": "archived",
+      "archived_status": 0,
+      "archived_message": "The solver successfully reached the end of the integration interval.",
+      "selected_times_s": [
+        0.0,
+        5400.0,
+        10800.0,
+        16200.0,
+        21600.0
+      ],
+      "selected_heights_mm": [
+        1.0,
+        1.1293805730798294,
+        1.2593226088029783,
+        1.3895393646027465,
+        1.5200219376408026
+      ]
+    },
+    {
+      "case_id": "baseline_B2",
+      "k_reaction_m_s": 0.0023,
+      "source": "archived",
+      "archived_status": 0,
+      "archived_message": "The solver successfully reached the end of the integration interval.",
+      "selected_times_s": [
+        0.0,
+        5400.0,
+        10800.0,
+        16200.0,
+        21600.0
+      ],
+      "selected_heights_mm": [
+        1.0,
+        1.163680829972494,
+        1.327485537036513,
+        1.4913954409906465,
+        1.6554051106483756
+      ]
+    }
+  ],
+  "quality_checks": {
+    "five_times_per_case": true,
+    "time_positions_match_requested_fractions": true,
+    "physical_column_tops_match_h_t": true,
+    "porosity_arrays_match_selected_result_fields": true,
+    "blank_region_above_each_column": true,
+    "no_porosity_line_plots": true
+  }
+}

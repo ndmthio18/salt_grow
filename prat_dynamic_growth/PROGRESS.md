@@ -65,6 +65,25 @@ Current status: requested numerical attribution complete; percent-level
 closure effects resolved, strict trajectory-level residual qualification
 remains limited as documented.
 
+## 2026-11-07 — Archived k_r porosity-column visualization
+
+- Added `plot_porosity_columns_over_time.py` without replacing any previous
+  line-plot figure.
+- Generated one 2 x 2 figure and four single-case figures in which each of five
+  time snapshots is a physical-height salt column colored by the 1D porosity
+  field; all panels use the same physical y-limit and porosity color scale.
+- Read the `k_r = 2.3e-4` and `2.3e-3 m/s` quarter-time fields directly from
+  the archived NPZ files. Reconstructed the missing quarter-time states for
+  the two porosity-limited low-`k_r` cases using the exact archived M1 closure
+  from revision `9d923ea`; terminal height and full terminal porosity fields
+  match the registered archive within explicit numerical tolerances.
+- Wrote `saltgrow_porosity_columns_snapshot_audit.csv` and
+  `saltgrow_porosity_columns_manifest.json`; verified five time positions per
+  case, physical column tops equal to `h(t)`, blank space above the layer, and
+  a shared `epsilon = 0.02--0.43` color range.
+- The figure remains evidence from the archived pre-M3 M1 closure and is not
+  presented as physical validation.
+
 ## 2026-11-05 — M4 fixed-material histories
 
 - Defined material as fixed laboratory coordinate `z0`; distinguished it from

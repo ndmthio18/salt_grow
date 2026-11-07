@@ -49,6 +49,20 @@ Its interpretation is in [`M4_MATERIAL_HISTORY.md`](M4_MATERIAL_HISTORY.md),
 and its CSV/NPZ/PNG/SVG evidence is under `outputs/m4/`. It does not overwrite
 the archived M3 evidence.
 
+The archived M1 `k_r` sensitivity can also be viewed as physical-height salt
+columns colored by the internal porosity field:
+
+```powershell
+python plot_porosity_columns_over_time.py
+```
+
+This creates a 2 x 2 comparison and four single-case PNG files under
+`outputs/figures/`, plus a snapshot-audit CSV and a provenance manifest. The
+completed 6 h cases are read directly from the archived NPZ files. Because the
+two porosity-limited cases stored only their initial and terminal fields, their
+quarter-time fields are reconstructed in memory with the exact archived M1
+flux closure from revision `9d923ea`; the original result files are not changed.
+
 To run the older broad campaign with the **current corrected solver**, use a
 new output folder so that historical M1 evidence remains intact:
 
