@@ -1,0 +1,65 @@
+{
+  "resource_policy": {
+    "maximum_workers": 2,
+    "omp_threads_per_worker": 1,
+    "gpu_used": false
+  },
+  "visible_logical_cpu_count": 22,
+  "gpu_used": false,
+  "memory_capacity": "unknown; peak Python allocations reported per worker",
+  "translated_plane_runtime_s": 6.34426220000023,
+  "growth_cases": [
+    {
+      "case": "dx10_r40",
+      "voxel_size_um": 10.0,
+      "growth_radius_um": 40.0,
+      "wall_runtime_s": 2.8239509999984875,
+      "dynamic_update_runtime_s": 0.1457483999984106,
+      "peak_tracemalloc_bytes": 5879948,
+      "event_batches": 0,
+      "local_patch_updates": 0,
+      "local_recomputed_elements": 0,
+      "closure_error_m3": 0.0,
+      "deferred_volume_m3": 0.0
+    },
+    {
+      "case": "dx10_r70",
+      "voxel_size_um": 10.0,
+      "growth_radius_um": 70.0,
+      "wall_runtime_s": 2.8946240000004764,
+      "dynamic_update_runtime_s": 0.17960829999356065,
+      "peak_tracemalloc_bytes": 6005449,
+      "event_batches": 0,
+      "local_patch_updates": 0,
+      "local_recomputed_elements": 0,
+      "closure_error_m3": 0.0,
+      "deferred_volume_m3": 0.0
+    },
+    {
+      "case": "dx5_r40",
+      "voxel_size_um": 5.0,
+      "growth_radius_um": 40.0,
+      "wall_runtime_s": 19.992205900001863,
+      "dynamic_update_runtime_s": 5.359353699997882,
+      "peak_tracemalloc_bytes": 24283843,
+      "event_batches": 5,
+      "local_patch_updates": 5,
+      "local_recomputed_elements": 7096,
+      "closure_error_m3": 0.0,
+      "deferred_volume_m3": 0.0
+    },
+    {
+      "case": "dx5_r70",
+      "voxel_size_um": 5.0,
+      "growth_radius_um": 70.0,
+      "wall_runtime_s": 22.742881500002113,
+      "dynamic_update_runtime_s": 7.583288100002392,
+      "peak_tracemalloc_bytes": 25540116,
+      "event_batches": 4,
+      "local_patch_updates": 4,
+      "local_recomputed_elements": 9493,
+      "closure_error_m3": -5.048709793414476e-29,
+      "deferred_volume_m3": 0.0
+    }
+  ]
+}

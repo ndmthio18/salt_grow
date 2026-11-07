@@ -1,0 +1,26 @@
+{
+  "maximum_absolute_closure_error_m3": 5.048709793414476e-29,
+  "maximum_deferred_volume_m3": 0.0,
+  "cases": [
+    {
+      "case": "dx10_r40",
+      "closure_error_m3": 0.0,
+      "deferred_volume_m3": 0.0
+    },
+    {
+      "case": "dx10_r70",
+      "closure_error_m3": 0.0,
+      "deferred_volume_m3": 0.0
+    },
+    {
+      "case": "dx5_r40",
+      "closure_error_m3": 0.0,
+      "deferred_volume_m3": 0.0
+    },
+    {
+      "case": "dx5_r70",
+      "closure_error_m3": -5.048709793414476e-29,
+      "deferred_volume_m3": 0.0
+    }
+  ]
+}

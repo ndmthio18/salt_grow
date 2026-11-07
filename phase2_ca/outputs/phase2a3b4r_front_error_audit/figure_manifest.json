@@ -1,0 +1,26 @@
+{
+  "status": "general publication-style audit figures; journal requirements not specified",
+  "background": "opaque white",
+  "formats": [
+    "opaque RGB PNG at at least 300 dpi metadata",
+    "SVG with editable text"
+  ],
+  "color_encoding": "Okabe-Ito colors plus markers, hatching, line styles, and panel separation",
+  "uncertainty": "deterministic numerical diagnostics; no statistical interval is implied",
+  "source_tables": {
+    "controlled_variants.csv": "6e0efd439b084beecf903771523d37193e893ebd86e5594b029a983c3b2eb483",
+    "error_attribution.csv": "915323fe9632524f1d9450a7cb641afecaf2ffa458264118a2233eb5e44a789e",
+    "finite_window_comparison.csv": "5e66b7e433ea271b7a9e337cabb9e0f1a564c94f57d5d2c096ad98d62ca4c280",
+    "interface_filtering.csv": "8ec2678d83ce2271773a10e60e7590c949449a3a93ac1a16fa0f225c4d6ec4dc",
+    "locked_error_attribution.csv": "17776eaf03ac765be7524a3a98471862c5ade72f0168e643bcf7de9e7b52b009",
+    "reservoir_fractions.csv": "a53c85c871f4b11a640887f59d86547fd1c56adca4e860c2b823b7d575b71e98",
+    "targeted_growth_stages.csv": "8dc806b4663db473adc45e50b2a5231ef738d5730c2b1874a9864509a4c8ff2d",
+    "translated_plane_benchmarks.csv": "ab37b0ab29a3cd2226befaa6aee907fe79f5747a36f813cec479b0ed3281a49a"
+  },
+  "alt_text": {
+    "fig1": "Six panels compare prescribed translated-plane motion with three front measurements at 10 and 5 micrometre grids; all methods show orientation-dependent voxel stair steps, while centroid and height median overlap.",
+    "fig2": "Signed stacked bars decompose the locked alpha-zero 20 micrometre advance error into evolving-area allocation, binary quantization, and measurement-definition contributions at 10 and 5 micrometre grids.",
+    "fig3": "Four panels compare analytical and reconstructed allocation controls, small and enlarged growth windows in a fixed interior, and residual local fill-fraction distributions.",
+    "fig4": "Accepted corrected interface area relative to the analytical disk is tracked across deposition stages for three orientations and two growth radii."
+  }
+}

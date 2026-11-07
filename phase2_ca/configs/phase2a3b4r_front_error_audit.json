@@ -1,0 +1,45 @@
+{
+  "phase": "Phase 2A.3b-4R",
+  "base_commit": "2e6eb17800311c5a966c5ee5127f2152bbf6fe56",
+  "locked_results_preserved": "phase2_ca/outputs/phase2a3b4_locked",
+  "translated_planes": {
+    "domain_length_um": 200.0,
+    "growth_radius_um": 40.0,
+    "measurement_radius_um": 20.0,
+    "axial_half_width_um": 60.0,
+    "voxel_sizes_um": [10.0, 5.0],
+    "translation_in_voxels": [0.0, 0.5, 1.0, 2.0, 4.0],
+    "fitting_radius_um": 40.0,
+    "minimum_normal_alignment": 0.65,
+    "solid_density_kg_m3": 2160.0
+  },
+  "targeted_growth": {
+    "domain_length_um": 240.0,
+    "growth_radii_um": [40.0, 70.0],
+    "measurement_radius_um": 20.0,
+    "axial_half_width_um": 70.0,
+    "voxel_sizes_um": [10.0, 5.0],
+    "reference_advance_um": 5.0,
+    "stage_fractions": [0.25, 0.5, 0.75, 1.0],
+    "fitting_radius_um": 40.0,
+    "minimum_normal_alignment": 0.65,
+    "solid_density_kg_m3": 2160.0,
+    "alpha": 0.0,
+    "anisotropic_probe_alpha": 1.0397207708399179,
+    "rng_seed": 3164
+  },
+  "resource_limits": {
+    "maximum_workers": 2,
+    "omp_threads_per_worker": 1,
+    "gpu_used": false
+  },
+  "scope_exclusions": [
+    "multigrain growth",
+    "film hydraulics",
+    "permeability",
+    "vapour transport",
+    "PNM coupling",
+    "level-set implementation"
+  ],
+  "diagnostic_status": "root-cause audit; not a replacement validation gate"
+}

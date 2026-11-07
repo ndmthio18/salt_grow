@@ -1,0 +1,20 @@
+{
+  "phase": "Phase 2A.3b-4R",
+  "base_commit": "2e6eb17800311c5a966c5ee5127f2152bbf6fe56",
+  "config": "phase2_ca/configs/phase2a3b4r_front_error_audit.json",
+  "config_sha256": "82f57ec126e29c397bcbc607581cac506de9b6975f476a04ae642a7162e10732",
+  "python": "3.12.4",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "numpy": "2.0.0",
+  "locked_results_preserved": "phase2_ca/outputs/phase2a3b4_locked",
+  "locked_source_sha256": "fa6992b1ba4e72d557f3f726dd5089a3f889cec07358a986606d8cd0ad5a4583",
+  "diagnostic_status": "root-cause audit; not a replacement validation gate",
+  "scope_exclusions": [
+    "multigrain growth",
+    "film hydraulics",
+    "permeability",
+    "vapour transport",
+    "PNM coupling",
+    "level-set implementation"
+  ]
+}
