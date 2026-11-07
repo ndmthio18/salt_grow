@@ -1,0 +1,39 @@
+{
+  "stage": "method_development",
+  "revision": "v2",
+  "revision_note": "The v1 10% concave discrepancy threshold was not a validity condition. V2 tests detectable non-equivalence above numerical noise; all conservation, partition, rollback, and cache thresholds are unchanged.",
+  "base_commit": "920aed2b8933801eb44ac65efada513e8cbc243f",
+  "alpha_values": [-1.0397207708399179, 0.0, 1.0397207708399179],
+  "audit": {
+    "domain_length_um": 200.0,
+    "voxel_size_um": 10.0,
+    "fitting_radius_um": 40.0,
+    "sphere_radius_um": 50.0,
+    "cube_half_width_um": 42.0,
+    "cube_rotation_xyz_deg": [17.0, 23.0, 11.0]
+  },
+  "dynamic_smoke": {
+    "domain_length_um": 200.0,
+    "front_radius_um": 40.0,
+    "voxel_size_um": 10.0,
+    "fitting_radius_um": 40.0,
+    "reference_advance_um": 20.0,
+    "minimum_normal_alignment": 0.65,
+    "solid_density_kg_m3": 2160.0,
+    "split_count": 5,
+    "rng_seed": 1701
+  },
+  "acceptance": {
+    "counterexample_relative_error_max": 2e-14,
+    "concave_multiface_discrepancy_min": 1e-6,
+    "volume_closure_abs_m3_max": 1e-25,
+    "timestep_reservoir_abs_m3_max": 1e-25,
+    "local_area_abs_error_m2_max": 1e-24,
+    "local_normal_vector_error_max": 1e-12
+  },
+  "resource_limits": {
+    "maximum_workers": 3,
+    "omp_threads_per_worker": 1,
+    "gpu_used": false
+  }
+}

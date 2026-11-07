@@ -113,6 +113,21 @@ realization pass their locked gates. The GO is limited to this numerical
 closure: the small evolving-grain comparison does not validate anisotropic NaCl
 morphology, and multigrain or transport extensions remain out of scope.
 
+Run the Phase 2A.3b-4 dynamic interface-flux audit and locked verification with:
+
+```powershell
+python phase2_ca/run_phase2a3b4_validation.py --config phase2_ca/configs/phase2a3b4_method_development_v2.json --output phase2_ca/outputs/phase2a3b4_development_v2_reproduced
+python phase2_ca/run_phase2a3b4_validation.py --config phase2_ca/configs/phase2a3b4_locked_verification.json --output phase2_ca/outputs/phase2a3b4_locked_reproduced
+```
+
+The original development v1 failure is retained under
+`outputs/phase2a3b4_development/`. See
+`docs/phase2a_3b4_dynamic_interface_flux.md`. Persistent local volume ownership,
+mass closure, timestep partition, cache consistency, and rollback pass, but the
+growing planar fronts fail the locked orientation and advance-error gates.
+Phase 2A.3b-4 is therefore NO-GO and no single-grain, multigrain, or transport
+extension is authorized.
+
 Run the Phase 2A.2 rollback, grid-sensitivity, pore-envelope, and morphology
 feasibility audit with:
 

@@ -1,0 +1,46 @@
+{
+  "stage": "locked_verification",
+  "base_commit": "920aed2b8933801eb44ac65efada513e8cbc243f",
+  "development_v1_preserved": "phase2_ca/outputs/phase2a3b4_development",
+  "development_config_sha256": "25bade212b54761e70d32658de4185655cd52f46166bd5e66c3f9047189e3049",
+  "development_gate_sha256": "a510b899ace715819a1fafdb84241b3ddf56e1c4ad63a140e69a4ef3575494d9",
+  "alpha_values": [-1.0397207708399179, 0.0, 1.0397207708399179],
+  "audit": {
+    "domain_length_um": 200.0,
+    "voxel_size_um": 10.0,
+    "fitting_radius_um": 40.0,
+    "sphere_radius_um": 50.0,
+    "cube_half_width_um": 42.0,
+    "cube_rotation_xyz_deg": [17.0, 23.0, 11.0]
+  },
+  "planar": {
+    "domain_length_um": 200.0,
+    "front_radius_um": 40.0,
+    "voxel_sizes_um": [20.0, 10.0, 5.0],
+    "fitting_radius_um": 40.0,
+    "reference_advance_um": 20.0,
+    "minimum_normal_alignment": 0.65,
+    "solid_density_kg_m3": 2160.0,
+    "rng_seed": 2701
+  },
+  "timestep_partition": {
+    "voxel_size_um": 10.0,
+    "split_counts": [2, 5, 10]
+  },
+  "acceptance": {
+    "volume_closure_abs_m3_max": 1e-24,
+    "alpha_zero_actual_orientation_spread_max": 0.10,
+    "alpha_zero_partial_orientation_spread_max": 0.05,
+    "finest_actual_relative_error_max": 0.15,
+    "finest_partial_relative_error_max": 0.05,
+    "timestep_reservoir_abs_m3_max": 1e-24,
+    "local_area_abs_error_m2_max": 1e-24,
+    "local_normal_vector_error_max": 1e-12
+  },
+  "resource_limits": {
+    "maximum_workers": 3,
+    "omp_threads_per_worker": 1,
+    "gpu_used": false
+  },
+  "locked_before_outcomes": true
+}

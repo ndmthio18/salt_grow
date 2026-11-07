@@ -84,6 +84,14 @@ from .interface_flux import (
     frozen_front_realization,
     triangulated_interface,
 )
+from .dynamic_interface_flux import (
+    DynamicInterfaceFluxSystem,
+    DynamicUpdate,
+    FrontRegion,
+    FrontSnapshot,
+    candidate_face_flux_audit,
+    perpendicular_face_counterexample,
+)
 
 __all__ = [
     "AttachmentWeights",
@@ -160,4 +168,10 @@ __all__ = [
     "corrected_digital_interface",
     "frozen_front_realization",
     "triangulated_interface",
+    "DynamicInterfaceFluxSystem",
+    "DynamicUpdate",
+    "FrontRegion",
+    "FrontSnapshot",
+    "candidate_face_flux_audit",
+    "perpendicular_face_counterexample",
 ]

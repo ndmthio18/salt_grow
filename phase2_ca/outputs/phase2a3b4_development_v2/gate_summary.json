@@ -1,0 +1,13 @@
+{
+  "analytical_counterexample_pass": true,
+  "analytical_counterexample_max_relative_error": 2.220446049250313e-16,
+  "adapter_nonequivalence_detected": true,
+  "concave_multiface_max_relative_discrepancy": 0.04458261247612949,
+  "smoke_mass_closure_pass": true,
+  "timestep_partition_pass": true,
+  "rollback_pass": true,
+  "local_cache_pass": true,
+  "ownership_edge_cases_pass": true,
+  "overall_pass": true,
+  "decision": "PROCEED_TO_LOCKED"
+}

@@ -195,3 +195,37 @@ further morphology physics. Multigrain and transport work remain out of scope.
 Status: **GO for the bounded numerical allocation/ledger closure only. NO-GO
 for claims of validated evolving anisotropic NaCl morphology, multigrain
 growth, or transport coupling.** Stop at Phase 2A.3b-3.
+
+## 2026-11-07 — Phase 2A.3b-4 dynamic conservative interface flux
+
+- Proved analytically that evaluating nonlinear `kappa` after candidate-normal
+  averaging is not equivalent to summing facewise `A*kappa`; the equal-area
+  perpendicular-face adapter/face ratio is exactly `exp(-alpha/2)`.
+- Quantified adapter discrepancies on plane, sphere, convex-edge,
+  concave-corner, and rotated-cube geometries; the concave candidate maximum
+  was 4.46%, while the analytical positive-alpha counterexample underestimated
+  integrated flux by 40.54%.
+- Implemented persistent `(front, coordinate)` fractional-volume ownership and
+  event-driven realization. Incoming volume is allocated only up to the next
+  local voxel-fill event, then the interface is updated before further input is
+  consumed.
+- Added conservative local interface-cache invalidation, active/inactive
+  deposited-volume accounting, candidate-collision aggregation, patch
+  creation/disappearance checks, domain-boundary rules, and complete geometry,
+  ledger, cache, history, and RNG rollback.
+- Preserved the development v1 failure caused by an unjustified 10% concave
+  discrepancy success threshold; corrected only that detection criterion in v2
+  before locking, with all conservation and numerical tolerances unchanged.
+- Passed mass closure (`1.51e-28 m3` maximum residual), 2/5/10-part timestep
+  invariance, rollback, ownership, and local/full cache gates.
+- Failed the locked dynamic planar gates at 5 micrometres: alpha-zero actual
+  orientation spread 20.97%, maximum actual error 25.43%, and maximum partial
+  advance error 13.14%. Refinement improved actual error but did not meet the
+  predeclared limits.
+- Stopped before the single-grain comparison and all multigrain/transport work.
+- Passed 150 combined repository tests, verified all output SHA-256 inventories,
+  and obtained zero unit-audit findings.
+
+Status: **NO-GO for the dynamic interface-flux CA.** Conservation and timestep
+partition are accepted numerical components, but the end-to-end growing planar
+front does not meet orientation/advance accuracy gates. Stop at Phase 2A.3b-4.

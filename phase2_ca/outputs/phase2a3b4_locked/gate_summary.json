@@ -1,0 +1,37 @@
+{
+  "mass_closure_pass": true,
+  "alpha_zero_actual_orientation_pass": false,
+  "alpha_zero_partial_orientation_pass": false,
+  "finest_actual_error_pass": false,
+  "finest_partial_error_pass": false,
+  "actual_refinement_pass": true,
+  "timestep_partition_pass": true,
+  "rollback_pass": true,
+  "local_cache_pass": true,
+  "ownership_edge_cases_pass": true,
+  "alpha_zero_metrics": {
+    "20.0": {
+      "actual_orientation_spread_over_mean": 1.6759442452742197,
+      "partial_orientation_spread_over_mean": 0.08140470865584716,
+      "maximum_actual_relative_error": 1.0,
+      "maximum_partial_relative_error": 0.09544373132042705
+    },
+    "10.0": {
+      "actual_orientation_spread_over_mean": 0.3693762876495524,
+      "partial_orientation_spread_over_mean": 0.042342669093933936,
+      "maximum_actual_relative_error": 0.5313527718621857,
+      "maximum_partial_relative_error": 0.053336238389439905
+    },
+    "5.0": {
+      "actual_orientation_spread_over_mean": 0.20967546859612884,
+      "partial_orientation_spread_over_mean": 0.1215860987279467,
+      "maximum_actual_relative_error": 0.25426062479355505,
+      "maximum_partial_relative_error": 0.07232892843471583
+    }
+  },
+  "maximum_finest_actual_relative_error": 0.25426062479355505,
+  "maximum_finest_partial_relative_error": 0.13137713448209776,
+  "planar_overall_pass": false,
+  "single_grain_executed": false,
+  "decision": "NO_GO_DYNAMIC_PLANAR_FRONT"
+}

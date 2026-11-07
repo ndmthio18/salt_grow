@@ -1,0 +1,10 @@
+{
+  "failure_caught": true,
+  "geometry_exact": true,
+  "reservoirs_exact": true,
+  "input_ledger_exact": true,
+  "allocated_ledger_exact": true,
+  "deferred_ledger_exact": true,
+  "rng_exact": true,
+  "cache_keys_exact": true
+}

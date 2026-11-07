@@ -1,0 +1,26 @@
+{
+  "f100": {
+    "keys_exact": true,
+    "valid_flags_exact": true,
+    "local_face_count": 432,
+    "full_face_count": 432,
+    "maximum_area_abs_error_m2": 0.0,
+    "maximum_normal_vector_error": 0.0
+  },
+  "f110": {
+    "keys_exact": true,
+    "valid_flags_exact": true,
+    "local_face_count": 794,
+    "full_face_count": 794,
+    "maximum_area_abs_error_m2": 3.877409121342317e-26,
+    "maximum_normal_vector_error": 6.826968921430001e-16
+  },
+  "f111": {
+    "keys_exact": true,
+    "valid_flags_exact": true,
+    "local_face_count": 882,
+    "full_face_count": 882,
+    "maximum_area_abs_error_m2": 1.9387045606711586e-26,
+    "maximum_normal_vector_error": 7.195067539997724e-16
+  }
+}

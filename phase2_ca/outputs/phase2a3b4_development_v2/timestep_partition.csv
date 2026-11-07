@@ -1,0 +1,2 @@
+split_count,masks_exact,maximum_reservoir_abs_difference_m3,realized_voxel_difference,interface_allocated_abs_difference_m3,reference_closure_error_m3,split_closure_error_m3,reference_event_batches,split_event_batches
+5,True,5.9164567891575885e-31,0,0.0,5.048709793414476e-29,0.0,36,36

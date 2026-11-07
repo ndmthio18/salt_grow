@@ -1,0 +1,10 @@
+{
+  "concave_multiface_candidates_present": true,
+  "concave_max_adapter_discrepancy": 0.04458261247612949,
+  "convex_results_retained": 3,
+  "candidate_collision_rule": "all distinct faces owned by one coordinate are integrated before one reservoir is updated",
+  "patch_disappearance_rule": "reservoir ownership is coordinate-persistent; inactive deposited fractional volume is retained at that owner",
+  "patch_creation_rule": "a newly active coordinate starts at zero unless it already owns a retained reservoir",
+  "domain_boundary_rule": "only internal salt/empty faces create candidates; no exterior-domain candidate is synthesized",
+  "domain_candidates_valid": true
+}

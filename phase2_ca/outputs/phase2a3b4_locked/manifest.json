@@ -1,0 +1,20 @@
+{
+  "phase": "Phase 2A.3b-4",
+  "config": "phase2_ca/configs/phase2a3b4_locked_verification.json",
+  "config_sha256": "29ac6a5a2af919f6fb60d56a5bd327cd2d01723f8ddc8f4fbf4689dca45241c0",
+  "base_commit": "920aed2b8933801eb44ac65efada513e8cbc243f",
+  "python": "3.12.4",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "numpy": "2.0.0",
+  "cpu_count_visible": 22,
+  "gpu_used": false,
+  "decision": "NO_GO_DYNAMIC_PLANAR_FRONT",
+  "scope_exclusions": [
+    "multigrain",
+    "PNM",
+    "permeability",
+    "film hydraulics",
+    "vapour transport",
+    "NaCl calibration"
+  ]
+}
