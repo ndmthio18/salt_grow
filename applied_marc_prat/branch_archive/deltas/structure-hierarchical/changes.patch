@@ -1,0 +1,39 @@
+diff --git a/runs/E1_pre/README.md b/runs/E1_pre/README.md
+index 7614d725d05bfefdb1ecc359adf79f338a0d4bcc..2c9bea1235b937947a875c73de9e0aabd6e30492 100644
+--- a/runs/E1_pre/README.md
++++ b/runs/E1_pre/README.md
+@@ -1720,3 +1720,9 @@ T **没有**带到的量 [A]：a_w（Pitzer 参数 25 °C，DuMuX 头文件自
+ 与 5–50、50–62 µm 两档定性矛盾。成壳需要的两个环节——随粒径变化的"停止长高 / 堵死"开关，和让蒸发大降的规则——基线里都没有；框架自带的结壳极限 F ≤ 1 − ε_s 在单尺度下对应 d_sub ≈ 6 µm，比实验的临界粒径小 5–10 倍。
+ 能与实验比的量目前只有"是否成壳"：首晶时刻因 S_NUC = 1 比实验早 2–3 倍，高度受网格影响，E(t) 受 δ_eff 闭合影响。DuMuX 柱（δ = 1.6 mm，盒高 1.5 mm，E → 5.4）只作记账检查，其 E 与高度不应引用。
+ **对计划里一句话的更正**：供液判据的余量不是"差 ≥ 6 个量级"，而是上表的 1e−4–1e−2。
++
++## 19. 本分支：盐结构 = 分层（r = 0.5，ε_s = 0.20 [L, Wijnhorst 2025]）（分支 `structure-hierarchical`，worktree `../salt_grow_v2-hierarchical`）
++
++体系：蒸发-芯吸。本分支从 `baseline-selfconsistent` 的 `8825c42` 拉出，代码与它相同——盐结构始终是算例输入 `run(salt_structure=)`——
++差别只在本分支的算例默认与报告：`run_baseline.sh` 默认只跑 `hierarchical`。共用的修正在 baseline 上做、合并过来；只属于这种盐结构的工作进本分支（另一种取法在 `structure-single-scale`）。
++frodo 上同步到本 worktree 自己的目录 `salt_grow_v2-hierarchical/`。逐层 a_v（外层更细的晶粒进入 Da*）与 Prat 结壳极限 F ≤ 1 − ε_s 的分支（B′）在这个分支上**另行计划、另行批准**；已知风险：出生孔隙率降到 0.05–0.18，`eps_min` 的余量变小；27.5 µm 档 F = 0.846 对极限 0.80 只有 5.7 % 余量，越界**报错而不裁剪**。
+diff --git a/runs/E1_pre/run_baseline.sh b/runs/E1_pre/run_baseline.sh
+index 7504a161e300243052138762a61ebdfb1ba96e9c..974b288609f6f7fc494d065570cb96a264c6cc92 100644
+--- a/runs/E1_pre/run_baseline.sh
++++ b/runs/E1_pre/run_baseline.sh
+@@ -3,7 +3,7 @@
+ # Run from the LOCAL machine, from the worktree this script lives in: syncs THAT tree (never the
+ # logs or results) to its OWN remote directory -- not the one of the main checkout -- and starts
+ # the units.
+-#   bash runs/E1_pre/run_baseline.sh                                  # the default table below
++#   bash runs/E1_pre/run_baseline.sh                                  # the default table below: THIS branch's structure, hierarchical
+ #   RUNS="1mm:single_scale:7 dumux1d:hierarchical:12" bash runs/E1_pre/run_baseline.sh
+ #   bash runs/E1_pre/run_baseline.sh status
+ #   bash runs/E1_pre/run_baseline.sh fetch                            # records and figures back
+@@ -14,10 +14,7 @@ REMOTE=frodo
+ D=/home/zhixin/Documents/Humboldt/salt/$(basename "$LOCAL")
+ PY=/home/zhixin/Documents/Humboldt/salt/salt_grow_v2/.venv/bin/python
+ LOGS=$D/runs/E1_pre/logs_baseline
+-RUNS="${RUNS:-5-50um:single_scale:7 5-50um:hierarchical:7 50-62um:single_scale:7 50-62um:hierarchical:7 \
+-100-125um:single_scale:7 100-125um:hierarchical:7 1mm:single_scale:7 1mm:hierarchical:7 \
+-dumux1d:single_scale:12 dumux1d:hierarchical:12 \
+-1mm:single_scale:14 1mm:hierarchical:14 100-125um:single_scale:14 100-125um:hierarchical:14}"
++RUNS="${RUNS:-5-50um:hierarchical:7 50-62um:hierarchical:7 100-125um:hierarchical:7 1mm:hierarchical:7 dumux1d:hierarchical:12 1mm:hierarchical:14 100-125um:hierarchical:14}"
+ 
+ if [ "$1" = "status" ]; then
+   ssh $REMOTE "systemctl --user list-units 'saltv2_base_*' --no-pager --all | head -20; \

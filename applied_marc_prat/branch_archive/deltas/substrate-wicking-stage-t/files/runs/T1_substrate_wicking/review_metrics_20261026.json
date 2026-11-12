@@ -1,0 +1,96 @@
+{
+  "case_count": 50,
+  "conservative_cases": 47,
+  "max_relative_salt_residual": 4.9500286617191496e-11,
+  "max_relative_water_residual": 4.356496050434432e-11,
+  "fixed_background_size": [
+    {
+      "n": 5,
+      "t_B2_h": 1.383482454305387,
+      "t_C_h": 1.4777276236950547,
+      "delay_s": 339.28260980280396
+    },
+    {
+      "n": 10,
+      "t_B2_h": 1.497404289810649,
+      "t_C_h": 1.6673572466511968,
+      "delay_s": 611.830644625972
+    },
+    {
+      "n": 20,
+      "t_B2_h": 1.500961164385495,
+      "t_C_h": 1.6922258031097936,
+      "delay_s": 688.5526994074752
+    }
+  ],
+  "heterogeneity_presaturation": [
+    {
+      "seed": 1,
+      "variance_ratio_at_0_5h": 1.7128966087349804,
+      "delay_s": -160.68862400851282,
+      "one_hour_physically_valid": false
+    },
+    {
+      "seed": 2,
+      "variance_ratio_at_0_5h": 1.2538393823148228,
+      "delay_s": 95.16907408258683,
+      "one_hour_physically_valid": true
+    },
+    {
+      "seed": 3,
+      "variance_ratio_at_0_5h": 1.3907571074744078,
+      "delay_s": 134.22905523210576,
+      "one_hour_physically_valid": false
+    },
+    {
+      "seed": 4,
+      "variance_ratio_at_0_5h": 1.4136941517458643,
+      "delay_s": 550.9532257423691,
+      "one_hour_physically_valid": false
+    },
+    {
+      "seed": 5,
+      "variance_ratio_at_0_5h": 1.152705900742305,
+      "delay_s": 123.63404075980174,
+      "one_hour_physically_valid": false
+    }
+  ],
+  "depth": [
+    {
+      "depth_mm": 3.5,
+      "t_B2_h": 2.139841281172706,
+      "t_C_h": 2.614225022253114
+    },
+    {
+      "depth_mm": 7.0,
+      "t_B2_h": 1.3868366057832142,
+      "t_C_h": 1.4818732650218356
+    },
+    {
+      "depth_mm": 17.5,
+      "t_B2_h": 1.3835755507766543,
+      "t_C_h": 1.4777276236961867
+    },
+    {
+      "depth_mm": 35.0,
+      "t_B2_h": 1.383482454305387,
+      "t_C_h": 1.4777276236950547
+    },
+    {
+      "depth_mm": 70.0,
+      "t_B2_h": 1.383435160585177,
+      "t_C_h": 1.4777276236949377
+    }
+  ],
+  "nonzero_sink_probe": {
+    "host": "frodo",
+    "code_tree": "ac1ddf6618fbb68c60db3d0566ed0d63ea8943e7",
+    "nodes": 36,
+    "dt_s": 30,
+    "salt_sink_per_surface_kg_s": 1e-14,
+    "removed_salt_kg": 2.7e-12,
+    "liquid_residual_kg": 2.699999986116188e-12,
+    "water_residual_kg": 2.6999999892964907e-12,
+    "salt_residual_kg": -3.603819133740403e-21
+  }
+}

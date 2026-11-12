@@ -1,0 +1,27 @@
+ reviews/prat_layered_validation/README.md          |    166 +
+ .../figures/s1_profiles_10um.png                   |    Bin 0 -> 81977 bytes
+ .../figures/s2_1080um_eps0.2_eps_final.png         |    Bin 0 -> 63835 bytes
+ .../figures/s2_1080um_eps0.2_eps_new.png           |    Bin 0 -> 68259 bytes
+ .../figures/s2_1080um_eps0.43_eps_final.png        |    Bin 0 -> 71928 bytes
+ .../figures/s2_1080um_eps0.43_eps_new.png          |    Bin 0 -> 72145 bytes
+ .../figures/s2_112um_eps0.2_eps_final.png          |    Bin 0 -> 71538 bytes
+ .../figures/s2_112um_eps0.2_eps_new.png            |    Bin 0 -> 69804 bytes
+ .../figures/s2_112um_eps0.43_eps_final.png         |    Bin 0 -> 70142 bytes
+ .../figures/s2_112um_eps0.43_eps_new.png           |    Bin 0 -> 70346 bytes
+ .../figures/s2_28um_eps0.2_eps_final.png           |    Bin 0 -> 66987 bytes
+ .../figures/s2_28um_eps0.2_eps_new.png             |    Bin 0 -> 63282 bytes
+ .../figures/s2_28um_eps0.43_eps_final.png          |    Bin 0 -> 62709 bytes
+ .../figures/s2_28um_eps0.43_eps_new.png            |    Bin 0 -> 66679 bytes
+ .../figures/s2_56um_eps0.2_eps_final.png           |    Bin 0 -> 70840 bytes
+ .../figures/s2_56um_eps0.2_eps_new.png             |    Bin 0 -> 70118 bytes
+ .../figures/s2_56um_eps0.43_eps_final.png          |    Bin 0 -> 72486 bytes
+ .../figures/s2_56um_eps0.43_eps_new.png            |    Bin 0 -> 69539 bytes
+ .../prat_layered_validation/layered_reference.py   |    403 +
+ .../results/s1a_homogeneous.json                   |   9197 ++
+ .../results/s1b_convergence.json                   |    116 +
+ .../results/s2_layered_cases.json                  | 114283 ++++++++++++++++++
+ .../results/s3_sensitivity.json                    |    887 +
+ reviews/prat_layered_validation/results/summary.md |    175 +
+ reviews/prat_layered_validation/run_validation.py  |    300 +
+ .../test_layered_reference.py                      |    145 +
+ 26 files changed, 125672 insertions(+)

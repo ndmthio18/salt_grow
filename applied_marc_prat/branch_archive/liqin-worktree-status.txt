@@ -1,0 +1,27 @@
+Captured by read-only inspection on 2026-11-12 before archive export.
+
+WORKTREE /home/zhixin/Documents/Humboldt/salt/salt_grow_v2
+## codex/substrate-wicking-stage-t...origin/codex/substrate-wicking-stage-t
+WORKTREE /home/zhixin/Documents/Humboldt/salt/salt_grow_v2-baseline
+## baseline-selfconsistent...origin/baseline-selfconsistent
+WORKTREE /home/zhixin/Documents/Humboldt/salt/salt_grow_v2-hierarchical
+## structure-hierarchical...origin/structure-hierarchical
+ M runs/E1_pre/baseline.py
+ M runs/E1_pre/run_baseline.sh
+ M saltv2/coupling/driver3d.py
+ M saltv2/growth/crust.py
+?? tests/test_layer_av.py
+WORKTREE /home/zhixin/Documents/Humboldt/salt/salt_grow_v2-review-layered
+## review/prat-beta-hierarchy...origin/review/prat-beta-hierarchy
+WORKTREE /home/zhixin/Documents/Humboldt/salt/salt_grow_v2-single-scale
+## structure-single-scale...origin/structure-single-scale
+WORKTREE /home/zhixin/Documents/Humboldt/salt/salt_grow_v2-step0-gas
+## verify/step0-single-pore-evaporation...origin/verify/step0-single-pore-evaporation
+WORKTREE /home/zhixin/Documents/Humboldt/salt/salt_grow_v2-step1-gas
+## verify/step1-frozen-salt-pillar...origin/verify/step1-frozen-salt-pillar
+WORKTREE /home/zhixin/Documents/Humboldt/salt/salt_grow_v2-step1b-gas
+## verify/step1-grid-refinement-10um...origin/verify/step1-grid-refinement-10um
+WORKTREE /home/zhixin/Documents/Humboldt/salt/salt_grow_v2-step2a
+## verify/step2a-prat-single-scale...origin/verify/step2a-prat-single-scale
+WORKTREE /home/zhixin/Documents/Humboldt/salt/salt_grow_v2-surface
+## surface-first...origin/surface-first

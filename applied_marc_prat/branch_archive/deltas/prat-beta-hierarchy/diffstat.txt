@@ -1,0 +1,50 @@
+ reviews/prat_beta_hierarchy/README.md              |    198 +
+ reviews/prat_beta_hierarchy/beta_analysis.py       |    156 +
+ reviews/prat_beta_hierarchy/common.py              |    125 +
+ .../figures/audit_infeasibility.png                |    Bin 0 -> 68264 bytes
+ .../figures/audit_transition.png                   |    Bin 0 -> 65003 bytes
+ reviews/prat_beta_hierarchy/figures/beta_sweep.png |    Bin 0 -> 100633 bytes
+ .../prat_beta_hierarchy/figures/hierarchy_maps.png |    Bin 0 -> 61564 bytes
+ .../figures/hierarchy_sweeps.png                   |    Bin 0 -> 84366 bytes
+ reviews/prat_beta_hierarchy/hierarchy_analysis.py  |    113 +
+ .../prat_beta_hierarchy/layered_reference_ext.py   |    427 +
+ .../results/audit_eps_jump_width.json              |     44 +
+ .../results/audit_infeasibility_scan.json          |    557 +
+ .../results/audit_transition.json                  |    736 +
+ .../prat_beta_hierarchy/results/beta_analysis.md   |     97 +
+ .../prat_beta_hierarchy/results/beta_analytic.json |    404 +
+ .../results/beta_numeric_homogeneous.json          |    314 +
+ .../results/beta_numeric_layered.json              |    386 +
+ .../results/hierarchy_analysis.md                  |     67 +
+ .../results/hierarchy_analytic_maps.json           |    222 +
+ .../results/hierarchy_numeric_sweeps.json          |   1440 +
+ .../prat_beta_hierarchy/results/solver_audit.md    |     54 +
+ reviews/prat_beta_hierarchy/solver_audit.py        |    135 +
+ reviews/prat_beta_hierarchy/test_beta_hierarchy.py |    145 +
+ reviews/prat_layered_validation/README.md          |    166 +
+ .../figures/s1_profiles_10um.png                   |    Bin 0 -> 81977 bytes
+ .../figures/s2_1080um_eps0.2_eps_final.png         |    Bin 0 -> 63835 bytes
+ .../figures/s2_1080um_eps0.2_eps_new.png           |    Bin 0 -> 68259 bytes
+ .../figures/s2_1080um_eps0.43_eps_final.png        |    Bin 0 -> 71928 bytes
+ .../figures/s2_1080um_eps0.43_eps_new.png          |    Bin 0 -> 72145 bytes
+ .../figures/s2_112um_eps0.2_eps_final.png          |    Bin 0 -> 71538 bytes
+ .../figures/s2_112um_eps0.2_eps_new.png            |    Bin 0 -> 69804 bytes
+ .../figures/s2_112um_eps0.43_eps_final.png         |    Bin 0 -> 70142 bytes
+ .../figures/s2_112um_eps0.43_eps_new.png           |    Bin 0 -> 70346 bytes
+ .../figures/s2_28um_eps0.2_eps_final.png           |    Bin 0 -> 66987 bytes
+ .../figures/s2_28um_eps0.2_eps_new.png             |    Bin 0 -> 63282 bytes
+ .../figures/s2_28um_eps0.43_eps_final.png          |    Bin 0 -> 62709 bytes
+ .../figures/s2_28um_eps0.43_eps_new.png            |    Bin 0 -> 66679 bytes
+ .../figures/s2_56um_eps0.2_eps_final.png           |    Bin 0 -> 70840 bytes
+ .../figures/s2_56um_eps0.2_eps_new.png             |    Bin 0 -> 70118 bytes
+ .../figures/s2_56um_eps0.43_eps_final.png          |    Bin 0 -> 72486 bytes
+ .../figures/s2_56um_eps0.43_eps_new.png            |    Bin 0 -> 69539 bytes
+ .../prat_layered_validation/layered_reference.py   |    403 +
+ .../results/s1a_homogeneous.json                   |   9197 ++
+ .../results/s1b_convergence.json                   |    116 +
+ .../results/s2_layered_cases.json                  | 114283 ++++++++++++++++++
+ .../results/s3_sensitivity.json                    |    887 +
+ reviews/prat_layered_validation/results/summary.md |    175 +
+ reviews/prat_layered_validation/run_validation.py  |    300 +
+ .../test_layered_reference.py                      |    145 +
+ 49 files changed, 131292 insertions(+)

@@ -1,0 +1,12 @@
+ CLAUDE.md                                          |   5 +-
+ ...\200\247\345\256\241\346\237\245_2026-10-25.md" | 175 ++++++++++++++++
+ ...274\245\350\241\245\350\267\257\347\272\277.md" | 206 ++++++++++++++++++
+ reviews/prat_pnm_audit.md                          | 232 +++++++++++++++++++++
+ .../check1_eps_birth_is_bookkeeping.py             |  34 +++
+ .../check3_unsourced_cluster.py                    |  31 +++
+ .../prat_pnm_audit_checks/check4_layer_Da_star.py  |  26 +++
+ .../check5_supply_failure_vs_evaporation.py        |  21 ++
+ .../read_records_unsourced.py                      |   9 +
+ runs/E1_pre/report_vtp2014_column.html             |  46 ++++
+ .../kinetic_crust_layers_2026-10-25.py             |  52 +++++
+ 11 files changed, 836 insertions(+), 1 deletion(-)

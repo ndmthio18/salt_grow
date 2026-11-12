@@ -1,0 +1,125 @@
+* f7dbf38 (verify/step2a-prat-single-scale) Step 2A: Prat (2026) single-scale growth law against the independent 1-D reaction-transport reference (verify/step2a)
+* ea48aac (verify/step1-grid-refinement-10um) Step 1B: 20 um -> 10 um refinement check of A1 / A2 at h = 0.3 mm (verify/step1-grid-refinement-10um)
+* 57903db (verify/step1-frozen-salt-pillar) Step 1: evaporation from a prescribed wet salt pillar over the single pore, A0 / A1 / A2 at h = 0.1-0.5 mm (verify/step1)
+* a23cb78 (verify/step0-single-pore-evaporation) Step 0: gas-phase evaporation from one square surface pore, 2 mm vs 4 mm numerical domain (verify/step0)
+* 158353d (surface-first) S1: single surface pore, vapour feedback and single-scale Prat growth with closed books (plan 19 section 4.1)
+* b2f5d86 network_step: opt-in liquid sink of the salt a held pore loses (crystal_liquid_sink); interface conservation tests
+* 5ff9e13 S_surface: cross-validation of network_step against conservative_step (plan 19 section 6, step 1)
+* 66f8f66 surface-first: port the Stage-T utilities, case, tests, records and plan 19 onto baseline-selfconsistent
+| * f7b0355 (codex/substrate-wicking-stage-t) Plan 19 rev 2: hypothesis, equations, diagnostics and stop/go criteria of the surface-first ladder
+| * 077035d Plan 19: surface-first framework and the S1-S5 validation ladder
+| * 70d08bb Stage-T: pre-crystallisation substrate wicking transport on paired 3-D pore networks (B2 vs C), depth and lateral-domain series
+| | * a43a0a8 (review/prat-beta-hierarchy) Review: beta of Prat's cubic growth cell and the status of the imposed hierarchy; solver audit at layer discontinuities
+| | * d80e791 (review/prat-layered-validation) Review: independent 1-D conservative reference for the Prat (2026) closure in layered salt structures
+| |/  
+|/|   
+| | * facdfff (review/prat-pnm-audit) Review: saltv2 audit against Prat (2026) -- eps_birth, (1-F) share, salt_unsourced, hierarchy, supply failure
+| |/  
+| * 7179312 (codex/localized-nucleation-seed) Records: report of the resolved 2014 bead column; physics_checks kinetic crust-layer script
+| * b7419a2 Notes: Prat growth-law applicability review; framework-defect plan 18; Ben Amara Fig 4 numbers in CLAUDE.md
+| | *   6faf96f (structure-hierarchical) Merge branch 'baseline-selfconsistent' into structure-hierarchical
+| | |\  
+| |_|/  
+|/| |   
+| | | *   33379c4 (structure-single-scale) Merge branch 'baseline-selfconsistent' into structure-single-scale
+| | | |\  
+| |_|_|/  
+|/| | |   
+* | | | 72ee682 (baseline-selfconsistent) README 18.5: birth porosities of the two middle bead classes
+* | | | a704b40 Baseline: all fourteen runs finished; report_baseline.html and the final numbers
+* | | | 29d9a4f Baseline report names the runs it does not have yet
+* | | | 81a470f Baseline report: E against the planar limit; what the supply need consists of
+* | | | fe4ef02 DuMuX coupling check: the case states the temperature their run was made at
+* | | | 1e325d8 Baseline report: mesh criterion compares integrals and geometry separately
+| | * | 4a22985 Branch structure-hierarchical: the launcher defaults to the hierarchical salt structure
+| |/ /  
+|/| |   
+| | * fd8f2dc Branch structure-single-scale: the launcher defaults to the single_scale salt structure
+| |/  
+|/|   
+* | 8825c42 Records: the archived crust chain (README E1 section 17) and the branch layout
+* | a9edb26 Stage A references re-captured on frodo (aaa7058); README section 18
+* | aaa7058 The self-consistent baseline: case, launcher with the six criteria, frodo script
+* | d82fe98 pnm._salt_solve: vectorised assembly, same matrix to the last bit
+* | 8101e28 The global salt balance of the pore network is part of every run
+* | 6d25fe6 The case declares its temperature: gas side as f(T) from the DuMuX expressions
+* | 11fcaa6 The pore network conserves liquid and salt in a transient: pnm.network_step
+* | 2fe35ee One salt diffusivity: the Prat closures take the pore network's D_NACL = 1.54e-9
+* | 63f6364 The supply gate counts the salt of the faces that do not advance: one brine demand
+* | 0de3994 Salt structure is one record: pore-size ratio and porosity cannot be chosen separately
+|/  
+* 000d54d Records: d_sub is a case input; L_s = 22 mm is not the 2014 transport length (35 mm)
+* 56f0bd7 frodo launcher of the 2014 bead column; the record takes its code version from CODE_VERSION there
+* 624ce13 Launcher and report of the resolved 2014 bead column (runs/E1_pre/vtp2014_column.py)
+* 2061734 New case: a resolved pore column under the Veran-Tissoires & Prat 2014 bead-size series
+* 6c6f14e DuMuX column: the grain size is the pore spacing, 600 um (was the default 4 r = 800 um)
+* 52d5519 pnm: write_column_dgf, a column of identical pores in the layout parse_dgf_2d reads
+* f437fbb driver3d: the grain size and the recording interval become case inputs
+* 371db31 Report correction: the pores below the top one follow the column Peclet number, they are not monotonic
+* f7065dd Report rebuilt with the unambiguous headings and figure titles
+* cb1629b Report wording: every case is the 1 x 5 pore column; only the far field is borrowed from the one-pore runs
+* dd76cac Knowledge note: nucleation supersaturation and what happens after the first crystal
+* 59caefb Record of the no-supersaturation decision; report rebuilt
+* 0f293fa No nucleation supersaturation: the first crystal appears at C_sat
+* 513a079 Report of the DuMuX column rebuilt on the saturation-pinned closure
+* 92294c4 Record of the saturation-pinned salt closure; ref_3d_small re-captured on frodo
+* 4017046 A pore under salt holds C_sat, and what crystallises there is the structure's salt
+* 1e3eec1 Global mass audit of the coupled run; the ledger's two balances are interface identities
+* 6131d30 ref_3d_small re-captured on frodo for the upwind salt hand-over
+* f1f9e3b Record of the index fix and the upwind salt hand-over; report rebuilt
+* 563004c 3-D driver: the salt a structure draws leaves the pore at the pore's concentration
+* bbc8c81 3-D driver: a cluster on a dgf substrate drew from the bottom pore
+* e6cdb5a ref_3d_small re-captured on frodo for the sink fix; report rebuilt
+* 11b7713 3-D driver: the pore's liquid-mass sink no longer carries rho_pore / RHO_L
+* dcff4d9 Record and report of the DuMuX column coupled to the external salt structure
+* 4af7167 The DuMuX column coupled to the external salt structure: cases, check, launcher
+* c6034ea 3-D driver: per-pore concentration history, and the box of a dgf substrate
+* 7bdd60d Report: rebuilt on the modular tree
+* 3ffcd1f Modularise 5/5: the rules, the old -> new map, and a correction to 13.7
+* f1baee8 Modularise 4/5: one dgf reader
+* 2589cf0 Modularise 2-3/5: saltv2.growth, saltv2.coupling, saltv2.cases; runs/ keeps launchers
+* 5a966a3 Modularise 1/5: saltv2.materials and saltv2.pnm
+* bf60711 Network solve: accept a still pressure field, and read the substrate from a dgf
+* 42082ce Report: per-pore concentration histories, and what their shape says
+* cb08e9f Report: make the identical-boundary-condition run the headline
+* 0b6a2dc Report: the closed loop leads, and the cell Peclet number was 1100x off
+* c8fdd21 The network conserves liquid mass, not liquid volume
+* c729b00 The DuMuX top boundary condition, and their throat law is exponential
+* 824fcb9 The DuMuX reference runs were at 10 C, not 20 C
+* 5ff33c4 Water activity from the DuMuX reference case's Pitzer model
+* b268500 Book the water that evaporates on salt, so the share is an identity
+* 26f9331 Optional in-pore precipitation, ported from the DuMuX mineralisation model
+* b6ca9a6 Local HTML report of the pore-network comparison with DuMuX
+* c55849d Fix the pore radius of the column check; the network diffuses 1.8x too fast
+* cf5d793 Brine properties and throat cross-section taken from DuMuX
+* b406aa1 Compare the pore network with the DuMuX pnm2pncmin2 1-D case
+* 88f0edf Vertical pore layers with a reservoir at the bottom, and a stand-alone check
+* 06e6a99 Localized nucleation seed, source-resolved evaporation, band resolution
+* cf81ea1 (HEAD -> master) E1 README: the area-weighted split moves case 7's final E by 9 %, not 1e-5
+* 2c8bf4f ref_3d_small re-captured on frodo for the area-weighted pore split
+* dfb5db9 Exact vapour-cache signature; cluster draw split by opening area
+* 71d7aa4 Regression references pinned to frodo
+* f0ff577 Pore openings move to saltv2/interface.py; openings are square
+* 598f4dd cleanup 6: records of the cleanup, docs pointers, last two dead ledger channels
+* 3d04c0e cleanup 5: conftest owns sys.path and the shared small cases
+* 878356a cleanup 4: one-off scripts out of runs/, pre_experiment.py is the pore network only
+* c7e58fe cleanup 3: 2-D driver on its production path
+* 52022aa cleanup 2: 3-D driver on its production path; SALT_DRY state removed
+* ed88287 cleanup 1b: dead symbols out of saltv2, hierarchy constants out of BirthClosure
+* 3852752 cleanup 1a: drop the SeededModel reference path and the graded far field
+* a0db925 tests: bit-for-bit regression references of the production path (Stage 0)
+* 95c1acb checkpoint before cleanup: last tree with legacy paths
+* 4df514a docs: update model summary and record 2026-09-11 development status
+* d2039c9 runs/E3_grainsize: grain-size scan workspace and Eloukabi-flux alignment
+* af4a2e3 runs/exp_2014: local reference sheet for the Veran-Tissoires & Prat 2014 data
+* 5b3a77c runs/E1_pre: compare the closed loop against Veran-Tissoires & Prat 2014
+* 1967ba1 plan/14: correct the delta_eff calibration table and add three caveats
+* 0568ee6 plan/17: kinetic share, reaction band, crust vapour leak, pore-size spread
+* 0a0fd34 saltv2: conservative saturated-brine reference model with prescribed seeds
+* d6cc58f vapor: non-uniform mesh, activity boundary, adaptive box, AMG, far field
+* f09fcd5 geometry: separate growth clusters when smoothing, add active window and carry
+* 07754be plan/17 P9: birth properties from each column's own d_sub, not the box mean
+* 7b0592d plan/17 P5-P6: supply fixed point, salt-conserving transport, closed 3-D loop
+* 15da29b plan/17 P0-P4: state kernel, per-voxel crust properties, mass ledger, growth regularisation
+* 5afe165 E1/E2 pre-experiments: dry-salt vapour transport, supply fixed point, dt sensitivity
+* 65118b9 Pre-experiment E1_pre: 3-D vapour-field salt growth, lambda scan, 2014 comparison

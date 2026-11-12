@@ -1,0 +1,251 @@
+diff --git a/runs/E1_pre/baseline.py b/runs/E1_pre/baseline.py
+index 060268044c209bdb1f9958895b79986376ad6c53..8695f404598e09603c95bb5732f47ffedacf8f93 100644
+--- a/runs/E1_pre/baseline.py
++++ b/runs/E1_pre/baseline.py
+@@ -59,8 +59,8 @@ N_TOP = 8
+ PROFILE_EVERY_H = 1.0
+ 
+ 
+-def outdir(name, structure, vpp):
+-    return OUT / f"baseline_{name}_{structure}_vpp{vpp}"
++def outdir(name, structure, vpp, layer_av=False):
++    return OUT / f"baseline_{name}_{structure}{'_layerav' if layer_av else ''}_vpp{vpp}"
+ 
+ 
+ def quasi_steady_profile(layer, Q, C0):
+@@ -77,9 +77,11 @@ def quasi_steady_profile(layer, Q, C0):
+     return C0 + (C_SAT - C0) * np.expm1(k * log_r) / np.expm1(layer.N * log_r)
+ 
+ 
+-def run_case(name, structure, vpp, snap_hours, t_end_h):
++def run_case(name, structure, vpp, snap_hours, t_end_h, layer_av=False):
++    """``layer_av``: B' (2026-09-22) -- per-layer F and dense birth at the clamp; the record goes
++    to its own directory (suffix ``_layerav``) so that the baseline records stay what they are."""
+     st = STRUCTURES[structure]
+-    out = outdir(name, structure, vpp); out.mkdir(parents=True, exist_ok=True)
++    out = outdir(name, structure, vpp, layer_av); out.mkdir(parents=True, exist_ok=True)
+     if name == "dumux1d":
+         kw = case.dumux_column(st); kw["vpp"] = vpp
+         d_sub = dumux1d.D_SUB
+@@ -89,6 +91,8 @@ def run_case(name, structure, vpp, snap_hours, t_end_h):
+     if t_end_h is not None:
+         kw["t_end"] = t_end_h * 3600.0
+     tic = time.time()
++    if layer_av:
++        kw["layer_av"] = True; kw["tag"] += "_layerav"
+     res = run(**kw, snap_hours=snap_hours, verbose=True)
+     wall = time.time() - tic
+     h = res["hist"]; t_h = col(h, "t_h"); led = res["ledger"]; layer = res["layer"]
+@@ -352,13 +356,14 @@ def main():
+     r.add_argument("--vpp", type=int, default=None, help=f"default: {case.VPP} (the DuMuX column: its own)")
+     r.add_argument("--snap-hours", type=float, default=1.0)
+     r.add_argument("--t-end-h", type=float, default=None, help="shorten the run (pilot); default: the case's")
++    r.add_argument("--layer-av", action="store_true", help="B': per-layer F, dense birth at the clamp (own record dir)")
+     p = sub.add_parser("report"); p.add_argument("--out", type=Path, default=HERE / "report_baseline.html")
+     args = ap.parse_args()
+     if args.what == "report":
+         build_report(args.out)
+     else:
+         vpp = args.vpp if args.vpp is not None else (dumux1d.RUN_3D_GROWTH["vpp"] if args.case == "dumux1d" else case.VPP)
+-        run_case(args.case, args.structure, vpp, args.snap_hours, args.t_end_h)
++        run_case(args.case, args.structure, vpp, args.snap_hours, args.t_end_h, layer_av=args.layer_av)
+ 
+ 
+ if __name__ == "__main__":
+diff --git a/runs/E1_pre/run_baseline.sh b/runs/E1_pre/run_baseline.sh
+index 974b288609f6f7fc494d065570cb96a264c6cc92..a43b246d46c6088d686bb38361691cb3788be030 100644
+--- a/runs/E1_pre/run_baseline.sh
++++ b/runs/E1_pre/run_baseline.sh
+@@ -7,6 +7,7 @@
+ #   RUNS="1mm:single_scale:7 dumux1d:hierarchical:12" bash runs/E1_pre/run_baseline.sh
+ #   bash runs/E1_pre/run_baseline.sh status
+ #   bash runs/E1_pre/run_baseline.sh fetch                            # records and figures back
++#   RUNS="5-50um:hierarchical:7:layerav 50-62um:hierarchical:7:layerav" bash runs/E1_pre/run_baseline.sh   # B' variant
+ # The tree is synced without .git, so the commit hash travels in CODE_VERSION (as in run_crust.sh).
+ set -e
+ LOCAL=$(cd "$(dirname "$0")/../.." && pwd)
+@@ -31,11 +32,13 @@ git -C "$LOCAL" describe --always --dirty > "$LOCAL/runs/E1_pre/CODE_VERSION"
+ rsync -az --exclude 'logs*' --exclude '*.npz' --exclude '.git' --exclude '.venv' \
+       --exclude simulation_outputs "$LOCAL/" "$REMOTE:$D/"
+ for run in $RUNS; do
+-  IFS=: read -r cls st vpp <<< "$run"
+-  unit="saltv2_base_${cls//-/_}_${st}_vpp${vpp}"
++  IFS=: read -r cls st vpp var <<< "$run"
++  flag=""; sfx=""
++  if [ "$var" = "layerav" ]; then flag="--layer-av"; sfx="_layerav"; fi
++  unit="saltv2_base_${cls//-/_}_${st}${sfx}_vpp${vpp}"
+   ssh $REMOTE "mkdir -p $LOGS && systemd-run --user --unit=$unit --collect \
+       -p WorkingDirectory=$D \
+       /usr/bin/bash -c \"OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+-        exec $PY -u runs/E1_pre/baseline.py run $cls $st --vpp $vpp > $LOGS/${cls}_${st}_vpp${vpp}.log 2>&1\""
++        exec $PY -u runs/E1_pre/baseline.py run $cls $st --vpp $vpp $flag > $LOGS/${cls}_${st}${sfx}_vpp${vpp}.log 2>&1\""
+ done
+ ssh $REMOTE "systemctl --user list-units 'saltv2_base_*' --no-pager"
+diff --git a/saltv2/coupling/driver3d.py b/saltv2/coupling/driver3d.py
+index 9065eeb819f8e47530e58212f0f9fcbc1e9278cf..6df322b7a44086c8606392a93a7cd3620514c1dd 100644
+--- a/saltv2/coupling/driver3d.py
++++ b/saltv2/coupling/driver3d.py
+@@ -59,6 +59,8 @@ RELEASE_TIMES = 2.0         # crystallised salt is handed to the faces over this
+                             # the growth limiter shrinks when the release grows (a Zeno feedback)
+ SALT_QUANTUM = 9.7e-26      # mass of one NaCl formula unit, M_NACL / N_A [kg]
+ MIN_BAND_CELLS = 6.0        # minimum voxels across the physical reaction band [N diagnostic]
++DENSE_BIRTH_TOL = 1e-3      # porosity tolerance for "born at eps_min" under layer_av [N]: the regulariser mixes
++                            # F across neighbouring columns, so a cell at the clamp is born within ~1e-3 of eps_min
+ 
+ 
+ # ---- named output schema (plan/17 P6 "output upgrade").  hist stays a 2-D array so that it
+@@ -110,7 +112,7 @@ def run(lam=1, C0=0.25, c_k=3e-3, t_end=2.0 * 86400, z_top_mm=5.0, Lt_res=0.7e-3
+         cv=0.0, pitch_factor=1.0, seed=0, dt_factor=1.0, ell_over_dsub=0.0, eps_min=0.02,
+         min_band_cells=MIN_BAND_CELLS, pore_radius=None, n_layers=1, dz_pore=None,
+         pore_precipitation=False, substrate_dgf=None, substrate_L_box=None, d_sub=None,
+-        record_hours=None, salt_structure=None, T=None):
++        record_hours=None, salt_structure=None, T=None, layer_av=False):
+     """3-D evaporation-wicking loop with the closed feedback of plan/17 (P5 + P6):
+ 
+         gas-phase diffusion -> local flux j -> growth V_n = G F(Da*) j
+@@ -180,6 +182,10 @@ def run(lam=1, C0=0.25, c_k=3e-3, t_end=2.0 * 86400, z_top_mm=5.0, Lt_res=0.7e-3
+                     self-consistent and is kept to reproduce those records
+       c_k           effective-conductance reduction of the salt hierarchy [B, calibrated]
+       eps_min       porosity at which a densifying voxel becomes SALT_SEALED [A]
++      layer_av      B' (2026-09-22): F follows the crystals of each layer, Da*_n = Da*_1 r^(n-1),
++                    and is clamped at F_min = (1 - eps_s)/(1 - eps_min); a voxel born at the clamp
++                    is DENSE (eps_min) and sealed at once, its pore radius shrunk by the
++                    fixed-pore-count law (crust.BirthClosure.layer_av).  Default off: unchanged
+       ell_over_dsub regularisation length ell = ell_over_dsub * mean(d_sub) (P1b).  It gives the
+                     lattice Laplacian growth a fastest wavelength ~ ell; without it the only
+                     cut-off is the voxel size and the morphology does not converge in a.
+@@ -304,7 +310,11 @@ def run(lam=1, C0=0.25, c_k=3e-3, t_end=2.0 * 86400, z_top_mm=5.0, Lt_res=0.7e-3
+     band_resolved = bool(band_cells >= min_band_cells)
+     closure = BirthClosure(d_sub=d_sub_mean, structure=structure, c_k=c_k, gamma=GAMMA,
+                            kinetic_efficiency=F_mean, reaction_band=delta_C, D_v=air.D_v,
+-                           T=T_K if T is None else float(T))
++                           T=T_K if T is None else float(T), layer_av=bool(layer_av))
++    # F below this cannot lay down porous material: (1 - F)(1 - eps_s0)/F >= eps_s0 - eps_min.
++    # With layer_av the driver clamps F(z) here and the voxel is born dense; without it the
++    # closure raises at 1 - eps_s0 as before (never reached by the recorded cases).
++    F_min = (1.0 - eps_s0) / (1.0 - eps_min)
+     # each column inherits the grain size of the pore it sits on, so that a run with a pore-size
+     # distribution (cv > 0) does not give every voxel the properties of the mean grain
+     # (plan/17 P9 anti-pattern list).  Columns between pores fall back to the mean.
+@@ -312,7 +322,8 @@ def run(lam=1, C0=0.25, c_k=3e-3, t_end=2.0 * 86400, z_top_mm=5.0, Lt_res=0.7e-3
+     # F is per column for the same reason.  Even at cv = 0 the dgf pores are 270 +- 10 um, so F
+     # spans about 0.3 %; using the box mean for the birth porosity while the growth used the
+     # local F broke the precipitation balance by exactly that (found 2026-09-07).
+-    F_map = np.asarray(prat.F(prat.Da_star(eps_s=eps_s0, d_sub=d_sub_map, Ds=D_NACL, kr=kr)), float)
++    Da_map = np.asarray(prat.Da_star(eps_s=eps_s0, d_sub=d_sub_map, Ds=D_NACL, kr=kr), float)
++    F_map = np.asarray(prat.F(Da_map), float)
+     # The reaction band is per column for the same reason (plan/17 P9; delta_C ~ sqrt(d_sub)):
+     # it sets each column's band capacity, sealing time and sealed conductance.  Both fields go
+     # to the constructor so that any voxel born there gets its own value, as in the 2-D driver.
+@@ -376,6 +387,7 @@ def run(lam=1, C0=0.25, c_k=3e-3, t_end=2.0 * 86400, z_top_mm=5.0, Lt_res=0.7e-3
+     n_supply_iter = 0
+     n_tiny = 0; last_dt = np.nan; last_limiter = -1       # Zeno guard + step-line diagnostics
+     state_at_freeze = None; t_freeze = np.nan          # state and time of the first supply failure
++    n_dense_born = 0                                   # voxels born dense under layer_av
+     m_cell = np.zeros(g.shape)
+     stop_reason = "t_end"
+ 
+@@ -578,7 +590,15 @@ def run(lam=1, C0=0.25, c_k=3e-3, t_end=2.0 * 86400, z_top_mm=5.0, Lt_res=0.7e-3
+             salt_share[c] = w * beta_pore[pf] / beta_c[c] if beta_c[c] > 0.0 else w
+         zmax = ndimage.maximum(zidx_w, lab, index=np.arange(1, n_c + 1)) if n_c else np.zeros(0)
+ 
+-        F_grid = np.broadcast_to(F_map[..., None], gw.shape)
++        if layer_av:
++            # B': F of the LAYER a voxel at height z belongs to, Da*_n = Da*_1 r^(n-1) (the
++            # specific surface follows the crystal size), clamped at F_min: dense birth
++            z_centres = (np.arange(gw.n_z) + 0.5) * a
++            gen_grid = closure.generation(z_centres[None, None, :], d_sub_map[..., None])
++            F_grid = np.asarray(prat.F(Da_map[..., None] * closure.layer_da_factor(gen_grid)), float)
++            F_grid = np.maximum(F_grid, F_min)
++        else:
++            F_grid = np.broadcast_to(F_map[..., None], gw.shape)
+ 
+         # ---- 3 external wet faces
+         # Salt bookkeeping of an evaporating face (corrected 2026-09-06,
+@@ -1024,8 +1044,16 @@ def run(lam=1, C0=0.25, c_k=3e-3, t_end=2.0 * 86400, z_top_mm=5.0, Lt_res=0.7e-3
+                                    "accumulated does not match the volume it was given")
+             crust.eps_s[flipped_full] = eps_from_salt
+             crust.eps_birth[flipped_full] = eps_from_salt
++            if layer_av:
++                crust.shrink_at_birth(flipped_full, eps_s0)
+             crust.update_properties(flipped_full)
+             m_cell[flipped_full] = 0.0
++            if layer_av:
++                # a voxel born at the clamp holds eps_min of pore space to round-off: it is the
++                # dense, dry state from birth.  The tolerance is the accumulated round-off of
++                # m_cell, far above EPS_TOL and far below any porosity difference that matters.
++                dense = crust.seal(eps_min + DENSE_BIRTH_TOL, t + dt)
++                n_dense_born += int(dense.sum())
+         led.add("volume_unplaced", rep.volume_banked)
+         # without in-pore precipitation a bare pore has to become supersaturated to nucleate;
+         # with it the pore can never pass C_sat, so the first crystal IS the nucleation event
+@@ -1191,6 +1219,7 @@ def run(lam=1, C0=0.25, c_k=3e-3, t_end=2.0 * 86400, z_top_mm=5.0, Lt_res=0.7e-3
+         snaps.append((t / 3600, eng.state.copy()))
+     # every input of the run (older records carry more keys: the legacy flags removed 2026-09-14)
+     params = dict(lam=lam, C0=C0, c_k=c_k, t_end=t_end, z_top_mm=z_top_mm, Lt_res=Lt_res,
++                  layer_av=bool(layer_av), F_min=F_min, n_dense_born=n_dense_born,
+                   n_side=n_side, vpp=vpp, delta_eff_mm=delta_eff_mm, rh=rh, cv=cv,
+                   pitch_factor=pitch_factor, seed=seed, dt_factor=dt_factor,
+                   n_layers=n_layers, dz_pore=dz_pore, pore_precipitation=pore_precipitation,
+diff --git a/saltv2/growth/crust.py b/saltv2/growth/crust.py
+index c07a42456bbcc69103726f965250066db37f7d1d..32fb37ee141a9f87924feaa57509714584f4625c 100644
+--- a/saltv2/growth/crust.py
++++ b/saltv2/growth/crust.py
+@@ -171,6 +171,17 @@ class BirthClosure:
+                                       # the whole voxel, so its closing time
+                                       #     tau = (eps_s - eps_min) rho_cr delta_C / (beta j)
+                                       # is a physical time and not a grid time
++    # --- B' (2026-09-22, user's decision): the specific surface follows the crystals of each
++    # layer.  Prat's a_v = 5 (1 - eps_s) / d_c is written for one crystal size; in the
++    # hierarchical structure d_c halves per layer (pore_ratio), so a_v,n = a_v,1 / r^(n-1) and
++    # Da*_n = Da*_1 r^(n-1) [A, Prat 2026 "remaining topic" 1].  The driver builds F(z) from
++    # ``layer_da_factor`` and CLAMPS it at F_min = (1 - eps_s) / (1 - eps_min): below that the
++    # (1 - F) share alone over-fills the pores, and the material is born DENSE at eps_min and
++    # sealed at once (the dry, vapour-conducting state) -- no new parameter.  A dense-born voxel's
++    # pore radius follows the same fixed-pore-count law as a filled one, r = a_n sqrt(eps/eps_s)
++    # (``CrustField.shrink_at_birth``).  Off by default: every record before this date has F of
++    # layer 1 on every layer and raises at the clamp instead.
++    layer_av: bool = False
+     # --- shared
+     T: float = T_K                    # temperature of the Knudsen diffusivity [K]; a case that
+                                       # declares its temperature hands it over (driver3d.run(T=))
+@@ -200,6 +211,11 @@ class BirthClosure:
+         n = np.floor(np.log(1.0 + z * (ALPHA - 1.0) / h1) / np.log(ALPHA)) + 1.0
+         return np.clip(n, 1, 40).astype(np.int16)
+ 
++    def layer_da_factor(self, n) -> np.ndarray:
++        """Da*_n / Da*_1 = pore_ratio^(n-1) of layer n [-] (``layer_av``; 1 when it is off)."""
++        n = np.asarray(n, float)
++        return self.structure.pore_ratio ** (n - 1.0) if self.layer_av else np.ones_like(n)
++
+     def pore_radius(self, n, d_sub=None) -> np.ndarray:
+         """Internal pore half-width a_1(n) [m]."""
+         n = np.asarray(n, float)
+@@ -252,7 +268,7 @@ class BirthClosure:
+         """Everything that was actually in force, for the run record."""
+         return dict(structure_type=PATCHY_POROUS_SALT, d_sub=self.d_sub, gamma=self.gamma,
+                     cos_theta=COS_THETA, D_v=self.D_v, T=self.T, eps_s0=self.eps_s0, c_k=self.c_k,
+-                    salt_structure=self.structure.name,
++                    salt_structure=self.structure.name, layer_av=self.layer_av,
+                     c_h=C_H, alpha=ALPHA, r_halving=self.structure.pore_ratio, a_min=A_MIN,
+                     r_p_factor=R_P_FACTOR, kinetic_efficiency=self.kinetic_efficiency,
+                     reaction_band=self.reaction_band,
+@@ -388,6 +404,18 @@ class CrustField:
+             self.eps_s[flipped], self.r_p[flipped], c.D_v, c.T, c.tortuosity_exponent)
+         self.t_birth[flipped] = t
+ 
++    def shrink_at_birth(self, mask, eps_ref: float) -> None:
++        """Apply the fixed-pore-count law to the (1 - F) share a voxel was born with: its birth
++        radius becomes r_p(a_n) sqrt(eps_birth / eps_ref), eps_ref the self-replicating porosity
++        (``layer_av`` only, 2026-09-22).  Until then a voxel born at eps_birth < eps_s kept the
++        full layer radius, so its Knudsen diffusivity and its sealed conductance did not see the
++        salt it was born with.  Call after the driver has set eps_birth; follow with
++        ``update_properties``."""
++        sel = np.asarray(mask, bool)
++        if not sel.any():
++            return
++        self.r_birth[sel] = self.r_birth[sel] * np.sqrt(np.maximum(self.eps_birth[sel] / eps_ref, 0.0))
++
+     # ------------------------------------------------------------------
+     def deposit(self, dm: np.ndarray):
+         """Add the salt mass ``dm`` [kg] precipitated inside each voxel during

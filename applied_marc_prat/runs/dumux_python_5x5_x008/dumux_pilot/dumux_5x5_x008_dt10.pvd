@@ -1,0 +1,7 @@
+<?xml version="1.0"?> 
+<VTKFile type="Collection" version="0.1" byte_order="LittleEndian"> 
+<Collection> 
+<DataSet timestep="0" group="" part="0" name="" file="dumux_5x5_x008_dt10-00000.vtp"/> 
+<DataSet timestep="10" group="" part="0" name="" file="dumux_5x5_x008_dt10-00001.vtp"/> 
+</Collection> 
+</VTKFile> 

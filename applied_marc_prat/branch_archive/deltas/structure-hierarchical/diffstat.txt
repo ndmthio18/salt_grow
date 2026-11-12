@@ -1,0 +1,3 @@
+ runs/E1_pre/README.md       | 6 ++++++
+ runs/E1_pre/run_baseline.sh | 7 ++-----
+ 2 files changed, 8 insertions(+), 5 deletions(-)

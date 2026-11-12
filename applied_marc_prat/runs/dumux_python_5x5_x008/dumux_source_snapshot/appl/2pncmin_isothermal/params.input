@@ -1,0 +1,86 @@
+[TimeLoop]
+TEnd = 40000 # [s]
+DtInitial = 1 # [s]
+MaxTimeStepSize = 10 # [s]
+EpisodeLength = 0
+CheckPointInterval = 10
+
+[Grid]
+File = ../grids/pnm_2d_small.dgf
+UseSmallGrid = 1
+PoreGeometry = Cube
+ThroatCrossSectionShape = Square
+LowerLeft = 0 0e-2 # [m]
+UpperRight = 3e-3 3e-3 # [m]
+NumPores = 6 6 # number of pores in x- and y-direction
+#LowerLeft = 0.25e-2 0.5e-2 # [m]
+#UpperRight = 1.25e-2 1e-2 # [m]
+#NumPores = 19 10 # number of pores in x- and y-direction
+MeanPoreInscribedRadius = 2e-4 # inscribed pore body radius [m]
+StandardDeviationPoreInscribedRadius = 0 # [m], results in uniform network
+DeletionProbability = 0 0 1 1# delete all throats that are not axis-aligned
+ThroatRadiusN = 0.1 # relates pore body radius to throat radius
+ParameterType = lognormal # pore size distribution, has no effect here
+SubstractRadiiFromThroatLength = true
+ParameterRandomNumberSeed = 1
+RemoveThroatsOnBoundary = 3
+PriorityList = 3 2 1 0
+BoundaryFaceMarker = 1 1 1 2
+#CapPoresOnBoundaries = 3 # halves the volume of the pore bodies a the interface
+AddThroatVolumeToPoreVolume = false
+
+[Problem]
+Name = pnm_2pncmin
+InitialSaturation = 0.95 # [-]
+InitialSaturationBottom = 0.95 # [K]
+InitialSaturationTop = 0.95
+InitialTemperature = 293.15 # [K]
+InitialPressure = 1e5
+EnableGravity = false
+OnlyDiffusion = false
+VtpOutputFrequency = 1 # Write every n-th time step. 0 only writes a file if an invasion / snap-off occured
+UseDirichletAtBottom = false
+RegularizationDelta = 1e-2
+
+#Brine specific parameters
+InitialSaltMoleFraction = 0.095 #[-]
+InitialSolidVolumeFraction = 0.0 #[-]
+UseKineticPrecipitationReaction = true
+UseActivityCoefficientPitzerApproach = true
+PoreVolumeChange = true
+ThroatRadiusChange = true
+ThroatApproach = 2 #1: linear growth, 2: average source term
+ReducedEvaporativeArea = true
+
+[Brine]
+# Use Pitzer-derived water activity (Gibbs--Duhem-consistent with the
+# salt ion activity coefficient) in the brine vapor pressure. Default
+# true. Set to false to recover legacy ideal-Raoult behaviour
+# (a_w = x_l^w) for the pre-revision results.
+UsePitzerWaterActivity = true
+
+[FreeFlow]
+ReferenceWaterVaporMoleFraction = 4.7e-3    # [-]
+ReferenceTemperature = 293.15               # [K]
+BoundaryLayerThickness = 1.6e-3             #5e-3 [m]
+ReferenceGasPressure = 1e5                  # [Pa]
+TransmissibilityFactor = 1.0                # [m^4 / s Pa]
+
+[InvasionState]
+Verbosity = true
+#BlockNonwettingPhaseAtThroatLabel = 1
+InvasionThetaThreshold = 1e-14
+SnapoffThetaThreshold = 0.999
+
+[Vtk]
+AddVelocity = 1
+
+[Newton]
+MaxSteps = 10
+TargetSteps = 4
+MaxRelativeShift = 1e-5
+
+[Component]
+SolidHeatCapacity = 1.0 # for compatibility
+SolidDensity = 1.0 # for compatibility
+SolidThermalConductivity = 1.0 # for compatibility

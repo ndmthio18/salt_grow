@@ -1,0 +1,66 @@
+[TimeLoop]
+TEnd = 40000
+DtInitial = 1
+MaxTimeStepSize = 5
+EpisodeLength = 0
+CheckPointInterval = 100
+
+[Grid]
+File = grid.dgf
+UseSmallGrid = 0
+PoreGeometry = Cube
+ThroatCrossSectionShape = Square
+AddThroatVolumeToPoreVolume = false
+
+[Problem]
+Name = dumux_5x5_x008_dt5
+InitialSaturation = 1.0
+InitialSaturationBottom = 1.0
+InitialSaturationTop = 1.0
+InitialTemperature = 293.15
+InitialPressure = 1e5
+EnableGravity = false
+OnlyDiffusion = false
+VtpOutputFrequency = 1
+UseDirichletAtBottom = true
+RegularizationDelta = 1e-2
+InitialSaltMoleFraction = 0.08
+InitialSolidVolumeFraction = 0.0
+UseKineticPrecipitationReaction = false
+UseActivityCoefficientPitzerApproach = true
+PoreVolumeChange = true
+ThroatRadiusChange = true
+ThroatApproach = 2
+ReducedEvaporativeArea = true
+
+[SpatialParams]
+Temperature = 293.15
+
+[Brine]
+UsePitzerWaterActivity = true
+
+[FreeFlow]
+ReferenceWaterVaporMoleFraction = 4.7e-3
+ReferenceTemperature = 293.15
+BoundaryLayerThickness = 1.6e-3
+ReferenceGasPressure = 1e5
+TransmissibilityFactor = 1.0
+
+[InvasionState]
+Verbosity = false
+InvasionThetaThreshold = 1e-14
+SnapoffThetaThreshold = 0.999
+
+[Vtk]
+AddVelocity = 1
+
+[Newton]
+MaxSteps = 10
+TargetSteps = 4
+MaxRelativeShift = 1e-5
+
+[Component]
+SolidHeatCapacity = 1.0
+SolidDensity = 1.0
+SolidThermalConductivity = 1.0
+

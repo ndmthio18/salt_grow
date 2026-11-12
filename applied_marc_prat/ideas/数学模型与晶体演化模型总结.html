@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>盐结晶形貌转变：数学模型与晶体演化模型总结</title>
+  <style>
+    :root {
+      --ink: #172126;
+      --muted: #607078;
+      --paper: #f7f5ef;
+      --surface: #fffefa;
+      --line: #d8ddd8;
+      --blue: #155e75;
+      --blue-soft: #e5f3f5;
+      --salt: #a45b2a;
+      --salt-soft: #faeee3;
+      --green: #46715a;
+      --green-soft: #eaf3ed;
+      --amber: #936b13;
+      --amber-soft: #fff4d6;
+      --red: #9b3a34;
+      --red-soft: #fbe9e6;
+      --shadow: 0 10px 28px rgba(23, 33, 38, .07);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 8% 2%, rgba(21,94,117,.09), transparent 27rem),
+        radial-gradient(circle at 92% 8%, rgba(164,91,42,.08), transparent 25rem),
+        var(--paper);
+      color: var(--ink);
+      font-family: Inter, "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+    }
+
+    a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 28px auto 72px;
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 28px;
+    }
+
+    aside {
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,254,250,.9);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    aside .label {
+      color: var(--salt);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    aside nav { margin-top: 14px; }
+    aside nav a {
+      display: block;
+      padding: 7px 9px;
+      border-radius: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+    }
+    aside nav a:hover { color: var(--blue); background: var(--blue-soft); }
+
+    main { min-width: 0; }
+
+    header.hero {
+      position: relative;
+      overflow: hidden;
+      padding: 42px 44px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(140deg, rgba(255,254,250,.98), rgba(236,247,246,.92));
+      box-shadow: var(--shadow);
+    }
+
+    header.hero::after {
+      content: "NaCl";
+      position: absolute;
+      right: 18px;
+      bottom: -34px;
+      color: rgba(21,94,117,.065);
+      font: 900 112px/1 Georgia, serif;
+    }
+
+    .eyebrow {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 10px 0 12px;
+      font-family: Georgia, "Noto Serif SC", serif;
+      font-size: clamp(34px, 5vw, 56px);
+      line-height: 1.14;
+      letter-spacing: -.025em;
+    }
+
+    .subtitle { max-width: 760px; margin: 0; color: var(--muted); font-size: 18px; }
+    .meta { margin-top: 22px; color: var(--muted); font-size: 13px; }
+
+    section {
+      margin-top: 24px;
+      padding: 30px 34px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 5px 18px rgba(23,33,38,.035);
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-family: Georgia, "Noto Serif SC", serif;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    h3 { margin: 28px 0 10px; font-size: 19px; }
+    h4 { margin: 20px 0 8px; font-size: 16px; }
+    p { margin: 10px 0; }
+    ul, ol { padding-left: 22px; }
+    li + li { margin-top: 5px; }
+
+    .lead {
+      padding: 17px 19px;
+      border-left: 4px solid var(--blue);
+      border-radius: 0 12px 12px 0;
+      background: var(--blue-soft);
+      font-size: 17px;
+    }
+
+    .formula {
+      margin: 14px 0;
+      padding: 14px 18px;
+      overflow-x: auto;
+      border: 1px solid #d2e4e7;
+      border-radius: 12px;
+      background: #f5fbfc;
+      color: #123f4b;
+      font-family: "STIX Two Math", "Cambria Math", Georgia, serif;
+      font-size: 18px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .formula.small { font-size: 16px; }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .flow .node {
+      position: relative;
+      min-height: 112px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: white;
+    }
+
+    .flow .node:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -17px;
+      top: 39px;
+      z-index: 2;
+      color: var(--salt);
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .node b { display: block; margin-bottom: 5px; color: var(--blue); }
+    .node span { color: var(--muted); font-size: 13px; line-height: 1.45; }
+
+    .loop-note {
+      margin-top: 8px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: var(--salt-soft);
+      color: #71411f;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+
+    .card {
+      padding: 16px 17px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #fff;
+    }
+    .card h3, .card h4 { margin-top: 0; }
+    .card p:last-child { margin-bottom: 0; }
+    .card.wet { border-top: 4px solid var(--blue); }
+    .card.dry { border-top: 4px solid var(--salt); }
+    .card.gas { border-top: 4px solid #76aebb; }
+    .card.future { border-top: 4px solid var(--amber); }
+
+    table {
+      width: 100%;
+      margin: 16px 0;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th { background: #eef3f1; font-weight: 750; }
+    tr:nth-child(even) td { background: #fbfcfa; }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+    .tag.done { color: #285b43; background: var(--green-soft); }
+    .tag.proto { color: #78570e; background: var(--amber-soft); }
+    .tag.missing { color: #883730; background: var(--red-soft); }
+    .tag.source { color: #164f62; background: var(--blue-soft); }
+
+    .hierarchy {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 20px;
+      align-items: center;
+      margin: 18px 0;
+    }
+
+    .layers {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 5px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #f7faf8;
+    }
+
+    .layer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 38px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      color: white;
+      font-size: 13px;
+    }
+    .layer:nth-child(1) { height: 38px; background: #92603c; }
+    .layer:nth-child(2) { height: 50px; background: #a96e41; }
+    .layer:nth-child(3) { height: 68px; background: #bf8150; }
+    .layer:nth-child(4) { height: 88px; background: #d09b6c; color: #4e321e; }
+    .substrate {
+      padding: 10px;
+      border-radius: 8px;
+      background: #53656b;
+      color: white;
+      text-align: center;
+      font-weight: 750;
+    }
+
+    .callout {
+      margin: 16px 0;
+      padding: 14px 17px;
+      border: 1px solid #ead59a;
+      border-radius: 12px;
+      background: var(--amber-soft);
+      color: #664b0f;
+    }
+    .callout.danger { border-color: #efc2bd; background: var(--red-soft); color: #76352f; }
+    .callout.good { border-color: #bcd6c5; background: var(--green-soft); color: #315942; }
+
+    .steps { counter-reset: step; padding: 0; list-style: none; }
+    .steps li {
+      position: relative;
+      margin: 0 0 10px;
+      padding: 11px 14px 11px 48px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #fff;
+    }
+    .steps li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 13px;
+      top: 10px;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: white;
+      line-height: 25px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .refs { color: var(--muted); font-size: 14px; }
+    .refs li { margin-bottom: 7px; }
+
+    footer { padding: 24px 8px 0; color: var(--muted); font-size: 13px; text-align: center; }
+
+    @media (max-width: 900px) {
+      .page { display: block; }
+      aside { position: static; max-height: none; margin-bottom: 20px; }
+      aside nav { columns: 2; }
+      .flow { grid-template-columns: repeat(2, 1fr); }
+      .flow .node::after { display: none; }
+      .hierarchy, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .page { width: min(100% - 18px, 1180px); margin-top: 10px; }
+      header.hero, section { padding: 24px 20px; border-radius: 14px; }
+      .flow { grid-template-columns: 1fr; }
+      aside nav { columns: 1; }
+      table { font-size: 12px; }
+      th, td { padding: 7px; }
+    }
+
+    @media print {
+      body { background: white; font-size: 10.5pt; }
+      .page { display: block; width: 100%; margin: 0; }
+      aside { display: none; }
+      header.hero, section { box-shadow: none; break-inside: avoid; }
+      section { margin-top: 12px; }
+      a { color: inherit; text-decoration: none; }
+      .flow .node::after { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside>
+      <div class="label">Salt Grow V2</div>
+      <nav aria-label="目录">
+        <a href="#revision">▲ 修订说明（09-05）</a>
+        <a href="#revision2">◆ 修订说明（09-11）</a>
+        <a href="#summary">1. 模型定位</a>
+        <a href="#domains">2. 区域与状态</a>
+        <a href="#vapor">3. 气相蒸发</a>
+        <a href="#substrate">4. 基底孔网</a>
+        <a href="#nucleation">5. 成核模型</a>
+        <a href="#growth">6. 局部生长律</a>
+        <a href="#hierarchy">7. 分级晶体演化</a>
+        <a href="#porous-params">8. 多孔盐参数</a>
+        <a href="#supply">9. 供液与形貌转变</a>
+        <a href="#drying">10. 干盐与湿干前沿</a>
+        <a href="#numerics">11. 数值推进</a>
+        <a href="#outputs">12. 输出与判据</a>
+        <a href="#results">13. 当前结果</a>
+        <a href="#status">14. 实现边界</a>
+        <a href="#symbols">15. 参数表</a>
+        <a href="#references">16. 项目文件</a>
+      </nav>
+    </aside>
+
+    <main>
+      <header class="hero">
+        <div class="eyebrow">Mathematical &amp; Crystal Evolution Model</div>
+        <h1>盐结晶形貌转变：数学模型与晶体演化模型总结</h1>
+        <p class="subtitle">面向多孔介质表面盐析出的蒸发—成核—生长—供液—贯通耦合模型，重点解释离散 patch 如何保持孤立或合并形成连续 crust。</p>
+        <div class="meta">项目：salt_grow_v2　｜　版本状态：二维闭环 + 导汽壳 + 前沿追踪（数值门已过；预测斜率不足；无 patchy）　｜　原稿 2026-09-04 17:00，修订 2026-09-05（标 ▲），修订 2026-09-11（标 ◆）</div>
+      </header>
+
+      <section id="revision">
+        <div class="callout danger"><strong>▲ 2026-09-05 修订说明：</strong>原稿写于 plan/17 实施与三维 dt/网格收敛测试之前。此后确认：(1) 旧代码的冻结高度和时间随步长与体素不单调地变（同一算例 2.44 → 3.71 → 5.03 mm），§13 原表的数字是格子噪声，已撤回；(2) 生长律加入正则化长度 ℓ，形貌在 ℓ 固定后随 dt 与网格收敛，但生长速率 ∝ 1/ℓ，ℓ 尚需图像约束（§6）；(3) 冻结改为不动点，冻结湿面自封闭为 <code>SALT_SEALED</code>，泄漏按阻断列计（§9）；(4) c<sub>k</sub> = 3×10<sup>−3</sup> 在收敛形貌下不再给出壳，均匀 c<sub>k</sub> 的叠层给不出实验那么陡的粒径依赖（§13）。数据与依据：runs/E1_pre/README.md §8–§9、runs/E2_feedback/README.md §6–§7、plan/17。</div>
+        <div class="callout danger" id="revision2"><strong>◆ 2026-09-11 修订说明：</strong>此后的工作全部在二维闭环驱动（<code>runs/E2_feedback/feedback2d.py</code>）上进行：(1) 封闭壳改为<strong>导汽</strong>（D<sub>eff</sub> = ε<sup>m</sup>(1/D<sub>v</sub> + 1/D<sub>K</sub>)<sup>−1</sup>），泄漏参数 φ<sub>vent</sub> 去掉；(2) 加入基底盐；(3) <strong>前沿追踪</strong>修正（一个体素填到 ε<sub>min</sub> 再推进）后结果与网格无关，cpp = 6 复现 cpp = 36 到 2–4 %，快 ~1500 倍；(4) 远场钳位缺陷（箱高 &gt; δ<sub>eff</sub> 时通量被静默压低）修复；(5) 验证目标收缩为 2014 吸液系列，干燥实验降级；(6) c<sub>k</sub> 重标为 1×10<sup>−5</sup>；(7) 覆盖率扫描证明覆盖率不携带粒径依赖；(8) <strong>§5 成核部分与实际代码对齐</strong>：二维驱动没有浓度场和成核，种子在 t = 0 预设于每个孔；三维预实验有逐孔浓度和阈值成核，但在 2014 几何下所有孔同时成核。§13 整体重写。依据：runs/E2_feedback/README.md §8–§13、runs/E3_grainsize/、runs/exp_2014/、ideas/开发现状_2026-09-11.md。</div>
+      </section>
+
+      <section id="summary">
+        <h2>1. 模型定位</h2>
+        <p class="lead"><strong>核心目标：</strong>不预先指定 patchy 或 crusty，而是让基底输运、成核分布、气相屏蔽、盐簇供液能力和簇间合并共同决定最终形貌。</p>
+
+        <div class="flow" aria-label="模型耦合流程">
+          <div class="node"><b>基底孔结构</b><span>孔径、喉道、压力、盐浓度与非均匀输运</span></div>
+          <div class="node"><b>成核与盐簇</b><span>过饱和触发种子，产生外部多孔盐结构</span></div>
+          <div class="node"><b>蒸汽扩散</b><span>几何改变局部蒸发；尖端增强、邻区屏蔽</span></div>
+          <div class="node"><b>生长与供液</b><span>Prat生长律和分级毛细供液共同推进界面</span></div>
+        </div>
+        <div class="loop-note">反馈闭环：新几何 → 新蒸发场 → 新生长速率与抽液需求 → 新压力/浓度场 → 新成核和新几何</div>
+
+        <h3>当前适用工况</h3>
+        <div class="grid-3">
+          <div class="card wet"><h4>主模型</h4><p><strong>Evaporation–wicking</strong>：基底始终饱和，底部持续供液，盐库不耗尽。</p></div>
+          <div class="card gas"><h4>气相</h4><p>准稳态纯扩散；外部对流用等效扩散距离 δ<sub>eff</sub> 吸收。</p></div>
+          <div class="card future"><h4>尚不包含</h4><p>完整非饱和 drying、Richards 方程、力学开裂与结晶压力。</p></div>
+        </div>
+      </section>
+
+      <section id="domains">
+        <h2>2. 区域、状态与主要未知量</h2>
+        <p>最小模型由基底域 Ω<sub>p</sub>、随时间演化的盐域 Ω<sub>s</sub>(t) 和外部气相 Ω<sub>g</sub> 组成。当前代码中基底仍是表面孔层加储液池喉道的原型，盐和气相使用三维体素。</p>
+        <table>
+          <thead><tr><th>状态/区域</th><th>含义</th><th>主要场</th><th>当前处理</th></tr></thead>
+          <tbody>
+            <tr><td><code>GAS</code></td><td>外部空气</td><td>蒸汽质量分数 X<sub>v</sub></td><td>参与气相扩散</td></tr>
+            <tr><td><code>SALT_WET</code></td><td>被盐水饱和的多孔盐</td><td>液压 p<sub>ℓ</sub>、多孔参数</td><td>湿面为蒸汽 Dirichlet 边界并可生长</td></tr>
+            <tr><td><code>SALT_DRY</code>（正式语义 DRY_OPEN）▲</td><td>失去连续供液但仍可透汽的多孔盐</td><td>X<sub>v</sub>、D<sub>dry</sub></td><td>不生长、不供液，作为低扩散率多孔区；wicking 里几乎不出现（簇停在 h<sub>lim</sub> 不越过）</td></tr>
+            <tr><td><code>SALT_SEALED</code> ▲</td><td>孔隙被析盐填到 ε<sub>min</sub> 的盐</td><td>—</td><td>对蒸汽和液体都是墙；状态机 WET → DRY_OPEN → SEALED 或 WET(冻结面) → SEALED，首版不可逆</td></tr>
+            <tr><td>表面孔网</td><td>基底顶部孔和连接喉道</td><td>p<sub>i</sub>、C<sub>i</sub>、Q<sub>ij</sub></td><td>Kirchhoff液压 + 隐式盐输运</td></tr>
+            <tr><td>界面占据率 f</td><td>正在被盐填充的气体体素</td><td>0 ≤ f &lt; 1</td><td>累计到1后翻转为湿盐</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="vapor">
+        <h2>3. 气相蒸汽输运与蒸发通量</h2>
+        <p>气相时间尺度远短于晶体生长，采用准稳态扩散：</p>
+        <div class="formula">∇·(ρ<sub>g</sub>D<sub>eff</sub>∇X<sub>v</sub>) = 0</div>
+        <p>边界条件：</p>
+        <div class="formula small">远场：X<sub>v</sub> = X<sub>∞</sub>　｜　湿盐：X<sub>v</sub> = a<sub>w</sub>(C<sub>eq</sub>)X<sub>sat</sub>　｜　裸孔：X<sub>v</sub> = a<sub>w</sub>(C<sub>i</sub>)X<sub>sat</sub></div>
+        <p>侧边周期；非孔口底面无通量。有限计算箱上方增加长度 L<sub>ext</sub> 的一维串联扩散段，使 δ<sub>eff</sub> = z<sub>box</sub> + L<sub>ext</sub>。</p>
+        <div class="formula">j = −ρ<sub>g</sub>D<sub>eff</sub>∇X<sub>v</sub>·n</div>
+        <p>突出尖端聚集扩散通量，邻近裸露表面则受到屏蔽。因此气相方程既决定生长速度，也产生盐核之间的竞争和潜在排斥区。</p>
+      </section>
+
+      <section id="substrate">
+        <h2>4. 基底孔网中的压力与盐输运</h2>
+        <h3>4.1 液体压力</h3>
+        <p>圆柱喉道采用 Hagen–Poiseuille 导度：</p>
+        <div class="formula">g<sub>ij</sub> = πr<sub>ij</sub><sup>4</sup> /(8μL<sub>ij</sub>)</div>
+        <p>孔节点满足 Kirchhoff 守恒：</p>
+        <div class="formula">Σ<sub>j</sub>g<sub>ij</sub>(p<sub>j</sub>−p<sub>i</sub>) + g<sub>iR</sub>(p<sub>R</sub>−p<sub>i</sub>) = q<sub>i</sub></div>
+        <p>q<sub>i</sub>来自裸孔蒸发或其上盐簇的抽液需求。储液池压力与浓度采用 Dirichlet 条件。</p>
+
+        <h3>4.2 溶解盐输运</h3>
+        <p>孔中盐质量为 m<sub>i</sub> = ρ<sub>ℓ</sub>V<sub>i</sub>C<sub>i</sub>。喉道盐通量由上风对流和扩散组成：</p>
+        <div class="formula">F<sub>s,ij</sub> = ρ<sub>ℓ</sub>[Q<sub>ij</sub>C<sub>up</sub> + d<sub>ij</sub>(C<sub>i</sub>−C<sub>j</sub>)]，　d<sub>ij</sub> = D<sub>s</sub>A<sub>ij</sub>/L<sub>ij</sub></div>
+        <p>时间上采用 backward Euler。蒸发只移走水，盐不挥发；补液流动和扩散共同控制表面富集。</p>
+
+        <div class="callout danger"><strong>◆ 这一节描述的是哪个驱动。</strong>§4 的孔层液压与盐输运<strong>只存在于三维预实验驱动</strong>（<code>runs/E1_pre/pre_experiment.py</code>、<code>pre_experiment_vapor.py</code>）。当前用于全部粒径验证的<strong>二维闭环驱动</strong>（<code>runs/E2_feedback/feedback2d.py</code>）<strong>没有</strong>浓度场、没有储液池喉道、没有成核：种子在 t = 0 预设在每个孔口上（宽 0.77 孔距，θ<sub>0</sub> = 0.83），种子的盐在台账里记作 <code>salt_nucleated</code>。它的供液只用 <code>first_failure_height</code> 的分级阻力算高度上限。</div>
+        <div class="callout"><strong>三维预实验的简化：</strong>只离散了单层表面孔和一根 0.7 mm（或 22 mm）的储液池喉道，尚未离散完整基底柱。富集体积是一个孔（V<sub>pore</sub>/E<sub>pore</sub> ≈ 0.3 h），而真实基底的富集区是整根液柱（ℓ<sub>C</sub> = D/U ≈ 数 cm &gt; L<sub>s</sub>），时间尺度是小时到天。因此成核偏早、且各孔几乎同时。</div>
+      </section>
+
+      <section id="nucleation">
+        <h2>5. 过饱和成核模型</h2>
+        <p>定义饱和度：</p>
+        <div class="formula">S<sub>i</sub> = C<sub>i</sub>/C<sub>sat</sub></div>
+        <p>裸露孔满足以下条件时成核：</p>
+        <div class="formula">S<sub>i</sub> ≥ S<sub>nuc</sub>，　当前 S<sub>nuc</sub> = 1.20</div>
+        <p>成核后，在对应孔口足迹上放置一层湿盐体素，并将该孔浓度恢复到饱和值。最终版本可进一步采用过饱和度相关的概率成核率：</p>
+        <div class="formula">P<sub>nuc</sub> = 1 − exp[−J(S)ΔAΔt]</div>
+        <p>模型不预设固定排斥半径。已有盐簇通过蒸汽屏蔽和抽液改道降低邻区富集，排斥长度 L<sub>ex</sub>应作为计算输出。</p>
+
+        <h3>◆ 孔径分布给不给出不同的成核时刻——实际算出来的</h3>
+        <p>直觉上：初始浓度与实验相同（C<sub>0</sub> = 0.25），孔有孔径分布，各孔富集到 S<sub>nuc</sub> 的时间应该不同，于是成核有先后、有选择。三维预实验（runs/E1_pre/README.md §3、§6、§7）检验了这一点，结论分两种情形：</p>
+        <table>
+          <thead><tr><th>情形</th><th>成核</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>λ = 1，C<sub>0</sub> = 0.25，储液喉道 0.7 mm（Pe ≈ 0.3）</td><td>6/25；最大的一对孔（283 µm）1.26 h 先成核，其四个邻孔 3.03 h 成核，其余 19 孔停在 C/C<sub>sat</sub> = 1.13–1.14 永不成核</td><td><strong>有选择性</strong>——但只因为稳态富集上限（≈1.3）刚好压着阈值 1.2，大孔的孔口面积/体积比先越线；C<sub>0</sub> = 0.24 则一个都不成核</td></tr>
+            <tr><td>λ = 1，C<sub>0</sub> = 0.22，储液喉道 <strong>22 mm</strong>（2014 的 L<sub>s</sub>，Pe ≈ 3）</td><td><strong>25/25 于 0.45 h 同时</strong></td><td><strong>无选择性</strong>。富集快而均匀，先越线的和后越线的差不到一个时间步</td></tr>
+            <tr><td>λ 扫描（1/4/8/16/32，C<sub>0</sub> = 0.22，22 mm，蒸气场）</td><td>25/25 于 1.0 / 0.19 / 0.09 / 0.05 / 0.02 h</td><td>越细越早、越同步；屏蔽来不及影响成核</td></tr>
+          </tbody>
+        </table>
+        <p>所以：<strong>是</strong>，模型按浓度算成核，孔径分布确实给出不同时刻；<strong>但</strong>在实验的几何（深储液池、Pe ≈ 3）下这个差别小到可以忽略，所有孔一起成核。原因是"孔 + 喉道"把富集体积缩到一个孔，真实的富集是整根 22 mm 液柱上的浓度峰（2014 §4 的对流–扩散场），加上界面喉道通量的孔尺度涨落（2014 图 9d–i 的 PNM）——两者都还没有。2014 表 2 的实测首次析出时刻：δ = 15 mm、L<sub>s</sub> = 22 mm 下 1 mm 珠 10 800 s，100–125 µm 5 400 s，50–62 与 5–50 µm 各 4 800 s（1.3–3 h）；同一珠子把 δ 从 15 mm 压到 2.5 mm，析出时刻从 30 600 s 缩到 300 s——通量只变 1.34 倍，时刻变 102 倍。这条曲线目前模型不具备复现能力。</p>
+        <div class="callout danger"><strong>◆ 二维闭环驱动里这一节不存在。</strong>feedback2d.py 没有 C<sub>i</sub>、没有 S<sub>nuc</sub>。§13 报告的全部粒径结果都是在 t = 0 每个孔预置种子的前提下得到的，成核时刻、成核密度、排斥区在那些结果里<strong>都是输入，不是输出</strong>。</div>
+      </section>
+
+      <section id="growth">
+        <h2>6. Prat局部生长律</h2>
+        <p>初生盐晶尺度继承基底尺度：</p>
+        <div class="formula">d<sub>c,1</sub> ≈ 0.14d<sub>sub</sub>，　a<sub>v</sub> = 36(1−ε<sub>s</sub>)/d<sub>sub</sub>，　D<sub>s,eff</sub> = √ε<sub>s</sub>D<sub>s</sub></div>
+        <p>高度无关的 Damköhler 数：</p>
+        <div class="formula small">Da* = β<sup>2</sup>(1−ε<sub>s</sub>)<sup>2</sup>(1−C<sub>eq</sub>)k<sub>r</sub> /(ε<sub>s</sub>D<sub>s,eff</sub>a<sub>v</sub>)</div>
+        <p>局部结晶效率：</p>
+        <div class="formula">F(Da*) = √Da*/(1+√Da*)</div>
+        <p>湿盐—气体界面的法向速度：</p>
+        <div class="formula">V<sub>n</sub> = [C<sub>eq</sub> /(ρ<sub>cr</sub>(1−ε<sub>s</sub>)(1−C<sub>eq</sub>))] F(Da*)j</div>
+        <p>这说明局部生长速度与局部蒸发通量线性相关。Da*主要修正生长效率；若空间上均匀，它主要改变时钟而非形貌。</p>
+
+        <h3>生长造成的液体需求</h3>
+        <div class="formula small">U<sub>dem</sub> = j/ρ<sub>ℓ</sub> + [ε<sub>s</sub> + (ρ<sub>cr</sub>/ρ<sub>ℓ</sub>)(1−ε<sub>s</sub>)]V<sub>n</sub></div>
+        <p>第一项补偿蒸发；第二项负责填充新生盐体孔隙并输送即将析出的盐。簇总需求为 Q<sub>c</sub> = Σ<sub>f∈c</sub>U<sub>dem,f</sub>A<sub>f</sub>。</p>
+
+        <h3>正则化长度 ℓ ▲</h3>
+        <p>Laplacian 生长没有内禀长度：任何尺度的凸起都被放大，最细的针只受体素限制，形貌随 dt 与网格变（旧代码柱宽 48 → 34 → 24 格，冻结高度不收敛）。因此把沉积速率沿生长前沿在 ℓ 上做守恒的高斯平滑后再推进占有率：</p>
+        <div class="formula small">V̇<sub>i</sub> → Σ<sub>j</sub>K<sub>ℓ</sub>(i−j)V̇<sub>j</sub>，　K̂<sub>ℓ</sub>(k) = exp(−k<sup>2</sup>ℓ<sup>2</sup>/2)</div>
+        <p>波长短于 ℓ 的失稳被压掉，结构横向尺寸约 4–9 ℓ。约束：3a ≤ ℓ &lt; 孔距/2（ℓ ≥ 孔距时相邻孔的结构被抹成横贯周期箱的平板，收敛平凡），箱宽 ≥ 10 ℓ。当前取 ℓ = 0.25 d<sub>sub</sub>（A）。</p>
+        <div class="callout danger"><strong>ℓ 的代价：</strong>ℓ 决定针的粗细，粗细决定尖端通量，结构长高速度大致 ∝ 1/ℓ（三维 λ = 16：ℓ/d 0.15 比 0.25 快 2.4 倍，0.35 慢到 0.75 倍），覆盖率也随 ℓ 变（0.15 留裸面，≥ 0.25 整面覆盖）。ℓ 不得用 2014 蒸发曲线调；应由结构横向尺寸约束：Wijnhorst 2025 SEM（0.95 µm/px）纹理自相关给微晶 7–17 µm、次级团 48–88 µm、花菜团 0.3–0.5 mm，按次级团反推 ℓ/d<sub>sub</sub> ≈ 0.06–0.15。</div>
+      </section>
+
+      <section id="hierarchy">
+        <h2>7. 分级晶体演化模型</h2>
+        <p class="lead">“分级”不是把盐预先切成真实水平薄层，而是用高度区间近似不同生长代际：越往外，晶体和孔道越细，所占结构尺度越大。</p>
+
+        <div class="hierarchy">
+          <div class="layers" aria-label="分级盐结构示意">
+            <div class="substrate">多孔基底：d<sub>sub</sub></div>
+            <div class="layer"><b>第1代</b><span>d<sub>c,1</sub>，a<sub>1</sub>，h<sub>1</sub></span></div>
+            <div class="layer"><b>第2代</b><span>d/2，a/2，2h<sub>1</sub></span></div>
+            <div class="layer"><b>第3代</b><span>d/4，a/4，4h<sub>1</sub></span></div>
+            <div class="layer"><b>第4代</b><span>更细外层</span></div>
+          </div>
+          <div>
+            <div class="formula small">d<sub>c,n</sub> = d<sub>c,1</sub>2<sup>−(n−1)</sup>，　a<sub>n</sub> = a<sub>1</sub>2<sup>−(n−1)</sup></div>
+            <div class="formula small">h<sub>n</sub> = h<sub>1</sub>2<sup>n−1</sup>，　h<sub>1</sub> = c<sub>h</sub>d<sub>sub</sub>，当前 c<sub>h</sub>=1</div>
+            <div class="formula small">H<sub>n</sub> = Σh<sub>m</sub> = h<sub>1</sub>(2<sup>n</sup>−1)</div>
+            <div class="formula small">n(z) = 1 + floor{log<sub>2</sub>[1+z/h<sub>1</sub>]}</div>
+          </div>
+        </div>
+
+        <p>因此第一代位于 0 ≤ z &lt; h<sub>1</sub>；第二代位于 h<sub>1</sub> ≤ z &lt; 3h<sub>1</sub>；第三代位于 3h<sub>1</sub> ≤ z &lt; 7h<sub>1</sub>。当前代码按体素中心高度判代，而非追踪真实晶体亲子关系。</p>
+
+        <h3>例：d<sub>sub</sub> = 68 μm</h3>
+        <table>
+          <thead><tr><th>代数</th><th>高度区间</th><th>晶粒 d<sub>c,n</sub></th><th>孔径 a<sub>n</sub></th><th>累计高度</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>0–68 μm</td><td>9.52 μm</td><td>2.38 μm</td><td>0.068 mm</td></tr>
+            <tr><td>2</td><td>68–204 μm</td><td>4.76 μm</td><td>1.19 μm</td><td>0.204 mm</td></tr>
+            <tr><td>3</td><td>204–476 μm</td><td>2.38 μm</td><td>0.595 μm</td><td>0.476 mm</td></tr>
+            <tr><td>4</td><td>0.476–1.020 mm</td><td>1.19 μm</td><td>0.298 μm</td><td>1.020 mm</td></tr>
+            <tr><td>5</td><td>1.020–2.108 mm</td><td>0.595 μm</td><td>149 nm</td><td>2.108 mm</td></tr>
+            <tr><td>6</td><td>2.108–4.284 mm</td><td>0.298 μm</td><td>74 nm</td><td>4.284 mm</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="porous-params">
+        <h2>8. 各代多孔盐参数如何演化</h2>
+        <p>当前Wijnhorst并联缝隙闭合为：</p>
+        <div class="formula">k<sub>n</sub> = c<sub>k</sub>2<sup>n</sup>a<sub>n</sub><sup>3</sup>/(12d<sub>1</sub>)，　P<sub>cth,n</sub> = 2γcosθ/a<sub>n</sub></div>
+        <table>
+          <thead><tr><th>参数</th><th>代际规律</th><th>每进入下一代</th><th>物理后果</th><th>当前状态</th></tr></thead>
+          <tbody>
+            <tr><td>晶粒 d<sub>c</sub></td><td>∝ 2<sup>−(n−1)</sup></td><td>× 1/2</td><td>比表面积提高</td><td><span class="tag done">已用于结构假设</span></td></tr>
+            <tr><td>孔径 a</td><td>∝ 2<sup>−(n−1)</sup></td><td>× 1/2</td><td>液体和蒸汽通道变细</td><td><span class="tag done">已实现</span></td></tr>
+            <tr><td>层厚 h</td><td>∝ 2<sup>n−1</sup></td><td>× 2</td><td>细层的输运长度增大</td><td><span class="tag done">已实现</span></td></tr>
+            <tr><td>液相渗透率 k</td><td>∝ 2<sup>n</sup>a<sup>3</sup></td><td>约 × 1/4</td><td>黏性阻力增大</td><td><span class="tag done">准一维实现</span></td></tr>
+            <tr><td>毛细阈值 P<sub>cth</sub></td><td>∝ 1/a</td><td>× 2</td><td>可用毛细吸力提高</td><td><span class="tag done">已实现</span></td></tr>
+            <tr><td>比表面积 a<sub>v</sub></td><td>∝ 1/d<sub>c</sub></td><td>× 2</td><td>可能使Da*降低</td><td><span class="tag proto">未逐代反馈生长</span></td></tr>
+            <tr><td>Kelvin半径 r<sub>p</sub></td><td>约 ∝ a</td><td>× 1/2</td><td>前沿平衡活度降低</td><td><span class="tag proto">仅设计/原型</span></td></tr>
+            <tr><td>Knudsen扩散 D<sub>K</sub></td><td>∝ a</td><td>× 1/2</td><td>干盐蒸汽阻力增大</td><td><span class="tag proto">干化原型</span></td></tr>
+            <tr><td>孔隙率 ε<sub>s</sub></td><td>当前各代相同</td><td>不变</td><td>仅湿干前沿计划密化</td><td><span class="tag missing">尚未动态反馈</span></td></tr>
+            <tr><td>曲折度 τ</td><td>τ ≈ ε<sub>s</sub><sup>−1/2</sup></td><td>当前不变</td><td>影响液相/气相有效扩散</td><td><span class="tag missing">无逐代演化</span></td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout"><strong>关键竞争：</strong>孔径减半使毛细压力提高约2倍，但层厚加倍、渗透率降为约1/4，使该层黏性压降提高约8倍。因此“黏性损失/毛细能力”每代约放大4倍，最终发生水力失连。</div>
+
+        <div class="callout danger"><strong>参数解耦原则：</strong>真实盐结构的渗透率可能由少数粗而贯通的内部通道控制，毛细阈值可能由最细外层孔喉控制，蒸汽扩散又受开放孔比例控制。不能把 k<sub>s</sub>、P<sub>cth</sub> 和 D<sub>dry</sub> 当作同一个孔径唯一决定的材料常数。</div>
+      </section>
+
+      <section id="supply">
+        <h2>9. 供液极限与 patchy–crusty 转变</h2>
+        <p>对盐簇高度 h，定义底部吸力 s<sub>foot</sub> 和按簇足迹面积折算的需求速度 U = Q<sub>c</sub>/A<sub>foot</sub>。维持顶部湿润所需压力为：</p>
+        <div class="formula small">P<sub>need</sub>(h) = s<sub>foot</sub> + ρ<sub>ℓ</sub>gh + μUΣ<sub>n</sub>ℓ<sub>n</sub>(h)/k<sub>n</sub></div>
+        <p>与当前外层的毛细阈值比较：</p>
+        <div class="formula">Π = P<sub>need</sub>/P<sub>cth,n(h)</sub></div>
+        <div class="grid-2">
+          <div class="card wet">
+            <h3>Π ≤ 1：供液充分</h3>
+            <p>突出尖端蒸发最强，顶部持续向上生长。盐簇保持高而分离，倾向 <strong>patchy</strong>。</p>
+          </div>
+          <div class="card dry">
+            <h3>Π &gt; 1：顶部失连</h3>
+            <p>顶部停止或干化，低处侧面仍可供液并横向生长；相邻簇合并，倾向 <strong>canopy/crust</strong>。</p>
+          </div>
+        </div>
+
+        <p>由于 h<sub>1</sub> ∝ d<sub>sub</sub>，若临界代数 n*大致不变，则：</p>
+        <div class="formula">h* = h<sub>1</sub>(2<sup>n*</sup>−1) ∝ d<sub>sub</sub></div>
+        <p>细基底对应更低的物理失连高度，粗基底则可能在到达实验管口前始终不失连。</p>
+
+        <h3>冻结的自洽求法与自封闭 ▲</h3>
+        <p>需求 U 取决于哪些面在生长，而生长面集合又由 h<sub>lim</sub> 决定，故每簇求不动点 h* = h<sub>lim</sub>(U(h*))：U(h) 只对 h 以下的面计填孔项，蒸发项对所有湿面无条件计入；Φ(h) = h<sub>lim</sub>(U(h)) − h 单调，二分求根；外层对孔网压力 q → p → s<sub>foot</sub> 欠松弛迭代（ω = 0.5）至活跃面集合不变。不收敛即抛错，不静默继续。</p>
+        <p>h<sub>lim</sub> 以上的面速度置零但仍蒸发，其盐无处可去，按 F j C<sub>eq</sub>/(1−C<sub>eq</sub>) 填入背后体素的孔隙（从供液孔同步扣除），ε<sub>s</sub> ≤ ε<sub>min</sub> 时变 <code>SALT_SEALED</code>；封闭时间 τ<sub>seal</sub> = (ε<sub>s,0</sub>−ε<sub>min</sub>) a ρ<sub>cr</sub>(1−C<sub>eq</sub>)/(F j C<sub>eq</sub>) 由质量平衡给出，不是新参数。全封闭后 E = E<sub>resolved</sub> + φ<sub>vent</sub> f<sub>blocked</sub>，阻断列 = 该列的蒸发面没有通向远场的气体路径（顶盖上方的空气虽连通但不算）；φ<sub>vent</sub> ≈ 0.07 由 2014 的 14 倍降幅标定，是标定量不是预测。</p>
+        <p>三维小箱（2×2 孔、λ 32）实测：簇长到 h<sub>lim</sub> = 91 µm 停止，12 h 封顶，E<sub>resolved</sub> → 0，f<sub>blocked</sub> = 1。</p>
+
+        <h3>未来软门控</h3>
+        <p>正式模型计划使用连续水力可达性：</p>
+        <div class="formula">A<sub>h</sub>(Π) = 1/{1+exp[α(Π−1)]}，　V<sub>n</sub> = A<sub>h</sub>GFj</div>
+        <p>硬冻结是 α → ∞ 的极限。软门控可以直接分析垂向和横向生长速度之比。</p>
+      </section>
+
+      <section id="drying">
+        <h2>10. 干盐、内部湿前沿与致密化</h2>
+        <h3>10.1 干盐中的蒸汽扩散</h3>
+        <p>干盐不是不可穿透固体，而是低扩散率多孔介质：</p>
+        <div class="formula small">D<sub>dry,n</sub> = ε<sub>s</sub><sup>3/2</sup>[1/D<sub>v</sub> + 1/D<sub>K,n</sub>]<sup>−1</sup></div>
+        <div class="formula small">D<sub>K,n</sub> = (a<sub>n</sub>/3)√(8RT/πM<sub>w</sub>)</div>
+
+        <h3>10.2 Kelvin修正</h3>
+        <p>湿盐—干盐内部前沿的平衡活度应降低：</p>
+        <div class="formula small">a<sub>w,K</sub> = exp[−2γcosθM<sub>v</sub>/(ρ<sub>ℓ</sub>RTr<sub>p</sub>)]</div>
+
+        <h3>10.3 前沿供液和析盐</h3>
+        <div class="formula small">U<sub>front</sub> = (j<sub>front</sub>/ρ<sub>ℓ</sub>)[1 + FC<sub>eq</sub>/(1−C<sub>eq</sub>)]</div>
+        <div class="formula small">dε<sub>s</sub>/dt = −Fj<sub>front</sub>C<sub>eq</sub>/[a(1−C<sub>eq</sub>)ρ<sub>cr</sub>]</div>
+        <p>前沿持续析盐会降低孔隙率，并应反馈降低 k<sub>s</sub> 和 D<sub>dry</sub>、改变 r<sub>p</sub> 与 P<sub>cth</sub>，从而形成“干化—致密化—阻力增加”的正反馈。</p>
+
+        <div class="callout danger"><strong>当前证据边界 ▲：</strong>逐体素 ε<sub>s</sub>、r<sub>p</sub>、k<sub>s</sub>、P<sub>cth</sub>、D<sub>eff</sub> 已随出生高度赋值并随前沿析盐致密化（saltv2/crust.py），水/盐台账残差 1e−13/1e−15；状态机首版不可逆，回湿（χ、τ<sub>dry</sub>）只保留作旧结果复现。局部液体饱和度方程、逐面 Kelvin 条件、k<sub>s</sub>(ε<sub>s</sub>) 反馈仍未做（plan/17 V4）。</div>
+      </section>
+
+      <section id="numerics">
+        <h2>11. 数值推进与耦合顺序</h2>
+        <ol class="steps">
+          <li>根据当前 <code>GAS/SALT_WET/SALT_DRY</code> 几何构造气相计算域。</li>
+          <li>求解准稳态蒸汽扩散，得到裸孔和所有湿盐界面的逐面通量 j。</li>
+          <li>识别周期边界下的盐簇、簇足迹和创始孔。</li>
+          <li>由 Prat 生长律计算逐面 V<sub>n</sub> 与 U<sub>dem</sub>，汇总每个盐簇的抽液量。</li>
+          <li>在基底孔网中求解压力和喉道流量，再用隐式格式更新各孔盐浓度。</li>
+          <li>▲ 供液不动点：逐层扫描 P<sub>need</sub>−P<sub>cth</sub> 求 h<sub>lim</sub>，与孔网压力外层迭代至活跃面集合不变。</li>
+          <li>▲ 冻结湿面与内部湿干前沿的析盐率映射到具体体素；生长带走的盐从供液孔扣除。</li>
+          <li>检查 C/C<sub>sat</sub> ≥ S<sub>nuc</sub>，在新孔口成核。</li>
+          <li>▲ 沉积速率在 ℓ 上平滑后更新体素占据率：df<sub>i</sub>/dt = ΣV<sub>n,f</sub>A<sub>f</sub>/V<sub>cell</sub>。</li>
+          <li>▲ f ≥ 1 的体素翻转为湿盐，溢出只分给该体素自己的气相邻格（旧版全域汇总分配是簇间的非局部耦合，也是唯一随 dt 变的横向平滑）；新体素由翻转掩膜初始化出生属性。</li>
+          <li>▲ 执行 WET → DRY_OPEN → SEALED，重解用于记录的气相场，写入具名输出与质量台账。</li>
+        </ol>
+        <p>▲ 时间步 Δt = min(r Δt<sub>grow</sub>, r Δt<sub>net</sub>, Δt<sub>seal</sub>, r Δt<sub>salt</sub>, r Δt<sub>cap</sub>, Δt<sub>end</sub>)：Δt<sub>grow</sub> 按候选体素的总占有率增量（f<sub>max</sub> = 0.5）而非单面速度；r 是收敛测试的缩放因子，只乘精度型限制器，事件型（封闭、终止）不乘，否则以 (1−r) 的几何级数逼近事件而到不了。基准算例里 dt 由 Δt<sub>net</sub> 决定。气相只在几何或状态改变时重解（禁止"每 N 步"），上一时刻场热启动；只解到最高盐体素上方一个横向周期，其余高度并入顶部一维外段（与全箱解 E 差 1e−5，早期快 10 倍）；CG 相对容差 1e−8（E 对容差敏感：1e−7 误差 1e−3，1e−5 改形貌）。</p>
+      </section>
+
+      <section id="outputs">
+        <h2>12. 模型输出与形貌判据</h2>
+        <table>
+          <thead><tr><th>输出</th><th>定义或用途</th></tr></thead>
+          <tbody>
+            <tr><td>相对蒸发率 E</td><td>E = Ṁ<sub>total</sub>/Ṁ<sub>ref</sub>，衡量盐结构对蒸发的增强或抑制。</td></tr>
+            <tr><td>覆盖率 θ</td><td>基底或投影平面上含盐列的比例。</td></tr>
+            <tr><td>N<sub>c</sub></td><td>周期边界下的连通盐簇数量。</td></tr>
+            <tr><td>P<sub>∞</sub></td><td>最大盐簇体积占总盐体积的比例。</td></tr>
+            <tr><td>spanning</td><td>三维表面是否出现横跨计算域的盐簇。</td></tr>
+            <tr><td>h̄、h<sub>rms</sub>、h<sub>max</sub></td><td>结构平均高度、起伏和最大高度。</td></tr>
+            <tr><td>h<sub>freeze</sub></td><td>第一次供液失败的高度。</td></tr>
+            <tr><td>L<sub>n</sub>、L<sub>ex</sub></td><td>成核间距和由屏蔽/抽液自然产生的排斥尺度。</td></tr>
+          </tbody>
+        </table>
+        <div class="grid-3">
+          <div class="card wet"><h4>Patchy</h4><p>盐未贯通，覆盖率在 θ&lt;1 处平台；开放孔网络仍贯通；通常 E≈1或更高。</p></div>
+          <div class="card future"><h4>Mixed</h4><p>局部盐盖和孤立高簇共存；需要双贯通与有限尺寸判据。</p></div>
+          <div class="card dry"><h4>Crusty</h4><p>盐相形成大尺度贯通，开放孔网络失去贯通；干化后 E 显著下降。</p></div>
+        </div>
+      </section>
+
+      <section id="results">
+        <h2>13. 当前代表性计算结果 ◆</h2>
+        <div class="callout"><strong>本节 09-11 整体重写。</strong>09-05 版的表（c<sub>k</sub> = 3×10<sup>−3</sup>、φ<sub>vent</sub> 泄漏、非守恒旧闭合）已被前沿追踪修正后的结果取代；那一版的"转变粒径"和"标定—验证分离"结论不再引用。</div>
+
+        <h3>13.1 数值状态（不会再变的）</h3>
+        <ul>
+          <li>125 项测试通过；水/盐质量守恒所有算例 &lt; 4×10<sup>−15</sup>。</li>
+          <li>前沿追踪修正后结果与网格无关：cpp = 6（24 s）复现 cpp = 36（10 h）到 2–4 %；两轮独立扫描 cpp = 6 与 12 的 t<sub>seal</sub> 差 7–10 %，指数 0.87 与 0.89。</li>
+          <li>E(150 h) 四套网格 0.0505–0.0534（散布 5.4 %）——<strong>收敛</strong>。膝宽（蒸发下降持续时间）4.87–8.33 h（散布 71 %）——<strong>不收敛</strong>，只能说"5–8 h，与实测 4.4 h 同量级"。</li>
+          <li>蒸发悬崖（最初的问题）：最差单步 −0.93 → −0.065。</li>
+        </ul>
+
+        <h3>13.2 与 2014 吸液系列的对比（二维，c<sub>k</sub> = 10<sup>−5</sup>，δ<sub>eff</sub> 18 mm，RH 7 %）</h3>
+        <p>实验数据与判读见 <code>runs/exp_2014/vtp2014_experiments.html</code>。论文 §5 从图像判定：5–50 与 50–62 µm 为 crusty，100–120 与 1–1.125 mm 为 patchy；蒸发曲线独立印证（50–62 µm 于 59 h 起下陷到 0.30、随后被击穿回升；100–125 µm 全程 ≥ 0.9）。</p>
+        <table>
+          <thead><tr><th>实验档</th><th>实验（E/E<sub>0</sub>）</th><th>模型对应粒径</th><th>模型</th><th>判定</th></tr></thead>
+          <tbody>
+            <tr><td>5–50 µm（crusty）</td><td>8.8 h 跌破 0.9，16.9 h 跌破 0.2，平台 0.04–0.10，596 h 不恢复</td><td>34 µm</td><td>t<sub>seal</sub> 15.9 h，E<sub>末</sub> 0.046</td><td>✓ 时刻在窗口内，平台对</td></tr>
+            <tr><td>50–62 µm（crusty，混合）</td><td>58.8 h 跌破 0.9，75 h 谷底 0.30，120 h 回到 1.04</td><td>68 µm</td><td>28.9 h</td><td>早 2 倍；阶段 3 回升不在模型内</td></tr>
+            <tr><td>100–125 µm（patchy）</td><td>142 h 内最低 0.95</td><td>135 µm</td><td>52.7 h 结壳</td><td><strong>✗ 定性错</strong></td></tr>
+            <tr><td>1–1.125 mm（patchy）</td><td>不结壳，末期升到 2.23</td><td>1080 µm</td><td>200 h 不结壳，但 θ 于 20 h 达 1.0</td><td>✓ 不结壳；升高做不到；且基底被盖满，不是 patchy</td></tr>
+          </tbody>
+        </table>
+        <p>模型的 crusty/patchy 边界在 270–540 µm，实验在 56–112 µm（论文第三档标签自相矛盾：正文 100–120、表格 100–125、图 22 行标 200–220 µm；若图 22 为准则 56–210 µm）。幂律（6 个通量 × 8 个粒径、修复远场钳位后）：</p>
+        <div class="formula">t<sub>seal</sub> ∝ d<sub>sub</sub><sup>0.74–0.87</sup> · j<sup>−1.47…−1.73</sup>　　实验要求 d<sub>sub</sub><sup>≥1.2</sup></div>
+        <p>差 1.4 倍。c<sub>k</sub> 是乘性的，只能平移这条线，掰不弯。粗算 c<sub>k</sub> ≈ 1.3×10<sup>−4</sup> 能把四档里三档做对、第四档卡在边缘，未跑。</p>
+        <table>
+          <thead><tr><th>对上的量</th><th>性质</th></tr></thead>
+          <tbody>
+            <tr><td>裸平面速率 0.0647 g/h</td><td><strong>标定的</strong>：δ<sub>eff</sub> = 18 mm 就是用 2014 表 1 的 J<sub>exp</sub> 反算的（§15），"模型 = 实测"是构造出来的</td></tr>
+            <tr><td>平台 0.046</td><td>压在两个假设数上：ε<sub>min</sub> = 0.02 [A]、m = 1.5 [L，在 ε ≈ 0.02 处是外推]。比 09-05 版好：φ<sub>vent</sub> 已去掉，平台是壳导率算的，不是拟合的</td></tr>
+            <tr><td>t<sub>seal</sub> 水平</td><td>c<sub>k</sub> 标定过</td></tr>
+            <tr><td>粒径趋势的方向、粗端不结壳、分类顺序</td><td>模型自己给的——<strong>这才是能算预言的部分，而它不够好</strong></td></tr>
+          </tbody>
+        </table>
+
+        <h3>13.3 覆盖率扫描：覆盖率不携带粒径依赖</h3>
+        <p>4 粒径 × 4 初始覆盖率（seed_fraction 0.77/0.50/0.30/0.17 → θ<sub>0</sub> 0.75/0.50/0.33/0.17），2014 条件，cpp = 12：θ<sub>0</sub> 压 4.5 倍，t<sub>seal</sub> 最多变 11 %，指数 0.89 → 0.96，E<sub>末</sub> 不变。原因：斑块在 0.4–9 h 内合并，结壳要 14–104 h；且 seed = 0.17 时 34/68/135 µm 的基底<strong>始终没盖满</strong>而 t<sub>seal</sub> 反而更短——<strong>壳是在空中合拢的</strong>（相邻柱顶展开相接成盖），基底覆盖率不是控制量。</p>
+
+        <h3>13.4 三维预实验的形貌结果（E1_pre §7.1，c<sub>k</sub> = 3×10<sup>−3</sup>，δ<sub>eff</sub> 5 mm，旧闭合）</h3>
+        <p>同一孔距（0.7 mm/λ）、同一种子（25 孔同时成核）、同一 c<sub>k</sub>：λ = 1、4（1080、270 µm）24 个簇竖长到箱顶，<strong>不合并、不贯通</strong>，顶盖覆盖 0.47–0.51，θ 0.39——patchy；λ = 8、16、32（135、68、34 µm）在 2.26 / 1.60 / 0.87 mm 冻结，以下横向铺开，顶盖覆盖 1.00，其下 55–61 % 裸孔——"顶盖式壳"。转变在 135–270 µm。这是用旧闭合、旧 c<sub>k</sub> 得到的，绝对数不引用，但<strong>形貌分支本身在三维里出现了</strong>。</p>
+
+        <h3>13.5 ◆ 为什么二维模型形成不了 patchy</h3>
+        <p>实验里 patchy 靠三件事维持：稀疏成核（2014 图 20：δ = 15 mm 时 1 mm 珠约 40 个结构/1134 mm²，间距 5.3 mm，个数由通量决定）；屏蔽 + 汇让裸基底不再成核、小斑块溶解；顶端生长使结构高而孤立。按对当前代码和 E1_pre 记录的核对，原因分层如下（顺序即权重）：</p>
+        <ol>
+          <li><strong>维度（首要）。</strong>二维 x–z 加周期侧边，一排柱顶连成一线 = 完整的屋顶，气相被封死；三维里同样的东西是一排篱笆。13.4 表明三维在<strong>同样的孔距种子</strong>下粗基底保持 patchy——所以把 patchy 的缺失主要归于间距（09-09 的判断）是错的，主要是二维。</li>
+          <li><strong>种子间距绑在孔距上。</strong>模型 0.70 mm（1 mm 珠）到 0.022 mm（34 µm），实测 2.7–5.3 mm 且随通量而非孔距变。这是一个真实的定量错误——影响斑块密度、E 的升高幅度、可能也影响转变位置——但从 13.4 看它不是三维里 patchy 的障碍。</li>
+          <li><strong>没有成核选择。</strong>二维驱动无成核；三维驱动有阈值成核但在 2014 几何下同时成核（§5）。稀疏、由通量决定的斑块密度需要基底柱输运 + 成核（模块 1、2），未做；溶解（"死亡"）也未做。</li>
+          <li><strong>冻结面规则与 2014 §6.2 不同（待验证）。</strong>本模型冻结面<strong>继续蒸发</strong>并把盐沉进反应带、原地致密封闭（plan/16 M2）；2014 格子模型里毛细失败的格子变成<strong>干的零蒸发屏障</strong>，通量赶到下方湿面横向长。前者让顶端自己封死，后者让底部摊开。这条只核对了代码与论文，没有做分离实验。</li>
+        </ol>
+        <p><strong>不是原因的：</strong>生长律（V<sub>n</sub> ∝ j 本身给出顶端快、侧面慢的花椰菜形，2014 §6.2 同样的规则长出了 patchy）；供液闭合（它让细基底低处冻结、横向铺开，这部分在二维和三维都工作；模型错的是粗端，而粗端在三维里是对的）。</p>
+        <div class="callout"><strong>◆ 由此改变的下一步：</strong>不做二维种子间距扫描（二维里再稀也会在一排上合拢）；优先把导汽壳、基底盐、前沿追踪<strong>移植回三维驱动</strong>，在三维里重跑 2014 四档。之后才轮到 c<sub>k</sub> 扫描、ε<sub>min</sub>/m 的依据、基底柱输运与成核。</div>
+
+        <div class="callout danger"><strong>现阶段不能声称 ◆：</strong>转变粒径的绝对位置（斜率差 1.4 倍，且二维无 patchy）；封闭后 E 平台的数值（ε<sub>min</sub>、m 为假设）；膝宽（不收敛）；成核时刻与密度（输入）；50–62 µm 的阶段 3 回升；patchy 档 E &gt; 1 的升高；一切 drying 后期。</div>
+      </section>
+
+      <section id="status">
+        <h2>14. 当前实现与待完善边界</h2>
+        <table>
+          <thead><tr><th>功能</th><th>状态</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>维数无关体素、周期簇标记、体积守恒</td><td><span class="tag done">完成</span></td><td>位于 saltv2/grid.py、geometry.py、morphology.py。</td></tr>
+            <tr><td>气相FV与逐面蒸发通量</td><td><span class="tag done">完成</span></td><td>支持裸孔边界、外部扩散长度和干盐多孔区。</td></tr>
+            <tr><td>Prat生长律耦合 + 正则化 ℓ ◆</td><td><span class="tag done">二维闭环完成</span></td><td>feedback2d.py 闭环；正则化改为平滑 盐×F（盐守恒）；ℓ = 0.25 d<sub>sub</sub>，其值仍待图像约束。三维驱动仍是旧闭合。</td></tr>
+            <tr><td>导汽壳 + 基底盐 + 前沿追踪 ◆</td><td><span class="tag done">二维完成</span></td><td>saltv2/crust.py：sealed_conductance、reaction_band、skin_capacity 校验；φ<sub>vent</sub> 去掉；结果与网格无关。<strong>未移植到三维。</strong></td></tr>
+            <tr><td>孔层液压、盐输运、成核 ◆</td><td><span class="tag proto">仅三维预实验</span></td><td>三维驱动：表面孔层 + 储液喉道 + 阈值成核（在 2014 几何下所有孔同时成核）。<strong>二维闭环驱动无此模块</strong>，种子 t = 0 预置。完整基底柱/PNM 未实现。</td></tr>
+            <tr><td>盐结构供液 ▲</td><td><span class="tag proto">准一维 + 不动点</span></td><td>按簇高累积分级阻力，h* = h<sub>lim</sub>(U(h*)) 与孔网压力迭代；不是盐域多维Darcy解。</td></tr>
+            <tr><td>逐代体素属性 ▲</td><td><span class="tag done">完成</span></td><td>saltv2/crust.py：generation、ε<sub>s</sub>、r<sub>p</sub>、k<sub>s</sub>、P<sub>cth</sub>、D<sub>eff</sub>、m<sub>precipitated</sub>、三个时间戳，由翻转掩膜初始化；每列用自己的 d<sub>sub</sub>。</td></tr>
+            <tr><td>软水力可达性</td><td><span class="tag missing">未实现</span></td><td>当前为硬冻结（不动点）。</td></tr>
+            <tr><td>封闭链与质量台账 ▲</td><td><span class="tag done">完成</span></td><td>冻结面/内部前沿致密化 → SEALED；具名通道台账与守恒检查（saltv2/ledger.py）；泄漏按阻断列。Kelvin 与饱和度方程待补。</td></tr>
+            <tr><td>数值收敛门（P1）◆</td><td><span class="tag done">二维通过</span></td><td>前沿追踪后 E(150 h) 四套网格散布 5.4 %，cpp = 6 复现 cpp = 36；膝宽不收敛（71 %）。三维未重测。</td></tr>
+            <tr><td>二维 patchy 形貌 ◆</td><td><span class="tag missing">不可能</span></td><td>周期二维里一排柱顶相接即封顶；三维预实验在同样种子下给出 patchy（§13.4–13.5）。需三维移植。</td></tr>
+            <tr><td>统计相图</td><td><span class="tag missing">未实现</span></td><td>需更大孔网、多随机实现和有限尺寸分析。</td></tr>
+            <tr><td>PNM/DuMuX接口</td><td><span class="tag missing">未实现</span></td><td>需标准化p<sub>ℓ,0</sub>、C<sub>0</sub>、j和U<sub>dem</sub>交换。</td></tr>
+          </tbody>
+        </table>
+        <p><strong>当前最准确的定位 ◆：</strong>一个能把"结壳压蒸发"从闭环里自洽算出来（守恒、网格无关、平台落在实测区间）的二维模型；但预测不了什么条件下会结壳：粒径斜率 0.87 对实验要求的 ≥ 1.2，100–125 µm 档定性判错；且二维周期几何原理上给不出 patchy，crusty/patchy 在二维里只是"结不结壳"。绝对速率与平台高度不是预言（δ<sub>eff</sub>、c<sub>k</sub> 标定，ε<sub>min</sub>、m 假设）。</p>
+      </section>
+
+      <section id="symbols">
+        <h2>15. 主要参数与当前取值</h2>
+        <p><span class="tag source">M</span> 测量　<span class="tag source">L</span> 文献/文献闭合　<span class="tag proto">A</span> 假设　<span class="tag proto">B</span> 标定　<span class="tag done">V</span> 项目内验证　<span class="tag missing">N</span> 数值参数</p>
+        <table>
+          <thead><tr><th>参数</th><th>当前值</th><th>含义</th><th>性质</th></tr></thead>
+          <tbody>
+            <tr><td>C<sub>eq</sub></td><td>0.264</td><td>NaCl饱和质量分数</td><td>L</td></tr>
+            <tr><td>ρ<sub>cr</sub></td><td>2170 kg m<sup>−3</sup></td><td>岩盐晶体密度</td><td>L</td></tr>
+            <tr><td>ρ<sub>ℓ</sub></td><td>1200 kg m<sup>−3</sup></td><td>饱和盐水密度</td><td>L / 反校准</td></tr>
+            <tr><td>ε<sub>s</sub></td><td>0.43；crust参考0.25</td><td>多孔盐孔隙率</td><td>M/L</td></tr>
+            <tr><td>d<sub>c</sub>/d<sub>sub</sub></td><td>0.14</td><td>初生晶粒—基底尺度比</td><td>L（Prat 2026 引 Wijnhorst 2024，原文出处未核）▲</td></tr>
+            <tr><td>β</td><td>2</td><td>Prat几何放大因子</td><td>L</td></tr>
+            <tr><td>k<sub>r</sub></td><td>2.3×10<sup>−3</sup> m s<sup>−1</sup></td><td>21 °C沉淀反应系数</td><td>L</td></tr>
+            <tr><td>D<sub>s</sub></td><td>1.3×10<sup>−9</sup> m² s<sup>−1</sup></td><td>Prat生长律中的盐扩散率</td><td>L</td></tr>
+            <tr><td>D<sub>s,network</sub></td><td>1.5×10<sup>−9</sup> m² s<sup>−1</sup></td><td>当前孔网输运值；待统一</td><td>L</td></tr>
+            <tr><td>γ</td><td>0.075 N m<sup>−1</sup></td><td>表面张力</td><td>L</td></tr>
+            <tr><td>S<sub>nuc</sub> ◆</td><td>1.20（仅三维预实验）</td><td>首次成核过饱和阈值；二维驱动无成核</td><td>A/L</td></tr>
+            <tr><td>seed_fraction ◆</td><td>0.77</td><td>二维驱动 t = 0 预置种子的宽度/孔距；扫描 0.17–0.77 证明对 t<sub>seal</sub> 无杠杆</td><td>A</td></tr>
+            <tr><td>c<sub>k</sub> ◆</td><td>1×10<sup>−5</sup>（二维，前沿追踪后）；三维旧值 3×10<sup>−3</sup></td><td>相对理想缝隙的水力导通折减；乘性，只定 t<sub>seal</sub> 水平</td><td>B</td></tr>
+            <tr><td>a<sub>min</sub></td><td>2 nm</td><td>分级孔径下限</td><td>A</td></tr>
+            <tr><td>δ<sub>eff</sub> ◆</td><td>18 mm（2014算例）</td><td>由 2014 表 1 四条 L<sub>s</sub> = 22 mm 的 J<sub>exp</sub> 反算（17.0–18.6，均值 18.03）。<strong>不是几何长度</strong>：= 26.75 mm 纯扩散阻力 ÷ 1.49 自由对流增强；并吸收了水汽常数 20 °C 对实验 22 °C 的 14 % 错配（plan/14 §12）</td><td>B</td></tr>
+            <tr><td>ρ<sub>g</sub>, D<sub>v</sub>, W<sub>sat</sub> ◆</td><td>1.182, 2.419×10<sup>−5</sup>, 0.01468</td><td>水汽常数，20 °C（W<sub>sat</sub> 核对值 0.01470）；实验 22 °C 为 0.01667</td><td>L</td></tr>
+            <tr><td>RH</td><td>7%（2014算例）</td><td>环境相对湿度</td><td>M</td></tr>
+            <tr><td>ℓ/d<sub>sub</sub> ▲</td><td>0.25（扫描 0.15/0.35）</td><td>生长律正则化长度；图像反推 0.06–0.15</td><td>A</td></tr>
+            <tr><td>ε<sub>min</sub> ◆</td><td>0.02</td><td>封闭孔隙率阈值；封闭壳的 D<sub>eff</sub> 在它上面取值，平台高度直接依赖它</td><td>A</td></tr>
+            <tr><td>m ◆</td><td>1.5</td><td>D<sub>eff</sub> = ε<sup>m</sup>… 的 Bruggeman 指数；在 ε ≈ 0.02 上是外推，与 ε<sub>min</sub> 共同决定平台</td><td>L（外推）</td></tr>
+            <tr><td>φ<sub>vent</sub> ◆</td><td><strong>0（已去掉）</strong></td><td>旧的亚网格泄漏参数；导汽壳后与之重复计数，禁止非零</td><td>—</td></tr>
+            <tr><td>r<sub>p</sub>/a<sub>1</sub> ▲</td><td>0.5</td><td>Kelvin/Knudsen 半径与孔半宽之比</td><td>A</td></tr>
+            <tr><td>f<sub>max</sub>，vapor rtol ▲</td><td>0.5，1e−8</td><td>体素占有率步长上限；CG 相对容差</td><td>N</td></tr>
+            <tr><td>χ，τ<sub>dry</sub></td><td>0.2，1 h</td><td>回湿滞后和停留时间（仅复现旧结果，allow_rewet）</td><td>A/N</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="references">
+        <h2>16. 对应项目文件</h2>
+        <ul class="refs">
+          <li><a href="v2_model_formulation.md">v2_model_formulation.md</a>：耦合模型完整数学表述。</li>
+          <li><a href="patchy_crusty_transition_model.md">patchy_crusty_transition_model.md</a>：patchy–crusty研究目标、机制假设与相图构想。</li>
+          <li><a href="plan/13_分级细化自限高_推导.md">plan/13_分级细化自限高_推导.md</a>：分级结构、水力自限高与 h* ∝ d<sub>sub</sub>推导。</li>
+          <li><a href="plan/15_干化状态_SALT_DRY.md">plan/15_干化状态_SALT_DRY.md</a>：干盐扩散、回湿与前沿致密化原型。</li>
+          <li>▲ <a href="plan/16_形貌对蒸发的反馈_主因子.md">plan/16_形貌对蒸发的反馈_主因子.md</a>：壳 = 自封闭 + 通气孔的主因子分析。</li>
+          <li>▲ <a href="plan/17_三维结晶_蒸发反馈闭环实施计划.md">plan/17_三维结晶_蒸发反馈闭环实施计划.md</a>：P0–P9 实施计划（修订版：P1 数值收敛里程碑含 ℓ）。</li>
+          <li>▲ <a href="../saltv2/regularize.py">saltv2/regularize.py</a>、<a href="../saltv2/crust.py">crust.py</a>、<a href="../saltv2/ledger.py">ledger.py</a>：正则化、逐体素属性与状态机、质量台账。</li>
+          <li>▲ <a href="../runs/E2_feedback/README.md">runs/E2_feedback/README.md</a>：二维封闭原型、提交验证（§6）与 c<sub>k</sub> 标定—验证尝试（§7）。</li>
+          <li><a href="../saltv2/vapor.py">saltv2/vapor.py</a>：准稳态蒸汽有限体积求解器。</li>
+          <li><a href="../saltv2/geometry.py">saltv2/geometry.py</a>：体素占据率推进与体积守恒。</li>
+          <li><a href="../prat2026/core.py">prat2026/core.py</a>：Prat 2026生长律的单一实现源。</li>
+          <li><a href="../runs/E1_pre/pre_experiment_vapor.py">runs/E1_pre/pre_experiment_vapor.py</a>：当前耦合预实验与干化原型。</li>
+          <li><a href="../runs/E1_pre/README.md">runs/E1_pre/README.md</a>：计算设置、结果与已知偏差。</li>
+        </ul>
+      </section>
+
+      <footer>本页面为项目内部数学模型总结。公式与参数以仓库当前文档及代码为准；标记为假设或标定的关系不得表述为独立实验定律。</footer>
+    </main>
+  </div>
+</body>
+</html>

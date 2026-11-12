@@ -1,0 +1,140 @@
+{
+  "dumux_dt10_vs_dt5_x": {
+    "value": 0.0073609999999999925,
+    "limit": 0.0001,
+    "relation": "lt",
+    "pass": false
+  },
+  "dumux_dt10_vs_dt5_evap": {
+    "value": 0.0003299008045686086,
+    "limit": 0.005,
+    "relation": "lt",
+    "pass": true
+  },
+  "dumux_dt10_vs_dt5_solid": {
+    "value": 0.00056183892151627,
+    "limit": 0.01,
+    "relation": "lt",
+    "pass": true
+  },
+  "python_dt10_vs_dt5_x": {
+    "value": 0.00010853396002849514,
+    "limit": 0.0001,
+    "relation": "lt",
+    "pass": false
+  },
+  "python_dt10_vs_dt5_evap": {
+    "value": 8.572546131453583e-06,
+    "limit": 0.005,
+    "relation": "lt",
+    "pass": true
+  },
+  "python_dt10_vs_dt5_solid": {
+    "value": 0.003377200407399018,
+    "limit": 0.01,
+    "relation": "lt",
+    "pass": true
+  },
+  "dumux_completed_40000s_and_newton_converged": {
+    "value": false,
+    "required": true,
+    "pass": false
+  },
+  "dumux_reconstructed_mass_ledger": {
+    "value": 0.03367081871981912,
+    "limit": 1e-06,
+    "status": "failed on 0-1000 s diagnostic; full failed runs predate signed diagnostics",
+    "pass": false
+  },
+  "python_dt5_vs_dt2p5_x": {
+    "value": 5.5872740604479e-05,
+    "limit": 0.0001,
+    "relation": "lt",
+    "pass": true
+  },
+  "python_dt5_vs_dt2p5_evap": {
+    "value": 4.284817448960338e-06,
+    "limit": 0.005,
+    "relation": "lt",
+    "pass": true
+  },
+  "python_dt5_vs_dt2p5_solid": {
+    "value": 0.0017070679172785568,
+    "limit": 0.01,
+    "relation": "lt",
+    "pass": true
+  },
+  "self_driven_pre_saturation_x": {
+    "value": 0.0035630940379669657,
+    "limit": 0.0005,
+    "relation": "lt",
+    "pass": false
+  },
+  "self_driven_pre_saturation_evap": {
+    "value": 0.010240888843566106,
+    "limit": 0.02,
+    "relation": "lt",
+    "pass": true
+  },
+  "flux_replay_pre_saturation_x": {
+    "value": 0.0037192844416062687,
+    "limit": 0.0001,
+    "relation": "lt",
+    "pass": false
+  },
+  "first_saturation_time": {
+    "value": 0.3689638421215098,
+    "limit": 0.03,
+    "relation": "lt",
+    "pass": false
+  },
+  "flow_direction": {
+    "value": 0.9318181818181819,
+    "limit": 0.0,
+    "relation": "eq",
+    "pass": false
+  },
+  "flow_weighted_relative": {
+    "value": 29.05805295643059,
+    "limit": 0.02,
+    "relation": "lt",
+    "pass": false
+  },
+  "pressure_weighted_relative": {
+    "value": 20.959284587045502,
+    "limit": 0.02,
+    "relation": "lt",
+    "pass": false
+  },
+  "final_solid_mass": {
+    "value": 0.25037706478226934,
+    "limit": 0.05,
+    "relation": "lt",
+    "pass": false
+  },
+  "final_pore_solid_fraction": {
+    "value": 0.21032277517860776,
+    "limit": 0.02,
+    "relation": "lt",
+    "pass": false
+  },
+  "final_min_throat_radius": {
+    "value": 0.040797075178764075,
+    "limit": 0.02,
+    "relation": "lt",
+    "pass": false
+  },
+  "python_salt_ledger": {
+    "value": 7.355662735550862e-15,
+    "limit": 1e-08,
+    "relation": "lt",
+    "pass": true
+  },
+  "python_water_ledger": {
+    "value": 0.06150273450709713,
+    "limit": 1e-08,
+    "relation": "lt",
+    "pass": false
+  },
+  "overall_go": false
+}

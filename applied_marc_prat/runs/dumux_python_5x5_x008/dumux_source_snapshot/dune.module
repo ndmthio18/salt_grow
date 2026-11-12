@@ -1,0 +1,12 @@
+################################
+# Dune module information file #
+################################
+
+# Name of the module
+Module: pnm2pncmin2
+Version: 1.0
+Maintainer: theresa.schollenberger@iws.uni-stuttgart.de
+# Required build dependencies
+Depends: dune-common dune-geometry dune-uggrid dune-grid dune-localfunctions dune-istl dune-foamgrid dumux
+# Optional build dependencies
+#Suggests:

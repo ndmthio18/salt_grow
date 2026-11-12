@@ -1,0 +1,17 @@
+{
+  "run": "dumux_sat_diag_dt5",
+  "checkpoint_interval_s": 5.0,
+  "last_unsaturated_checkpoint_s": 935.0,
+  "last_unsaturated_max_x_nacl": 0.0995472,
+  "first_solid_checkpoint_s": 940.0,
+  "first_solid_checkpoint_max_x_nacl": 0.0996198,
+  "first_solid_checkpoint_max_solid_fraction": 2.13094e-05,
+  "equilibrium_solubility_x_nacl": 0.09956503729854478,
+  "linearly_interpolated_first_saturation_time_s": 936.228,
+  "refined_checkpoint_interval_s": 1.0,
+  "refined_last_below_solubility_time_s": 934.0,
+  "refined_last_below_solubility_max_x_nacl": 0.09955578662023484,
+  "refined_first_above_solubility_time_s": 935.0,
+  "refined_first_above_solubility_max_x_nacl": 0.09957376566199413,
+  "refined_linearly_interpolated_first_saturation_time_s": 934.514526
+}

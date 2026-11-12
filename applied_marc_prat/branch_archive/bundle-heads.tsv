@@ -1,0 +1,14 @@
+72ee682f954a283627954e0c7482021ebc68e1f2 refs/heads/baseline-selfconsistent
+7179312b388a37d2dc1901651904761aeff4c755 refs/heads/codex/localized-nucleation-seed
+f7b03554905104a819c18699210a7cc3eee473ec refs/heads/codex/substrate-wicking-stage-t
+cf81ea11f3333ae878b9daccb0c6de5c6c3f5dc3 refs/heads/master
+a43a0a80ca07c6ce140432a3c2d6521fe507c2f2 refs/heads/review/prat-beta-hierarchy
+d80e791c1af966df63d88655e2cc6f252a92aba8 refs/heads/review/prat-layered-validation
+facdfff86e171def76ffc845839911388c887254 refs/heads/review/prat-pnm-audit
+6faf96f41d78d0cfbf97e7a40dc234de3dc7a38a refs/heads/structure-hierarchical
+33379c4a27cb36217e5b2fd0c4465e9025e1e73a refs/heads/structure-single-scale
+158353dd83c8fa8df72e654c8c5fef23f3ee26e9 refs/heads/surface-first
+a23cb78aa41d3d0402bb54e82005d98f759e3898 refs/heads/verify/step0-single-pore-evaporation
+57903db886478dd5de4085acdf500a9ae820cc8e refs/heads/verify/step1-frozen-salt-pillar
+ea48aacdf213149bdc327e6b9ecf5b87342a0c69 refs/heads/verify/step1-grid-refinement-10um
+f7dbf3876df9a563c3572844d48afd886395614f refs/heads/verify/step2a-prat-single-scale

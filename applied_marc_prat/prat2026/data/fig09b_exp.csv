@@ -1,0 +1,10 @@
+# time_hr vs h_mm
+# source: Prat 2026 Figure 9b, exp
+# extracted from: Prat - 2026 - The Evaporation-Driven Growth Law of Porous Salt Structures.pdf
+# method: colour mask (black) + connected-component centroids
+# NOT original data -- digitised from the published raster figure.
+time_hr,h_mm
+8.49734179386,0.474163951295
+16.6104843204,0.89378386891
+25.2075524087,1.45785506039
+33.4025505246,1.95891890284

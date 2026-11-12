@@ -1,0 +1,11 @@
+M	CLAUDE.md
+A	ideas/Prat生长律适用性审查_2026-10-25.md
+A	ideas/plan/18_框架缺陷_机制调研与弥补路线.md
+A	reviews/prat_pnm_audit.md
+A	reviews/prat_pnm_audit_checks/check1_eps_birth_is_bookkeeping.py
+A	reviews/prat_pnm_audit_checks/check3_unsourced_cluster.py
+A	reviews/prat_pnm_audit_checks/check4_layer_Da_star.py
+A	reviews/prat_pnm_audit_checks/check5_supply_failure_vs_evaporation.py
+A	reviews/prat_pnm_audit_checks/read_records_unsourced.py
+A	runs/E1_pre/report_vtp2014_column.html
+A	runs/physics_checks/kinetic_crust_layers_2026-10-25.py
